@@ -2,9 +2,9 @@
 
 namespace App\Controller;
 
-use App\Entity\Localities;
-use App\Form\LocalitiesType;
-use App\Repository\LocalitiesRepository;
+use App\Entity\Locality;
+use App\Form\LocalityType;
+use App\Repository\LocalityRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,11 +14,11 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/localities')]
 class LocalitiesController extends AbstractController
 {
-    #[Route('/', name: 'app_localities_index', methods: ['GET'])]
-    public function index(LocalitiesRepository $localitiesRepository): Response
+    #[Route('/', name: 'app_locality_index', methods: ['GET'])]
+    public function index(LocalityRepository $localityRepository): Response
     {
         return $this->render('localities/index.html.twig', [
-            'localities' => $localitiesRepository->findAll(),
+            'localities' => $localityRepository->findAll(),
         ]);
     }
 

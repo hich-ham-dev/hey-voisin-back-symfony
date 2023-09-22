@@ -2,12 +2,12 @@
 
 namespace App\Form;
 
-use App\Entity\Localities;
+use App\Entity\Locality;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class LocalitiesType extends AbstractType
+class LocalityType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -23,7 +23,7 @@ class LocalitiesType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Localities::class,
+            'data_class' => Locality::class,
         ]);
     }
 }

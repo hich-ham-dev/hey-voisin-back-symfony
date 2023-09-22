@@ -2,32 +2,24 @@
 
 namespace App\Form;
 
-use App\Entity\Posts;
+use App\Entity\Category;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class PostsType extends AbstractType
+class CategoryType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('title')
-            ->add('resume')
-            ->add('is_active')
-            ->add('is_offer')
-            ->add('published_at')
-            ->add('updated_at')
-            ->add('categories')
-            ->add('localities')
-            ->add('users')
+            ->add('name')
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Posts::class,
+            'data_class' => Category::class,
         ]);
     }
 }
