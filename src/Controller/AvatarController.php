@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class AvatarController extends AbstractController
 {
     #[Route('/', name: 'app_avatars_index', methods: ['GET'])]
-    public function index(AvatarRepository $avatarsRepository): Response
+    public function index(AvatarRepository $avatarRepository): Response
     {
         return $this->render('avatars/index.html.twig', [
             'avatars' => $avatarRepository->findAll(),

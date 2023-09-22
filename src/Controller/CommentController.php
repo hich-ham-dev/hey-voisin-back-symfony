@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\Comments;
+use App\Entity\Comment;
 use App\Form\CommentType;
 use App\Repository\CommentRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -43,7 +43,7 @@ class CommentsController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_comment_show', methods: ['GET'])]
-    public function show(Comments $comment): Response
+    public function show(Comment $comment): Response
     {
         return $this->render('comments/show.html.twig', [
             'comment' => $comment,

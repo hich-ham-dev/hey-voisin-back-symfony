@@ -17,15 +17,15 @@ class LocalitiesController extends AbstractController
     #[Route('/', name: 'app_locality_index', methods: ['GET'])]
     public function index(LocalityRepository $localityRepository): Response
     {
-        return $this->render('localities/index.html.twig', [
+        return $this->render('locality/index.html.twig', [
             'localities' => $localityRepository->findAll(),
         ]);
     }
 
-    #[Route('/new', name: 'app_localities_new', methods: ['GET', 'POST'])]
+    #[Route('/new', name: 'app_locality_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
-        $locality = new Localities();
+        $locality = new Locality();
         $form = $this->createForm(LocalitiesType::class, $locality);
         $form->handleRequest($request);
 
@@ -33,25 +33,25 @@ class LocalitiesController extends AbstractController
             $entityManager->persist($locality);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_localities_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_locality_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('localities/new.html.twig', [
+        return $this->render('locality/new.html.twig', [
             'locality' => $locality,
             'form' => $form,
         ]);
     }
 
-    #[Route('/{id}', name: 'app_localities_show', methods: ['GET'])]
-    public function show(Localities $locality): Response
+    #[Route('/{id}', name: 'app_locality_show', methods: ['GET'])]
+    public function show(Locality $locality): Response
     {
         return $this->render('localities/show.html.twig', [
             'locality' => $locality,
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_localities_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Localities $locality, EntityManagerInterface $entityManager): Response
+    #[Route('/{id}/edit', name: 'app_locality_edit', methods: ['GET', 'POST'])]
+    public function edit(Request $request, Locality $locality, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(LocalitiesType::class, $locality);
         $form->handleRequest($request);
@@ -59,17 +59,17 @@ class LocalitiesController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_localities_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_locality_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('localities/edit.html.twig', [
+        return $this->render('locality/edit.html.twig', [
             'locality' => $locality,
             'form' => $form,
         ]);
     }
 
-    #[Route('/{id}', name: 'app_localities_delete', methods: ['POST'])]
-    public function delete(Request $request, Localities $locality, EntityManagerInterface $entityManager): Response
+    #[Route('/{id}', name: 'app_locality_delete', methods: ['POST'])]
+    public function delete(Request $request, Locality $locality, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$locality->getId(), $request->request->get('_token'))) {
             $entityManager->remove($locality);
