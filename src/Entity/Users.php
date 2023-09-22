@@ -33,6 +33,18 @@ class Users
     #[ORM\OneToMany(mappedBy: 'users', targetEntity: Posts::class)]
     private Collection $posts;
 
+    #[ORM\ManyToOne(inversedBy: 'users')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Localities $localities = null;
+
+    #[ORM\ManyToOne(inversedBy: 'users')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Roles $roles = null;
+
+    #[ORM\ManyToOne(inversedBy: 'users')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Avatars $avatars = null;
+
     public function __construct()
     {
         $this->posts = new ArrayCollection();
@@ -129,6 +141,42 @@ class Users
                 $post->setUsers(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getLocalities(): ?Localities
+    {
+        return $this->localities;
+    }
+
+    public function setLocalities(?Localities $localities): static
+    {
+        $this->localities = $localities;
+
+        return $this;
+    }
+
+    public function getRoles(): ?Roles
+    {
+        return $this->roles;
+    }
+
+    public function setRoles(?Roles $roles): static
+    {
+        $this->roles = $roles;
+
+        return $this;
+    }
+
+    public function getAvatars(): ?Avatars
+    {
+        return $this->avatars;
+    }
+
+    public function setAvatars(?Avatars $avatars): static
+    {
+        $this->avatars = $avatars;
 
         return $this;
     }
