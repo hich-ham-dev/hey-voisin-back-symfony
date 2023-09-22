@@ -29,8 +29,10 @@ class Posts
     #[ORM\Column]
     private ?\DateTimeImmutable $published_at = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $updated_at = null;
+
+ 
 
     public function getId(): ?int
     {
@@ -102,10 +104,12 @@ class Posts
         return $this->updated_at;
     }
 
-    public function setUpdatedAt(\DateTimeImmutable $updated_at): static
+    public function setUpdatedAt(?\DateTimeImmutable $updated_at): static
     {
         $this->updated_at = $updated_at;
 
         return $this;
     }
+
+   
 }
