@@ -2,7 +2,7 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Users;
+use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory as Faker; 
@@ -28,7 +28,7 @@ class AppFixtures extends Fixture
         // Instanciation de Faker avec localisation en français
         $faker = \Faker\Factory::create('fr_FR');
 
-        $admin = new Users;
+        $admin = new User;
         $admin->setAlias($faker->alias());
         $admin->setEmail("admin@gmail.com");
         $admin->setPassword($this->passwordHasher->hashPassword($admin, "admin"));
