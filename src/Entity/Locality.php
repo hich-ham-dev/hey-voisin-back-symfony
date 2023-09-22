@@ -115,7 +115,7 @@ class Locality
     {
         if (!$this->posts->contains($post)) {
             $this->posts->add($post);
-            $post->setLocalities($this);
+            $post->setLocality($this);
         }
 
         return $this;
@@ -125,8 +125,8 @@ class Locality
     {
         if ($this->posts->removeElement($post)) {
             // set the owning side to null (unless already changed)
-            if ($post->getLocalities() === $this) {
-                $post->setLocalities(null);
+            if ($post->getLocality() === $this) {
+                $post->setLocality(null);
             }
         }
 
