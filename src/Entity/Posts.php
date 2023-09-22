@@ -26,6 +26,12 @@ class Posts
     #[ORM\Column]
     private ?bool $is_offer = null;
 
+    #[ORM\Column]
+    private ?\DateTimeImmutable $published_at = null;
+
+    #[ORM\Column]
+    private ?\DateTimeImmutable $updated_at = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -75,6 +81,30 @@ class Posts
     public function setIsOffer(bool $is_offer): static
     {
         $this->is_offer = $is_offer;
+
+        return $this;
+    }
+
+    public function getPublishedAt(): ?\DateTimeImmutable
+    {
+        return $this->published_at;
+    }
+
+    public function setPublishedAt(\DateTimeImmutable $published_at): static
+    {
+        $this->published_at = $published_at;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeImmutable
+    {
+        return $this->updated_at;
+    }
+
+    public function setUpdatedAt(\DateTimeImmutable $updated_at): static
+    {
+        $this->updated_at = $updated_at;
 
         return $this;
     }
