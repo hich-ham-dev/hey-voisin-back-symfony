@@ -2,14 +2,14 @@
 
 namespace App\Entity;
 
-use App\Repository\PostsRepository;
+use App\Repository\PostRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: PostsRepository::class)]
-class Posts
+#[ORM\Entity(repositoryClass: PostRepository::class)]
+class Post
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -34,20 +34,16 @@ class Posts
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $updated_at = null;
 
-    #[ORM\ManyToOne(inversedBy: 'posts')]
+    #[ORM\ManyToOne(inversedBy: 'post')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Categories $categories = null;
+    private ?Category $category = null;
 
-    #[ORM\ManyToOne(inversedBy: 'posts')]
+    #[ORM\ManyToOne(inversedBy: 'post')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Localities $localities = null;
+    private ?Locality $locality = null;
 
-    #[ORM\OneToMany(mappedBy: 'posts', targetEntity: Comments::class)]
+    #[ORM\OneToMany(mappedBy: 'post', targetEntity: Comment::class)]
     private Collection $comments;
-
-    #[ORM\ManyToOne(inversedBy: 'posts')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Users $users = null;
 
     public function __construct()
     {
@@ -131,26 +127,26 @@ class Posts
         return $this;
     }
 
-    public function getCategories(): ?Categories
+    public function getCategory(): ?Category
     {
-        return $this->categories;
+        return $this->category;
     }
 
-    public function setCategories(?Categories $categories): static
+    public function setCategory(?Category $category): static
     {
-        $this->categories = $categories;
+        $this->category = $category;
 
         return $this;
     }
 
-    public function getLocalities(): ?Localities
+    public function getLocality(): ?Locality
     {
-        return $this->localities;
+        return $this->locality;
     }
 
-    public function setLocalities(?Localities $localities): static
+    public function setLocality(?Locality $locality): static
     {
-        $this->localities = $localities;
+        $this->locality = $locality;
 
         return $this;
     }
@@ -158,42 +154,8 @@ class Posts
     /**
      * @return Collection<int, Comments>
      */
-    public function getComments(): Collection
+    public function getComment(): Collection
     {
         return $this->comments;
-    }
-
-    public function addComment(Comments $comment): static
-    {
-        if (!$this->comments->contains($comment)) {
-            $this->comments->add($comment);
-            $comment->setPosts($this);
-        }
-
-        return $this;
-    }
-
-    public function removeComment(Comments $comment): static
-    {
-        if ($this->comments->removeElement($comment)) {
-            // set the owning side to null (unless already changed)
-            if ($comment->getPosts() === $this) {
-                $comment->setPosts(null);
-            }
-        }
-
-        return $this;
-    }
-
-    public function getUsers(): ?Users
-    {
-        return $this->users;
-    }
-
-    public function setUsers(?Users $users): static
-    {
-        $this->users = $users;
-
-        return $this;
     }
 }

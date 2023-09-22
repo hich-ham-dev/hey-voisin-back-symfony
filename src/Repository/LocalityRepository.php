@@ -2,27 +2,27 @@
 
 namespace App\Repository;
 
-use App\Entity\Localities;
+use App\Entity\Locality;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Localities>
+ * @extends ServiceEntityRepository<locality>
  *
- * @method Localities|null find($id, $lockMode = null, $lockVersion = null)
- * @method Localities|null findOneBy(array $criteria, array $orderBy = null)
- * @method Localities[]    findAll()
- * @method Localities[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Locality|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Locality|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Locality[]    findAll()
+ * @method Locality[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class LocalitiesRepository extends ServiceEntityRepository
+class LocalityRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Localities::class);
+        parent::__construct($registry, Locality::class);
     }
 
 //    /**
-//     * @return Localities[] Returns an array of Localities objects
+//     * @return Locality[] Returns an array of Locality objects
 //     */
 //    public function findByExampleField($value): array
 //    {
@@ -36,7 +36,7 @@ class LocalitiesRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?Localities
+//    public function findOneBySomeField($value): ?Locality
 //    {
 //        return $this->createQueryBuilder('l')
 //            ->andWhere('l.exampleField = :val')

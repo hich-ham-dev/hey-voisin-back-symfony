@@ -2,13 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\CategoriesRepository;
+use App\Repository\CategoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: CategoriesRepository::class)]
-class Categories
+#[ORM\Entity(repositoryClass: CategoryRepository::class)]
+class Category
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -18,7 +18,7 @@ class Categories
     #[ORM\Column(length: 50)]
     private ?string $name = null;
 
-    #[ORM\OneToMany(mappedBy: 'categories', targetEntity: Posts::class)]
+    #[ORM\OneToMany(mappedBy: 'category', targetEntity: Post::class)]
     private Collection $posts;
 
     public function __construct()
@@ -51,22 +51,22 @@ class Categories
         return $this->posts;
     }
 
-    public function addPost(Posts $post): static
+    public function addPost(Post $post): static
     {
         if (!$this->posts->contains($post)) {
             $this->posts->add($post);
-            $post->setCategories($this);
+            $post->setCategory($this);
         }
 
         return $this;
     }
 
-    public function removePost(Posts $post): static
+    public function removePost(Post $post): static
     {
         if ($this->posts->removeElement($post)) {
             // set the owning side to null (unless already changed)
-            if ($post->getCategories() === $this) {
-                $post->setCategories(null);
+            if ($post->getCategory() === $this) {
+                $post->setCategory(null);
             }
         }
 
