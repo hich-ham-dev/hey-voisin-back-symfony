@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Avatars{% endblock %}
+
+{% block body %}
+    <h1>Edit Avatars</h1>
+
+    {{ include('avatars/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_avatars_index') }}">back to list</a>
+
+    {{ include('avatars/_delete_form.html.twig') }}
+{% endblock %}

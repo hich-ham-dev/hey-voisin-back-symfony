@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Avatars index{% endblock %}
+
+{% block body %}
+    <h1>Avatars index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Url</th>
+                <th>Name</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for avatar in avatars %}
+            <tr>
+                <td>{{ avatar.id }}</td>
+                <td>{{ avatar.url }}</td>
+                <td>{{ avatar.name }}</td>
+                <td>
+                    <a href="{{ path('app_avatars_show', {'id': avatar.id}) }}">show</a>
+                    <a href="{{ path('app_avatars_edit', {'id': avatar.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_avatars_new') }}">Create new</a>
+{% endblock %}
