@@ -42,8 +42,9 @@ class Post
     #[ORM\JoinColumn(nullable: false)]
     private ?Locality $locality = null;
 
-    #[ORM\OneToMany(mappedBy: 'post', targetEntity: Comment::class)]
-    private Collection $comments;
+    #[ORM\ManyToOne(inversedBy: 'post')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $user = null;
 
     public function __construct()
     {
@@ -157,5 +158,17 @@ class Post
     public function getComment(): Collection
     {
         return $this->comments;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
+
+        return $this;
     }
 }
