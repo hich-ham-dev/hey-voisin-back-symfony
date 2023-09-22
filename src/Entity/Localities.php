@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\LocalitiesRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: LocalitiesRepository::class)]
@@ -27,6 +29,18 @@ class Localities
 
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $updated_at = null;
+
+    #[ORM\OneToMany(mappedBy: 'localities', targetEntity: Posts::class)]
+    private Collection $posts;
+
+    #[ORM\OneToMany(mappedBy: 'localities', targetEntity: Users::class)]
+    private Collection $users;
+
+    public function __construct()
+    {
+        $this->posts = new ArrayCollection();
+        $this->users = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -89,6 +103,66 @@ class Localities
     public function setUpdatedAt(?\DateTimeImmutable $updated_at): static
     {
         $this->updated_at = $updated_at;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Posts>
+     */
+    public function getPosts(): Collection
+    {
+        return $this->posts;
+    }
+
+    public function addPost(Posts $post): static
+    {
+        if (!$this->posts->contains($post)) {
+            $this->posts->add($post);
+            $post->setLocalities($this);
+        }
+
+        return $this;
+    }
+
+    public function removePost(Posts $post): static
+    {
+        if ($this->posts->removeElement($post)) {
+            // set the owning side to null (unless already changed)
+            if ($post->getLocalities() === $this) {
+                $post->setLocalities(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Users>
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    public function addUser(Users $user): static
+    {
+        if (!$this->users->contains($user)) {
+            $this->users->add($user);
+            $user->setLocalities($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(Users $user): static
+    {
+        if ($this->users->removeElement($user)) {
+            // set the owning side to null (unless already changed)
+            if ($user->getLocalities() === $this) {
+                $user->setLocalities(null);
+            }
+        }
 
         return $this;
     }

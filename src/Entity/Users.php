@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UsersRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: UsersRepository::class)]
@@ -27,6 +29,30 @@ class Users
 
     #[ORM\Column(length: 100)]
     private ?string $lastname = null;
+
+    #[ORM\OneToMany(mappedBy: 'users', targetEntity: Posts::class)]
+    private Collection $posts;
+
+    #[ORM\ManyToOne(inversedBy: 'users')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Localities $localities = null;
+
+    #[ORM\ManyToOne(inversedBy: 'users')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Roles $roles = null;
+
+    #[ORM\ManyToOne(inversedBy: 'users')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Avatars $avatars = null;
+
+    #[ORM\OneToMany(mappedBy: 'users', targetEntity: Comments::class)]
+    private Collection $comments;
+
+    public function __construct()
+    {
+        $this->posts = new ArrayCollection();
+        $this->comments = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -89,6 +115,102 @@ class Users
     public function setLastname(string $lastname): static
     {
         $this->lastname = $lastname;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Posts>
+     */
+    public function getPosts(): Collection
+    {
+        return $this->posts;
+    }
+
+    public function addPost(Posts $post): static
+    {
+        if (!$this->posts->contains($post)) {
+            $this->posts->add($post);
+            $post->setUsers($this);
+        }
+
+        return $this;
+    }
+
+    public function removePost(Posts $post): static
+    {
+        if ($this->posts->removeElement($post)) {
+            // set the owning side to null (unless already changed)
+            if ($post->getUsers() === $this) {
+                $post->setUsers(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getLocalities(): ?Localities
+    {
+        return $this->localities;
+    }
+
+    public function setLocalities(?Localities $localities): static
+    {
+        $this->localities = $localities;
+
+        return $this;
+    }
+
+    public function getRoles(): ?Roles
+    {
+        return $this->roles;
+    }
+
+    public function setRoles(?Roles $roles): static
+    {
+        $this->roles = $roles;
+
+        return $this;
+    }
+
+    public function getAvatars(): ?Avatars
+    {
+        return $this->avatars;
+    }
+
+    public function setAvatars(?Avatars $avatars): static
+    {
+        $this->avatars = $avatars;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Comments>
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+
+    public function addComment(Comments $comment): static
+    {
+        if (!$this->comments->contains($comment)) {
+            $this->comments->add($comment);
+            $comment->setUsers($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComment(Comments $comment): static
+    {
+        if ($this->comments->removeElement($comment)) {
+            // set the owning side to null (unless already changed)
+            if ($comment->getUsers() === $this) {
+                $comment->setUsers(null);
+            }
+        }
 
         return $this;
     }
