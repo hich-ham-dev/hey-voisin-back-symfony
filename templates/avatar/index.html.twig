@@ -15,14 +15,14 @@
             </tr>
         </thead>
         <tbody>
-        {% for avatar in avatars %}
+        {% for avatar in avatar %}
             <tr>
                 <td>{{ avatar.id }}</td>
                 <td>{{ avatar.url }}</td>
                 <td>{{ avatar.name }}</td>
                 <td>
-                    <a href="{{ path('app_avatars_show', {'id': avatar.id}) }}">show</a>
-                    <a href="{{ path('app_avatars_edit', {'id': avatar.id}) }}">edit</a>
+                    <a href="{{ path('app_avatar_show', {'id': avatar.id}) }}">show</a>
+                    <a href="{{ path('app_avatar_edit', {'id': avatar.id}) }}">edit</a>
                 </td>
             </tr>
         {% else %}
@@ -33,5 +33,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_avatars_new') }}">Create new</a>
+    <a href="{{ path('app_avatar_new') }}">Create new</a>
 {% endblock %}

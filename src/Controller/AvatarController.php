@@ -14,15 +14,15 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/avatar')]
 class AvatarController extends AbstractController
 {
-    #[Route('/', name: 'app_avatars_index', methods: ['GET'])]
+    #[Route('/', name: 'app_avatar_index', methods: ['GET'])]
     public function index(AvatarRepository $avatarRepository): Response
     {
-        return $this->render('avatars/index.html.twig', [
-            'avatars' => $avatarRepository->findAll(),
+        return $this->render('avatar/index.html.twig', [
+            'avatar' => $avatarRepository->findAll(),
         ]);
     }
 
-    #[Route('/new', name: 'app_avatars_new', methods: ['GET', 'POST'])]
+    #[Route('/new', name: 'app_avatar_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $avatar = new Avatar();

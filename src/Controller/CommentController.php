@@ -11,14 +11,14 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/comments')]
+#[Route('/comment')]
 class CommentController extends AbstractController
 {
-    #[Route('/', name: 'app_comments_index', methods: ['GET'])]
+    #[Route('/', name: 'app_comment_index', methods: ['GET'])]
     public function index(CommentRepository $commentRepository): Response
     {
-        return $this->render('comments/index.html.twig', [
-            'comments' => $commentRepository->findAll(),
+        return $this->render('comment/index.html.twig', [
+            'comment' => $commentRepository->findAll(),
         ]);
     }
 
@@ -45,7 +45,7 @@ class CommentController extends AbstractController
     #[Route('/{id}', name: 'app_comment_show', methods: ['GET'])]
     public function show(Comment $comment): Response
     {
-        return $this->render('comments/show.html.twig', [
+        return $this->render('comment/show.html.twig', [
             'comment' => $comment,
         ]);
     }
@@ -68,7 +68,7 @@ class CommentController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_comments_delete', methods: ['POST'])]
+    #[Route('/{id}', name: 'app_comment_delete', methods: ['POST'])]
     public function delete(Request $request, Comment $comment, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$comment->getId(), $request->request->get('_token'))) {

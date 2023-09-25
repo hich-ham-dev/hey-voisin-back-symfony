@@ -11,14 +11,14 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/localities')]
+#[Route('/locality')]
 class LocalityController extends AbstractController
 {
     #[Route('/', name: 'app_locality_index', methods: ['GET'])]
     public function index(LocalityRepository $localityRepository): Response
     {
         return $this->render('locality/index.html.twig', [
-            'localities' => $localityRepository->findAll(),
+            'locality' => $localityRepository->findAll(),
         ]);
     }
 
@@ -45,7 +45,7 @@ class LocalityController extends AbstractController
     #[Route('/{id}', name: 'app_locality_show', methods: ['GET'])]
     public function show(Locality $locality): Response
     {
-        return $this->render('localities/show.html.twig', [
+        return $this->render('locality/show.html.twig', [
             'locality' => $locality,
         ]);
     }
@@ -76,6 +76,6 @@ class LocalityController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('app_localities_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_locality_index', [], Response::HTTP_SEE_OTHER);
     }
 }
