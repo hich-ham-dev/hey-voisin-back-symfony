@@ -9,7 +9,7 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory as Faker; 
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-use App\DataFixtures\CategoriesProvider;
+use App\DataFixtures\Provider\CategoriesProvider;
 use App\Entity\Avatar;
 use App\Entity\Comment;
 use App\Entity\Locality;
