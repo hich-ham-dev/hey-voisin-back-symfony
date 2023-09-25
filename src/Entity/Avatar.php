@@ -3,22 +3,23 @@
 namespace App\Entity;
 
 use App\Repository\AvatarRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\Serializer\Annotation\Groups;
 #[ORM\Entity(repositoryClass: AvatarRepository::class)]
 class Avatar
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['users'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 2100)]
+    #[Groups(['users'])]
     private ?string $url = null;
 
     #[ORM\Column(length: 25)]
+    #[Groups(['users'])]
     private ?string $name = null;
 
     public function getId(): ?int
