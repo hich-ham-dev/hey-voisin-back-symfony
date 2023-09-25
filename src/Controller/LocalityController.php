@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/localities')]
-class LocalitiesController extends AbstractController
+class LocalityController extends AbstractController
 {
     #[Route('/', name: 'app_locality_index', methods: ['GET'])]
     public function index(LocalityRepository $localityRepository): Response
