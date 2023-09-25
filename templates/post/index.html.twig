@@ -19,7 +19,7 @@
             </tr>
         </thead>
         <tbody>
-        {% for post in posts %}
+        {% for post in post %}
             <tr>
                 <td>{{ post.id }}</td>
                 <td>{{ post.title }}</td>
@@ -29,8 +29,8 @@
                 <td>{{ post.publishedAt ? post.publishedAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ post.updatedAt ? post.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>
-                    <a href="{{ path('app_posts_show', {'id': post.id}) }}">show</a>
-                    <a href="{{ path('app_posts_edit', {'id': post.id}) }}">edit</a>
+                    <a href="{{ path('app_post_show', {'id': post.id}) }}">show</a>
+                    <a href="{{ path('app_post_edit', {'id': post.id}) }}">edit</a>
                 </td>
             </tr>
         {% else %}
@@ -41,5 +41,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_posts_new') }}">Create new</a>
+    <a href="{{ path('app_post_new') }}">Create new</a>
 {% endblock %}

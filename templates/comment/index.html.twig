@@ -17,7 +17,7 @@
             </tr>
         </thead>
         <tbody>
-        {% for comment in comments %}
+        {% for comment in comment %}
             <tr>
                 <td>{{ comment.id }}</td>
                 <td>{{ comment.title }}</td>
@@ -25,8 +25,8 @@
                 <td>{{ comment.publishedAt ? comment.publishedAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ comment.updatedAt ? comment.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>
-                    <a href="{{ path('app_comments_show', {'id': comment.id}) }}">show</a>
-                    <a href="{{ path('app_comments_edit', {'id': comment.id}) }}">edit</a>
+                    <a href="{{ path('app_comment_show', {'id': comment.id}) }}">show</a>
+                    <a href="{{ path('app_comment_edit', {'id': comment.id}) }}">edit</a>
                 </td>
             </tr>
         {% else %}
@@ -37,5 +37,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_comments_new') }}">Create new</a>
+    <a href="{{ path('app_comment_new') }}">Create new</a>
 {% endblock %}

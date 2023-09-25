@@ -5,9 +5,9 @@
 {% block body %}
     <h1>Edit Comments</h1>
 
-    {{ include('comments/_form.html.twig', {'button_label': 'Update'}) }}
+    {{ include('comment/_form.html.twig', {'button_label': 'Update'}) }}
 
-    <a href="{{ path('app_comments_index') }}">back to list</a>
+    <a href="{{ path('app_comment_index') }}">back to list</a>
 
-    {{ include('comments/_delete_form.html.twig') }}
+    {{ include('comment/_delete_form.html.twig') }}
 {% endblock %}

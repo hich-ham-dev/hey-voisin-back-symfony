@@ -34,9 +34,9 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_localities_index') }}">back to list</a>
+    <a href="{{ path('app_locality_index') }}">back to list</a>
 
-    <a href="{{ path('app_localities_edit', {'id': locality.id}) }}">edit</a>
+    <a href="{{ path('app_locality_edit', {'id': locality.id}) }}">edit</a>
 
-    {{ include('localities/_delete_form.html.twig') }}
+    {{ include('locality/_delete_form.html.twig') }}
 {% endblock %}
