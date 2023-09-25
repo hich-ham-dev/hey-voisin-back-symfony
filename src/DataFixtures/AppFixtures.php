@@ -32,11 +32,45 @@ class AppFixtures extends Fixture
      */
     public function load(ObjectManager $manager): void
     {
+    
         // Instanciation de Faker avec localisation en français
         $faker = \Faker\Factory::create('fr_FR');
 
         // Instanciation de CategoriesProvider
-        $provider = new CategoriesProvider();
+        $categoriesProvider = new CategoriesProvider();
+
+        // Création de 5 avatars
+        $avatarList = [];
+
+        for ($a=1; $a <= 5; $a++) { 
+            
+            $avatar = new Avatar;
+            
+            $avatar->setUrl($faker->imageUrl());
+            $avatar->setName($faker->name());
+            $avatarList[] = $avatar;
+            $manager->persist($avatar);
+        }
+
+
+        // Création de 30 villes
+        $localityList = [];
+
+        for ($l=1; $l <= 30; $l++) { 
+            
+            $locality = new Locality;
+            $locality->setAdress($faker->streetAddress());
+            //
+            $postcode = str_replace(' ', '', $faker->postcode());
+            $locality->setZipcode($postcode);
+            $locality->setCity($faker->city());
+            $createdAt = new DateTimeImmutable($faker->dateTimeBetween('-6 months')->format('Y-m-d H:i:s'));
+            $locality->setCreatedAt($createdAt);
+            $localityList[] = $locality;
+            
+            $manager->persist($locality);
+        }
+
 
         // Création d'un administrateur
         $admin = new User;
@@ -47,7 +81,7 @@ class AppFixtures extends Fixture
         $admin->setAlias($faker->name());
         $admin->setFirstname($faker->firstName());
         $admin->setLastname($faker->lastName());
-        $admin->setAvatar($avatarList[$a]);
+        $admin->setAvatar($avatarList[array_rand($avatarList)]);
         $admin->setLocality($localityList[array_rand($localityList)]);
 
         $manager->persist($admin);
@@ -62,8 +96,8 @@ class AppFixtures extends Fixture
         $moderator->setAlias($faker->name());
         $moderator->setFirstname($faker->firstName());
         $moderator->setLastname($faker->lastName());
-        $admin->setAvatar($avatarList[array_rand($avatarList)]);
-        $admin->setLocality($localityList[array_rand($localityList)]);
+        $moderator->setAvatar($avatarList[array_rand($avatarList)]);
+        $moderator->setLocality($localityList[array_rand($localityList)]);
 
         $manager->persist($moderator);
 
@@ -81,30 +115,11 @@ class AppFixtures extends Fixture
             $user->setAlias($faker->name());
             $user->setFirstname($faker->firstName());
             $user->setLastname($faker->lastName());
-            $admin->setAvatar($avatarList[array_rand($avatarList)]);
-            $admin->setLocality($localityList[array_rand($localityList)]); 
+            $user->setAvatar($avatarList[array_rand($avatarList)]);
+            $user->setLocality($localityList[array_rand($localityList)]); 
             $userList[] = $user;
 
             $manager->persist($user); 
-        }
-        
-        
-        // Création de 15 posts
-        $postList = []; 
-        
-        for ($p=1; $p <= 15; $p++) { 
-            
-            $post = new Post;
-            
-            $post->setTitle($faker->sentence());
-            $post->setResume($faker->paragraph());
-            $publishedAt = new DateTimeImmutable($faker->dateTimeBetween('-6 months')->format('Y-m-d H:i:s'));
-            $post->setPublishedAt($publishedAt);
-            $post->setUser($userList[array_rand($userList)]);
-            dd($user);
-            $postList[] = $post;
-
-            $manager->persist($post);
         }
 
 
@@ -115,29 +130,36 @@ class AppFixtures extends Fixture
             
             $category = new Category;
             
-            $category->setName($provider->postCategories());
+            $category->setName($categoriesProvider->postCategories());
             $categoryList[] = $category;
             
             $manager->persist($category);
         }
         
         
-        // Création de 30 villes
-        $localityList = [];
+        // Création de 15 posts
+        $postList = []; 
+        
+        for ($p=1; $p <= 15; $p++) { 
+            
+            $post = new Post;
+            
+            $post->setTitle($faker->sentence(4));
+            $post->setResume($faker->paragraph());
+            $publishedAt = new DateTimeImmutable($faker->dateTimeBetween('-6 months')->format('Y-m-d H:i:s'));
+            $post->setPublishedAt($publishedAt);
+            $post->setIsActive($faker->boolean());
+            $post->setIsOffer($faker->boolean());
+            $post->setCategory($categoryList[array_rand($categoryList)]);
+            $post->setLocality($localityList[array_rand($localityList)]);
+            $post->setUser($userList[array_rand($userList)]);
+            $postList[] = $post;
 
-        for ($l=1; $l <= 30; $l++) { 
-            
-            $locality = new Locality;
-            $locality->setAdress($faker->streetAddress());
-            $locality->setZipcode($faker->postcode());
-            $locality->setCity($faker->city());
-            $localityList[] = $locality;
-            
-            $manager->persist($locality);
+            $manager->persist($post);
         }
 
-
-        // Création de 30 commentaires
+        //! Ce code sera utilisé pour la V1 
+       /* // Création de 30 commentaires
         $commentList = [];
 
         for ($c=1; $c <= 30; $c++) { 
@@ -151,20 +173,7 @@ class AppFixtures extends Fixture
             $commentList[] = $comment;
             
             $manager->persist($comment);
-        }
-
-
-        // Création de 5 avatars
-        $avatarList = [];
-
-        for ($a=1; $a <= 5; $a++) { 
-            
-            $avatar = new Avatar;
-            
-            $avatar->setUrl($faker->imageUrl());
-            
-            $manager->persist($avatar);
-        }
+        }*/
 
         $manager->flush();
     }
