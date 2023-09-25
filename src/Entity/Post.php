@@ -31,15 +31,15 @@ class Post
     private ?bool $is_active = null;
 
     #[ORM\Column]
-    #[Groups(['posts'])]
+    #[Groups(['posts','categories'])]
     private ?bool $is_offer = null;
 
     #[ORM\Column]
-    #[Groups(['posts'])]
+    #[Groups(['posts','categories'])]
     private ?\DateTimeImmutable $published_at = null;
 
     #[ORM\Column(nullable: true)]
-    #[Groups(['posts'])]
+    #[Groups(['posts','categories'])]
     private ?\DateTimeImmutable $updated_at = null;
 
     #[ORM\ManyToOne(inversedBy: 'post')]
@@ -49,16 +49,16 @@ class Post
 
     #[ORM\ManyToOne(inversedBy: 'post')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['posts'])]
+    #[Groups(['posts','categories'])]
     private ?Locality $locality = null;
 
     #[ORM\ManyToOne(inversedBy: 'post')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['posts'])]
+    #[Groups(['posts','categories'])]
     private ?User $user = null;
 
     #[ORM\OneToMany(mappedBy: 'post', targetEntity: Comment::class)]
-    #[Groups(['posts'])]
+    #[Groups(['posts','categories'])]
     private Collection $comments;
 
     public function __construct()
