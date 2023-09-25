@@ -10,6 +10,7 @@ use Doctrine\Persistence\ObjectManager;
 use Faker\Factory as Faker; 
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use App\DataFixtures\CategoriesProvider;
+use App\Entity\Avatar;
 use App\Entity\Comment;
 use App\Entity\Locality;
 use DateTimeImmutable;
@@ -43,9 +44,11 @@ class AppFixtures extends Fixture
         $admin->setEmail("admin@gmail.com");
         $admin->setRoles(["ROLE_ADMIN"]);
         $admin->setPassword($this->passwordHasher->hashPassword($admin, "admin"));
-        $admin->setAlias($faker->alias());
+        $admin->setAlias($faker->name());
         $admin->setFirstname($faker->firstName());
         $admin->setLastname($faker->lastName());
+        $admin->setAvatar($avatarList[$a]);
+        $admin->setLocality($localityList[array_rand($localityList)]);
 
         $manager->persist($admin);
 
@@ -56,9 +59,11 @@ class AppFixtures extends Fixture
         $moderator->setEmail("moderator@gmail.com");
         $moderator->setRoles(["ROLE_MODERATOR"]);
         $moderator->setPassword($this->passwordHasher->hashPassword($moderator, "moderator"));
-        $moderator->setAlias($faker->alias());
+        $moderator->setAlias($faker->name());
         $moderator->setFirstname($faker->firstName());
         $moderator->setLastname($faker->lastName());
+        $admin->setAvatar($avatarList[array_rand($avatarList)]);
+        $admin->setLocality($localityList[array_rand($localityList)]);
 
         $manager->persist($moderator);
 
@@ -73,9 +78,11 @@ class AppFixtures extends Fixture
             $user->setEmail($faker->email());
             $user->setRoles(["ROLE_USER"]);
             $user->setPassword($this->passwordHasher->hashPassword($user, "user"));
-            $user->setAlias($faker->alias());
+            $user->setAlias($faker->name());
             $user->setFirstname($faker->firstName());
-            $user->setLastname($faker->lastName()); 
+            $user->setLastname($faker->lastName());
+            $admin->setAvatar($avatarList[array_rand($avatarList)]);
+            $admin->setLocality($localityList[array_rand($localityList)]); 
             $userList[] = $user;
 
             $manager->persist($user); 
@@ -121,7 +128,7 @@ class AppFixtures extends Fixture
         for ($l=1; $l <= 30; $l++) { 
             
             $locality = new Locality;
-            
+            $locality->setAdress($faker->streetAddress());
             $locality->setZipcode($faker->postcode());
             $locality->setCity($faker->city());
             $localityList[] = $locality;
@@ -144,6 +151,19 @@ class AppFixtures extends Fixture
             $commentList[] = $comment;
             
             $manager->persist($comment);
+        }
+
+
+        // Création de 5 avatars
+        $avatarList = [];
+
+        for ($a=1; $a <= 5; $a++) { 
+            
+            $avatar = new Avatar;
+            
+            $avatar->setUrl($faker->imageUrl());
+            
+            $manager->persist($avatar);
         }
 
         $manager->flush();
