@@ -69,7 +69,7 @@ class AppFixtures extends Fixture
         for ($u=1; $u <= 20; $u++) { 
             
             $user = new User;
-            
+            //! ATTENTION LE CHAMP EMAIL REQUIERT UNE REVIEW 
             $user->setEmail($faker->email());
             $user->setRoles(["ROLE_USER"]);
             $user->setPassword($this->passwordHasher->hashPassword($user, "user"));
