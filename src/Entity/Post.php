@@ -15,19 +15,19 @@ class Post
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['posts'])]
+    #[Groups(['posts','categories'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 50)]
-    #[Groups(['posts'])]
+    #[Groups(['posts','categories'])]
     private ?string $title = null;
 
     #[ORM\Column(type: Types::TEXT)]
-    #[Groups(['posts'])]
+    #[Groups(['posts','categories'])]
     private ?string $resume = null;
 
     #[ORM\Column]
-    #[Groups(['posts'])]
+    #[Groups(['posts','categories'])]
     private ?bool $is_active = null;
 
     #[ORM\Column]
