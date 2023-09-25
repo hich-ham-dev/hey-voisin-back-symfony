@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/comments')]
-class CommentsController extends AbstractController
+class CommentController extends AbstractController
 {
     #[Route('/', name: 'app_comments_index', methods: ['GET'])]
     public function index(CommentRepository $commentRepository): Response
