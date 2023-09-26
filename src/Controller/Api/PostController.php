@@ -11,6 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/api')]
 class PostController extends AbstractController
 {
+    
     #[Route('/post', name: 'app_api_post', methods: ['GET'])]
     public function index(PostRepository $post): JsonResponse
     {

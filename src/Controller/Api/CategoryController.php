@@ -20,7 +20,7 @@ class CategoryController extends AbstractController
         return $this->json($categories, Response::HTTP_OK, [], ['groups' => 'categories', 'posts']);
     }
 
-    #[Route('/category/{id}', name: 'app_api_post_show' , methods: ['GET'])]
+    #[Route('/category/{id}', name: 'app_api_category_show' , methods: ['GET'])]
     public function show(CategoryRepository $category, int $id): JsonResponse
     {
         $category = $category->find($id);
