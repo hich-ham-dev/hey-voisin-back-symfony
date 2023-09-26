@@ -16,48 +16,48 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['posts'])]
+    #[Groups(['users'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 180, unique: true)]
-    #[Groups(['posts'])]
+    #[Groups(['users'])]
     private ?string $email = null;
 
     #[ORM\Column]
-    #[Groups(['posts'])]
+    #[Groups(['users'])]
     private array $roles = [];
 
     /**
      * @var string The hashed password
      */
     #[ORM\Column]
-    #[Groups(['posts'])]
+    #[Groups(['users'])]
     private ?string $password = null;
 
     #[ORM\Column(length: 50)]
-    #[Groups(['posts'])]
+    #[Groups(['users'])]
     private ?string $alias = null;
 
     #[ORM\Column(length: 100)]
-    #[Groups(['posts'])]
+    #[Groups(['users'])]
     private ?string $firstname = null;
 
     #[ORM\Column(length: 100)]
-    #[Groups(['posts'])]
+    #[Groups(['users'])]
     private ?string $lastname = null;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['posts'])]
+    #[Groups(['users'])]
     private ?Avatar $avatar = null;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['posts'])]
+    #[Groups(['users'])]
     private ?Locality $locality = null;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Post::class)]
-    #[Groups(['posts'])]
+    #[Groups(['users'])]
     private Collection $post;
 
     public function __construct()
