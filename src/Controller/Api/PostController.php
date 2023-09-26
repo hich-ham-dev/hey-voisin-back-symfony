@@ -10,7 +10,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class PostController extends AbstractController
 {
-    #[Route('/api/post', name: 'app_api_post')]
+    #[Route('/api/post', name: 'app_api_post', methods: ['GET'])]
     public function index(PostRepository $post): JsonResponse
     {
         $posts = $post->findAll();
@@ -18,7 +18,7 @@ class PostController extends AbstractController
         return $this->json($posts, Response::HTTP_OK, [], ['groups' => 'posts']);
     }
 
-    #[Route('/api/post/{id}', name: 'app_api_post_show')]
+    #[Route('/api/post/{id}', name: 'app_api_post_show', methods: ['GET'])]
     public function show(PostRepository $post, int $id): JsonResponse
     {
         $post = $post->find($id);
