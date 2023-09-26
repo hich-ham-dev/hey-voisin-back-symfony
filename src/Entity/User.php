@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
@@ -15,38 +16,48 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['users'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 180, unique: true)]
+    #[Groups(['users'])]
     private ?string $email = null;
 
     #[ORM\Column]
+    #[Groups(['users'])]
     private array $roles = [];
 
     /**
      * @var string The hashed password
      */
     #[ORM\Column]
+    #[Groups(['users'])]
     private ?string $password = null;
 
     #[ORM\Column(length: 50)]
+    #[Groups(['users'])]
     private ?string $alias = null;
 
     #[ORM\Column(length: 100)]
+    #[Groups(['posts','users'])]
     private ?string $firstname = null;
 
     #[ORM\Column(length: 100)]
+    #[Groups(['users'])]
     private ?string $lastname = null;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['users'])]
     private ?Avatar $avatar = null;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['users'])]
     private ?Locality $locality = null;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Post::class)]
+    #[Groups(['users'])]
     private Collection $post;
 
     public function __construct()

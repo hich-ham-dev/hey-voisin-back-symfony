@@ -6,6 +6,7 @@ use App\Repository\LocalityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: LocalityRepository::class)]
 class Locality
@@ -13,24 +14,31 @@ class Locality
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['localities'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 100)]
+    #[Groups(['localities'])]
     private ?string $city = null;
 
     #[ORM\Column(length: 5)]
+    #[Groups(['localities'])]
     private ?string $zipcode = null;
 
     #[ORM\Column(length: 100)]
+    #[Groups(['localities'])]
     private ?string $adress = null;
 
     #[ORM\Column]
+    #[Groups(['localities'])]
     private ?\DateTimeImmutable $created_at = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['localities'])]
     private ?\DateTimeImmutable $updated_at = null;
 
     #[ORM\OneToMany(mappedBy: 'locality', targetEntity: Post::class)]
+    #[Groups(['localities'])]
     private Collection $posts;
 
     public function __construct()
