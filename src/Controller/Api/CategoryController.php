@@ -17,7 +17,7 @@ class CategoryController extends AbstractController
     {
         $categories = $category->findAll();
 
-        return $this->json($categories, Response::HTTP_OK, [], ['groups' => 'categories']);
+        return $this->json($categories, Response::HTTP_OK, [], ['groups' => 'categories', 'posts']);
     }
 
     #[Route('/category/{id}', name: 'app_api_post_show' , methods: ['GET'])]
