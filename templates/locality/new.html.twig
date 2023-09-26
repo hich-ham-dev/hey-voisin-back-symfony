@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Localities{% endblock %}
+
+{% block body %}
+    <h1>Create new Localities</h1>
+
+    {{ include('locality/_form.html.twig') }}
+
+    <a href="{{ path('app_locality_index') }}">back to list</a>
+{% endblock %}
