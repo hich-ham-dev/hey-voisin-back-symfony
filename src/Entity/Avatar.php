@@ -11,15 +11,15 @@ class Avatar
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['users'])]
+    #[Groups(['avatars'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 2100)]
-    #[Groups(['users'])]
+    #[Groups(['avatars'])]
     private ?string $url = null;
 
     #[ORM\Column(length: 25)]
-    #[Groups(['users'])]
+    #[Groups(['avatars'])]
     private ?string $name = null;
 
     public function getId(): ?int
