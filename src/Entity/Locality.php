@@ -14,31 +14,31 @@ class Locality
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['posts','localities'])]
+    #[Groups(['localities'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 100)]
-    #[Groups(['posts','localities'])]
+    #[Groups(['localities'])]
     private ?string $city = null;
 
     #[ORM\Column(length: 5)]
-    #[Groups(['posts','localities'])]
+    #[Groups(['localities'])]
     private ?string $zipcode = null;
 
     #[ORM\Column(length: 100)]
-    #[Groups(['posts','localities'])]
+    #[Groups(['localities'])]
     private ?string $adress = null;
 
     #[ORM\Column]
-    #[Groups(['posts','localities'])]
+    #[Groups(['localities'])]
     private ?\DateTimeImmutable $created_at = null;
 
     #[ORM\Column(nullable: true)]
-    #[Groups(['posts','localities'])]
+    #[Groups(['localities'])]
     private ?\DateTimeImmutable $updated_at = null;
 
     #[ORM\OneToMany(mappedBy: 'locality', targetEntity: Post::class)]
-    #[Groups(['posts','localities'])]
+    #[Groups(['localities'])]
     private Collection $posts;
 
     public function __construct()
