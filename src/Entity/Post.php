@@ -19,15 +19,15 @@ class Post
     private ?int $id = null;
 
     #[ORM\Column(length: 50)]
-    #[Groups(['posts','categories'])]
+    #[Groups(['posts','categories','localities'])]
     private ?string $title = null;
 
     #[ORM\Column(type: Types::TEXT)]
-    #[Groups(['posts','categories'])]
+    #[Groups(['posts','categories','localities'])]
     private ?string $resume = null;
 
     #[ORM\Column]
-    #[Groups(['posts','categories'])]
+    #[Groups(['posts','categories','localities'])]
     private ?bool $is_active = null;
 
     #[ORM\Column]
@@ -35,7 +35,7 @@ class Post
     private ?bool $is_offer = null;
 
     #[ORM\Column]
-    #[Groups(['posts'])]
+    #[Groups(['posts','localities'])]
     private ?\DateTimeImmutable $published_at = null;
 
     #[ORM\Column(nullable: true)]
@@ -44,7 +44,7 @@ class Post
 
     #[ORM\ManyToOne(inversedBy: 'post')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['posts'])]
+    #[Groups(['posts','localities'])]
     private ?Category $category = null;
 
     #[ORM\ManyToOne(inversedBy: 'post')]
@@ -54,7 +54,7 @@ class Post
 
     #[ORM\ManyToOne(inversedBy: 'post')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['posts','categories'])]
+    #[Groups(['posts','categories','localities'])]
     private ?User $user = null;
 
     #[ORM\OneToMany(mappedBy: 'post', targetEntity: Comment::class)]

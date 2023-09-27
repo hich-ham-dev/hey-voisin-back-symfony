@@ -19,7 +19,7 @@ class Avatar
     private ?string $url = null;
 
     #[ORM\Column(length: 25)]
-    #[Groups(['avatars'])]
+    #[Groups(['avatars','localities'])]
     private ?string $name = null;
 
     public function getId(): ?int

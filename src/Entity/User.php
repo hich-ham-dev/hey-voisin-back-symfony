@@ -35,7 +35,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $password = null;
 
     #[ORM\Column(length: 50)]
-    #[Groups(['users'])]
+    #[Groups(['users','localities'])]
     private ?string $alias = null;
 
     #[ORM\Column(length: 100)]
@@ -48,7 +48,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['users'])]
+    #[Groups(['users','localities'])]
     private ?Avatar $avatar = null;
 
     #[ORM\ManyToOne]
