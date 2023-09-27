@@ -1,8 +1,8 @@
 nelmio_api_doc:
     documentation:
-    servers:
-        - url: http://hey-voisin.sc2wect2718.universe.wf/
-          description: Production server
+        servers:
+          - url: http://hey-voisin.sc2wect2718.universe.wf/
+            description: Production server
         info:
             title: My App
             description: This is an awesome app!
