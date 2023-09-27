@@ -18,23 +18,21 @@ class Locality
     private ?int $id = null;
 
     #[ORM\Column(length: 100)]
-    #[Groups(['localities'])]
+    #[Groups(['localities','categories', 'users','posts'])]
     private ?string $city = null;
 
     #[ORM\Column(length: 5)]
-    #[Groups(['localities'])]
+    #[Groups(['users'])]
     private ?string $zipcode = null;
 
     #[ORM\Column(length: 100)]
-    #[Groups(['localities'])]
+    #[Groups(['users'])]
     private ?string $adress = null;
 
     #[ORM\Column]
-    #[Groups(['localities'])]
     private ?\DateTimeImmutable $created_at = null;
 
     #[ORM\Column(nullable: true)]
-    #[Groups(['localities'])]
     private ?\DateTimeImmutable $updated_at = null;
 
     #[ORM\OneToMany(mappedBy: 'locality', targetEntity: Post::class)]
