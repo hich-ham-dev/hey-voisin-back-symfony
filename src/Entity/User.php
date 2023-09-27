@@ -24,7 +24,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $email = null;
 
     #[ORM\Column]
-    #[Groups(['users'])]
     private array $roles = [];
 
     /**
@@ -35,7 +34,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $password = null;
 
     #[ORM\Column(length: 50)]
-    #[Groups(['users', 'posts'])]
+    #[Groups(['users', 'posts','categories','localities'])]
     private ?string $alias = null;
 
     #[ORM\Column(length: 100)]
@@ -48,7 +47,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['users', 'posts'])]
+    #[Groups(['users', 'posts','categories','localities'])]
     private ?Avatar $avatar = null;
 
     #[ORM\ManyToOne]
