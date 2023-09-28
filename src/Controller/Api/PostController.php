@@ -38,12 +38,12 @@ class PostController extends AbstractController
     public function new(EntityManagerInterface $manager, Request $request): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
-        $categoryId = $data['category'];
-        $category = $manager->getRepository(Category::class)->find($categoryId);
-        $localityId = $data['locality'];
-        $locality = $manager->getRepository(Locality::class)->find($localityId);
-        $userId = $data['user'];
-        $user = $manager->getRepository(User::class)->find($userId);
+        $categoryName = $data['category']['name'];
+        $category = $manager->getRepository(Category::class)->findOneBy(['name' => $categoryName]);
+        $localityCity = $data['locality'];
+        $locality = $manager->getRepository(Locality::class)->findOneBy(['city' => $localityCity]);
+        $userAlias = $data['user']['alias'];
+        $user = $manager->getRepository(User::class)->findOneBy(['alias' => $userAlias]);
 
         $post = new Post();
         $post->setTitle($data['title']);
@@ -52,9 +52,9 @@ class PostController extends AbstractController
         $post->setIsOffer($data['is_offer']);
         $post->setPublishedAt(new \DateTimeImmutable($data['published_at']));
         $post->setUpdatedAt(new \DateTimeImmutable($data['updated_at']));
-        $post->setCategory($data['category']);
-        $post->setLocality($data['locality']);
-        $post->setUser($data['user']);
+        $post->setCategory($category);
+        $post->setLocality($locality);
+        $post->setUser($user);
 
         $manager->persist($post);
         $manager->flush();
