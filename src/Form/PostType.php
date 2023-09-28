@@ -19,7 +19,6 @@ class PostType extends AbstractType
             ->add('published_at')
             ->add('updated_at')
             ->add('categories')
-            ->add('localities')
             ->add('users')
         ;
     }
