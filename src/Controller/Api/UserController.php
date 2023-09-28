@@ -3,7 +3,6 @@
 namespace App\Controller\Api;
 
 use App\Entity\User;
-use App\Entity\Locality;
 use PhpParser\Builder\Method;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -39,8 +38,7 @@ class UserController extends AbstractController
         $data = json_decode($request->getContent(), true);
         //$locality = $manager->getRepository(Locality::class)->find($data['locality']);
         $user = new User;
-        $locality = new Locality;
-       
+        
         $user->setEmail($data['email']);
         $user->setRoles(["ROLE_USER"]);
         $user->setPassword($this->$passwordHasher->hashPassword($user, $data['password']));
@@ -48,9 +46,6 @@ class UserController extends AbstractController
         $user->setFirstname($data['firstname']);
         $user->setLastname($data['lastname']);
         $user->setAvatar($data['avatar']);
-        $locality->setZipcode($data['Zipcode']);
-        $locality->setCity($data['City']);
-        $locality->setAdress($data['Adress']);
 
         $manager->persist($user);
         $manager->flush();

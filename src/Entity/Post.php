@@ -15,15 +15,15 @@ class Post
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['posts','categories','localities','users'])]
+    #[Groups(['posts','categories','users'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 50)]
-    #[Groups(['posts','categories','users','localities'])]
+    #[Groups(['posts','categories','users'])]
     private ?string $title = null;
 
     #[ORM\Column(type: Types::TEXT)]
-    #[Groups(['posts','categories','users','localities'])]
+    #[Groups(['posts','categories','users'])]
     private ?string $resume = null;
 
     #[ORM\Column]
@@ -33,7 +33,7 @@ class Post
     private ?bool $is_offer = null;
 
     #[ORM\Column]
-    #[Groups(['posts','categories','users','localities'])]
+    #[Groups(['posts','categories','users'])]
     private ?\DateTimeImmutable $published_at = null;
 
     #[ORM\Column(nullable: true)]
@@ -41,17 +41,12 @@ class Post
 
     #[ORM\ManyToOne(inversedBy: 'post')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['posts','users','localities'])]
+    #[Groups(['posts','users'])]
     private ?Category $category = null;
 
     #[ORM\ManyToOne(inversedBy: 'post')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['posts','categories','users'])]
-    private ?Locality $locality = null;
-
-    #[ORM\ManyToOne(inversedBy: 'post')]
-    #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['posts','categories','localities'])]
+    #[Groups(['posts','categories'])]
     private ?User $user = null;
 
     #[ORM\OneToMany(mappedBy: 'post', targetEntity: Comment::class)]
@@ -147,18 +142,6 @@ class Post
     public function setCategory(?Category $category): static
     {
         $this->category = $category;
-
-        return $this;
-    }
-
-    public function getLocality(): ?Locality
-    {
-        return $this->locality;
-    }
-
-    public function setLocality(?Locality $locality): static
-    {
-        $this->locality = $locality;
 
         return $this;
     }

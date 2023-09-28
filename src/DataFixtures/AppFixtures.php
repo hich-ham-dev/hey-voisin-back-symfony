@@ -12,7 +12,6 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use App\DataFixtures\Provider\CategoriesProvider;
 use App\Entity\Avatar;
 use App\Entity\Comment;
-use App\Entity\Locality;
 use DateTimeImmutable;
 
 class AppFixtures extends Fixture
@@ -53,25 +52,6 @@ class AppFixtures extends Fixture
         }
 
 
-        // Création de 30 villes
-        $localityList = [];
-
-        for ($l=1; $l <= 30; $l++) { 
-            
-            $locality = new Locality;
-            $locality->setAdress($faker->streetAddress());
-            //
-            $postcode = str_replace(' ', '', $faker->postcode());
-            $locality->setZipcode($postcode);
-            $locality->setCity($faker->city());
-            $createdAt = new DateTimeImmutable($faker->dateTimeBetween('-6 months')->format('Y-m-d H:i:s'));
-            $locality->setCreatedAt($createdAt);
-            $localityList[] = $locality;
-            
-            $manager->persist($locality);
-        }
-
-
         // Création d'un administrateur
         $admin = new User;
         
@@ -82,7 +62,6 @@ class AppFixtures extends Fixture
         $admin->setFirstname($faker->firstName());
         $admin->setLastname($faker->lastName());
         $admin->setAvatar($avatarList[array_rand($avatarList)]);
-        $admin->setLocality($localityList[array_rand($localityList)]);
 
         $manager->persist($admin);
 
@@ -97,7 +76,6 @@ class AppFixtures extends Fixture
         $moderator->setFirstname($faker->firstName());
         $moderator->setLastname($faker->lastName());
         $moderator->setAvatar($avatarList[array_rand($avatarList)]);
-        $moderator->setLocality($localityList[array_rand($localityList)]);
 
         $manager->persist($moderator);
 
@@ -116,7 +94,6 @@ class AppFixtures extends Fixture
             $user->setFirstname($faker->firstName());
             $user->setLastname($faker->lastName());
             $user->setAvatar($avatarList[array_rand($avatarList)]);
-            $user->setLocality($localityList[array_rand($localityList)]); 
             $userList[] = $user;
 
             $manager->persist($user); 
@@ -151,7 +128,6 @@ class AppFixtures extends Fixture
             $post->setIsActive($faker->boolean());
             $post->setIsOffer($faker->boolean());
             $post->setCategory($categoryList[array_rand($categoryList)]);
-            $post->setLocality($localityList[array_rand($localityList)]);
             $post->setUser($userList[array_rand($userList)]);
             $postList[] = $post;
 
