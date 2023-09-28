@@ -3,7 +3,6 @@
 namespace App\Controller\Api;
 
 use App\Entity\Category;
-use App\Entity\Locality;
 use App\Entity\Post;
 use App\Entity\User;
 use App\Repository\PostRepository;
@@ -100,7 +99,7 @@ class PostController extends AbstractController
             return $this->json($errors, Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
-        $postRepository->add($post, true);
+        // $postRepository->add($post, true);
 
 
         return $this->json(['message' => 'Create a new post'], Response::HTTP_OK);

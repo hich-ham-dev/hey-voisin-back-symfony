@@ -34,7 +34,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $password = null;
 
     #[ORM\Column(length: 50)]
-    #[Groups(['users', 'posts','categories','localities'])]
+    #[Groups(['users', 'posts','categories'])]
     private ?string $alias = null;
 
     #[ORM\Column(length: 100)]
@@ -47,13 +47,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['users', 'posts','categories','localities'])]
+    #[Groups(['users', 'posts','categories'])]
     private ?Avatar $avatar = null;
-
-    #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['users'])]
-    private ?Locality $locality = null;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Post::class)]
     #[Groups(['users'])]
@@ -178,18 +173,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setAvatar(?Avatar $avatar): static
     {
         $this->avatar = $avatar;
-
-        return $this;
-    }
-
-    public function getLocality(): ?Locality
-    {
-        return $this->locality;
-    }
-
-    public function setLocality(?Locality $locality): static
-    {
-        $this->locality = $locality;
 
         return $this;
     }
