@@ -11,6 +11,7 @@ use Faker\Factory as Faker;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use App\DataFixtures\Provider\CategoriesProvider;
 use App\Entity\Avatar;
+use App\Entity\City;
 use App\Entity\Comment;
 use DateTimeImmutable;
 
@@ -52,6 +53,22 @@ class AppFixtures extends Fixture
         }
 
 
+        // Création de 10 villes
+        $citiesList = [];
+
+        for ($c=1; $c <= 10; $c++) { 
+            
+            $city = new City;
+            
+            $city->setName($faker->city());
+            $postcode = str_replace(' ', '', $faker->postcode());
+            $city->setZipcode($postcode);
+            $citiesList[] = $city;
+
+            $manager->persist($city);
+        }
+
+
         // Création d'un administrateur
         $admin = new User;
         
@@ -62,6 +79,7 @@ class AppFixtures extends Fixture
         $admin->setFirstname($faker->firstName());
         $admin->setLastname($faker->lastName());
         $admin->setAvatar($avatarList[array_rand($avatarList)]);
+        $admin->setAddress($faker->streetAddress());
 
         $manager->persist($admin);
 
@@ -76,6 +94,8 @@ class AppFixtures extends Fixture
         $moderator->setFirstname($faker->firstName());
         $moderator->setLastname($faker->lastName());
         $moderator->setAvatar($avatarList[array_rand($avatarList)]);
+        $moderator->setAddress($faker->streetAddress());
+
 
         $manager->persist($moderator);
 
@@ -94,6 +114,7 @@ class AppFixtures extends Fixture
             $user->setFirstname($faker->firstName());
             $user->setLastname($faker->lastName());
             $user->setAvatar($avatarList[array_rand($avatarList)]);
+            $user->setAddress($faker->streetAddress());
             $userList[] = $user;
 
             $manager->persist($user); 
@@ -129,6 +150,7 @@ class AppFixtures extends Fixture
             $post->setIsOffer($faker->boolean());
             $post->setCategory($categoryList[array_rand($categoryList)]);
             $post->setUser($userList[array_rand($userList)]);
+            $post->setCity($citiesList[array_rand($citiesList)]);
             $postList[] = $post;
 
             $manager->persist($post);
