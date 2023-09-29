@@ -40,7 +40,7 @@ class PostController extends AbstractController
     }
 
     #[Route('/post/new', name: 'app_api_post_new', methods: ['POST'])]
-    public function new(EntityManagerInterface $manager, PostRepository $postRepository, Request $request, SerializerInterface $serializer, ValidatorInterface $validator): JsonResponse
+    public function new(EntityManagerInterface $manager, Request $request, SerializerInterface $serializer, ValidatorInterface $validator): JsonResponse
     {
         // ! WIP : à revoir après refonte de la BDD
         $data = json_decode($request->getContent(), true);
@@ -67,15 +67,10 @@ class PostController extends AbstractController
         $categoryName = $data['category']['name'];
         $category = $manager->getRepository(Category::class)->findOneBy(['name' => $categoryName]);
         $city = $data['city'];
-        $city = $manager->getRepository(City::class)->find(['name' => $city]);
+        $city = $manager->getRepository(City::class)->findOneBy(['name' => $city]);
         $userAlias = $data['user']['alias'];
-        $user = $manager->getRepository(User::class)->find(['alias' => $userAlias]);
+        $user = $manager->getRepository(User::class)->findOneBy(['alias' => $userAlias]);
 
-        // $post = new Post();
-        // $post->setTitle($data['title']);
-        // $post->setResume($data['resume']);
-        // $post->setIsActive($data['is_active']);
-        // $post->setIsOffer($data['is_offer']);
         $post->setPublishedAt(new \DateTimeImmutable($data['published_at']));
         $post->setUpdatedAt(new \DateTimeImmutable($data['updated_at']));
         $post->setCategory($category);
@@ -85,30 +80,6 @@ class PostController extends AbstractController
         $manager->persist($post);
         $manager->flush();
         
-        // $jsonContent = $request->getContent();
-
-        // try {
-        //     $post = $serializer->deserialize($jsonContent, Post::class, 'json', [AbstractNormalizer::IGNORED_ATTRIBUTES => ['category']]);
-        //     $data = json_decode($jsonContent, true);
-
-        // } catch (NotEncodableValueException) {
-        //     return $this->json(['error' => "json invalide"], Response::HTTP_BAD_REQUEST);
-        // }
-
-        // $errors = $validator->validate($post);
-
-        // if (count($errors) > 0) {
-
-        //     foreach ($errors as $error) {
-        //         $dataErrors[$error->getPropertyPath()][] = $error->getMessage();
-        //     }
-
-        //     return $this->json($errors, Response::HTTP_UNPROCESSABLE_ENTITY);
-        // }
-
-        // $postRepository->add($post, true);
-
-
-        // return $this->json(['message' => 'Create a new post'], Response::HTTP_OK);
+        return $this->json($post, Response::HTTP_CREATED, [], ['groups' => 'posts']);
     }
 }
