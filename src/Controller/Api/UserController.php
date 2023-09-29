@@ -32,7 +32,7 @@ class UserController extends AbstractController
         return $this->json($user, Response::HTTP_OK, [], ['groups' => 'users']);
     }
  //! WIP en attente de refonte de la BDD------------------------------------------------------------------
-    #[Route('/user/new', name: 'app_api_user_new', Methods: ['POST'])]
+   /* #[Route('/user/new', name: 'app_api_user_new', Methods: ['POST'])]
     public function new(Request $request, UserRepository $userRepository, UserPasswordHasherInterface $passwordHasher, EntityManagerInterface $manager): JsonResponse
     {   
         $data = json_decode($request->getContent(), true);
@@ -51,7 +51,7 @@ class UserController extends AbstractController
         $manager->flush();
 
         return $this->json(['message' => 'Merci de vous être inscrit !'], Response::HTTP_OK);
-    }
+    }*/
  //! WIP en attente de refonte de la BDD------------------------------------------------------------------
 
 

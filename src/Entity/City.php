@@ -4,19 +4,22 @@ namespace App\Entity;
 
 use App\Repository\CityRepository;
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\Serializer\Annotation\Groups;
 #[ORM\Entity(repositoryClass: CityRepository::class)]
 class City
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['city'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 50)]
+    #[Groups(['city'])]
     private ?string $name = null;
 
     #[ORM\Column(length: 5)]
+    #[Groups(['city'])]
     private ?string $zipcode = null;
 
     public function getId(): ?int

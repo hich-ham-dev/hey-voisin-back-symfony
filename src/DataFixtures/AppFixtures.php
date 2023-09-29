@@ -7,6 +7,7 @@ use App\Entity\Post;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
+use Faker\Factory as Faker; 
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use App\DataFixtures\Provider\CategoriesProvider;
 use App\Entity\Avatar;
@@ -79,8 +80,7 @@ class AppFixtures extends Fixture
         $admin->setLastname($faker->lastName());
         $admin->setAvatar($avatarList[array_rand($avatarList)]);
         $admin->setAddress($faker->streetAddress());
-        $admin->setCity($citiesList[array_rand($citiesList)]);
-
+        
         $manager->persist($admin);
 
 
@@ -95,7 +95,6 @@ class AppFixtures extends Fixture
         $moderator->setLastname($faker->lastName());
         $moderator->setAvatar($avatarList[array_rand($avatarList)]);
         $moderator->setAddress($faker->streetAddress());
-        $moderator->setCity($citiesList[array_rand($citiesList)]);
 
 
         $manager->persist($moderator);
@@ -116,7 +115,6 @@ class AppFixtures extends Fixture
             $user->setLastname($faker->lastName());
             $user->setAvatar($avatarList[array_rand($avatarList)]);
             $user->setAddress($faker->streetAddress());
-            $user->setCity($citiesList[array_rand($citiesList)]);
             $userList[] = $user;
 
             $manager->persist($user); 
