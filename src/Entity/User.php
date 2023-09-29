@@ -34,7 +34,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $password = null;
 
     #[ORM\Column(length: 50)]
-    #[Groups(['users', 'posts','categories','localities'])]
+    #[Groups(['users', 'posts','categories'])]
     private ?string $alias = null;
 
     #[ORM\Column(length: 100)]
@@ -47,17 +47,20 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['users', 'posts','categories','localities'])]
+    #[Groups(['users', 'posts','categories'])]
     private ?Avatar $avatar = null;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Post::class)]
+    private Collection $post;
+
+    #[ORM\Column(length: 255)]
+    #[Groups(['users','city'])]
+    private ?string $address = null;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['users'])]
-    private ?Locality $locality = null;
-
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Post::class)]
-    #[Groups(['users'])]
-    private Collection $post;
+    #[Groups(['users','city'])]
+    private ?City $city = null;
 
     public function __construct()
     {
@@ -182,18 +185,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getLocality(): ?Locality
-    {
-        return $this->locality;
-    }
-
-    public function setLocality(?Locality $locality): static
-    {
-        $this->locality = $locality;
-
-        return $this;
-    }
-
     /**
      * @return Collection<int, Post>
      */
@@ -220,6 +211,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $post->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getAddress(): ?string
+    {
+        return $this->address;
+    }
+
+    public function setAddress(string $address): static
+    {
+        $this->address = $address;
+
+        return $this;
+    }
+
+    public function getCity(): ?City
+    {
+        return $this->city;
+    }
+
+    public function setCity(?City $city): static
+    {
+        $this->city = $city;
 
         return $this;
     }

@@ -15,7 +15,7 @@ class Avatar
     private ?int $id = null;
 
     #[ORM\Column(length: 2100)]
-    #[Groups(['avatars', 'posts','localities', 'categories', 'users'])]
+    #[Groups(['avatars', 'posts','categories', 'users'])]
     private ?string $url = null;
 
     #[ORM\Column(length: 25)]
