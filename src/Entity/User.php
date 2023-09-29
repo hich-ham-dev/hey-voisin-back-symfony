@@ -51,7 +51,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?Avatar $avatar = null;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Post::class)]
-    #[Groups(['users'])]
     private Collection $post;
 
     #[ORM\Column(length: 255)]

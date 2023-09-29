@@ -18,7 +18,7 @@ class Category
     private ?int $id = null;
 
     #[ORM\Column(length: 50)]
-    #[Groups(['categories', 'posts','users'])]
+    #[Groups(['categories', 'posts'])]
     private ?string $name = null;
 
     #[ORM\OneToMany(mappedBy: 'category', targetEntity: Post::class)]
