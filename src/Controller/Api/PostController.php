@@ -42,7 +42,7 @@ class PostController extends AbstractController
     #[Route('/post/new', name: 'app_api_post_new', methods: ['POST'])]
     public function new(EntityManagerInterface $manager, Request $request, SerializerInterface $serializer, ValidatorInterface $validator): JsonResponse
     {
- 
+
         $data = json_decode($request->getContent(), true);
 
         try {
@@ -50,7 +50,7 @@ class PostController extends AbstractController
                 AbstractNormalizer::IGNORED_ATTRIBUTES => ['category', 'city', 'user']
             ]);
         } catch (NotEncodableValueException) {
-            return $this->json(['error' => "json invalide"], Response::HTTP_BAD_REQUEST);
+            return $this->json(['error' => "Il semble y avoir un problème !"], Response::HTTP_BAD_REQUEST);
         }
 
         $errors = $validator->validate($post);
@@ -80,6 +80,6 @@ class PostController extends AbstractController
         $manager->persist($post);
         $manager->flush();
         
-        return $this->json($post, Response::HTTP_CREATED, [], ['groups' => 'posts']);
+        return $this->json(['message' => 'Votre annonce a bien été publiée.'], Response::HTTP_CREATED, [], ['groups' => 'posts']);
     }
 }
