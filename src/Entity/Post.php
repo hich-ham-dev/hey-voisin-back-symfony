@@ -10,20 +10,21 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: PostRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Post
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['posts','categories','localities','users'])]
+    #[Groups(['posts'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 50)]
-    #[Groups(['posts','categories','users','localities'])]
+    #[Groups(['posts'])]
     private ?string $title = null;
 
     #[ORM\Column(type: Types::TEXT)]
-    #[Groups(['posts','categories','users','localities'])]
+    #[Groups(['posts'])]
     private ?string $resume = null;
 
     #[ORM\Column]
@@ -33,7 +34,7 @@ class Post
     private ?bool $is_offer = null;
 
     #[ORM\Column]
-    #[Groups(['posts','categories','users','localities'])]
+    #[Groups(['posts'])]
     private ?\DateTimeImmutable $published_at = null;
 
     #[ORM\Column(nullable: true)]
@@ -41,25 +42,30 @@ class Post
 
     #[ORM\ManyToOne(inversedBy: 'post')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['posts','users','localities'])]
+    #[Groups(['posts'])]
     private ?Category $category = null;
 
     #[ORM\ManyToOne(inversedBy: 'post')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['posts','categories','users'])]
-    private ?Locality $locality = null;
-
-    #[ORM\ManyToOne(inversedBy: 'post')]
-    #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['posts','categories','localities'])]
+    #[Groups(['posts'])]
     private ?User $user = null;
 
     #[ORM\OneToMany(mappedBy: 'post', targetEntity: Comment::class)]
     private Collection $comments;
 
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?City $city = null;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
+    }
+
+    #[ORM\PrePersist]
+    public function setCreatedAtValue()
+    {
+        $this->published_at = new \DateTimeImmutable();
     }
 
     public function getId(): ?int
@@ -151,18 +157,6 @@ class Post
         return $this;
     }
 
-    public function getLocality(): ?Locality
-    {
-        return $this->locality;
-    }
-
-    public function setLocality(?Locality $locality): static
-    {
-        $this->locality = $locality;
-
-        return $this;
-    }
-
     public function getUser(): ?User
     {
         return $this->user;
@@ -201,6 +195,18 @@ class Post
                 $comment->setPost(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCity(): ?City
+    {
+        return $this->city;
+    }
+
+    public function setCity(?City $city): static
+    {
+        $this->city = $city;
 
         return $this;
     }

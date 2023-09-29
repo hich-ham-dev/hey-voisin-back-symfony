@@ -18,11 +18,10 @@ class Category
     private ?int $id = null;
 
     #[ORM\Column(length: 50)]
-    #[Groups(['categories', 'posts','users','localities'])]
+    #[Groups(['categories', 'posts'])]
     private ?string $name = null;
 
     #[ORM\OneToMany(mappedBy: 'category', targetEntity: Post::class)]
-    #[Groups(['categories'])]
     private Collection $posts;
 
     public function __construct()
