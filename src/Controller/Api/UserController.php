@@ -2,8 +2,9 @@
 
 namespace App\Controller\Api;
 
+use App\Entity\Avatar;
+use App\Entity\City;
 use App\Entity\User;
-use PhpParser\Builder\Method;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,7 +17,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 #[Route('/api')]
 class UserController extends AbstractController
 {
-    #[Route('/user', name: 'app_api_user')]
+    #[Route('/user', name: 'app_api_user', methods: ['GET'])]
     public function index(UserRepository $user): JsonResponse
     {
         $users = $user->findAll();
@@ -24,35 +25,42 @@ class UserController extends AbstractController
         return $this->json($users, Response::HTTP_OK, [], ['groups' => 'users']);
     }
 
-    #[Route('/user/{id}', name: 'app_api_user_show')]
+    #[Route('/user/{id}', name: 'app_api_user_show', methods: ['GET'])]
     public function show(UserRepository $user, int $id): JsonResponse
     {
         $user = $user->find($id);
 
         return $this->json($user, Response::HTTP_OK, [], ['groups' => 'users']);
     }
- //! WIP en attente de refonte de la BDD------------------------------------------------------------------
-   /* #[Route('/user/new', name: 'app_api_user_new', Methods: ['POST'])]
-    public function new(Request $request, UserRepository $userRepository, UserPasswordHasherInterface $passwordHasher, EntityManagerInterface $manager): JsonResponse
+    
+    #[Route('/user/new', name: 'app_api_user_new', methods: ['POST'])]
+    public function new(Request $request, UserPasswordHasherInterface $passwordHasher, EntityManagerInterface $manager): JsonResponse
     {   
-        $data = json_decode($request->getContent(), true);
-        //$locality = $manager->getRepository(Locality::class)->find($data['locality']);
         $user = new User;
+        $data = json_decode($request->getContent(), true);
+        $avatarId = $data['avatar']['id'];
+        $avatar = $manager->getRepository(Avatar::class)->find($avatarId);
+        $cityId = $data['city']['id'];
+        $city = $manager->getRepository(City::class)->find($cityId);
+        
         
         $user->setEmail($data['email']);
         $user->setRoles(["ROLE_USER"]);
-        $user->setPassword($this->$passwordHasher->hashPassword($user, $data['password']));
+        $user->setPassword($passwordHasher->hashPassword($user, $data['password']));
         $user->setAlias($data['alias']);
         $user->setFirstname($data['firstname']);
         $user->setLastname($data['lastname']);
-        $user->setAvatar($data['avatar']);
+        $user->setAvatar($avatar);
+        $user->setAddress($data['address']);
+        $user->setCity($city);
+    
 
         $manager->persist($user);
         $manager->flush();
 
         return $this->json(['message' => 'Merci de vous être inscrit !'], Response::HTTP_OK);
-    }*/
- //! WIP en attente de refonte de la BDD------------------------------------------------------------------
+    }
+
 
 
 }

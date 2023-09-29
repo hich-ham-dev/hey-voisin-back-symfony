@@ -15,15 +15,15 @@ class Post
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['posts','categories'])]
+    #[Groups(['posts'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 50)]
-    #[Groups(['posts','categories'])]
+    #[Groups(['posts'])]
     private ?string $title = null;
 
     #[ORM\Column(type: Types::TEXT)]
-    #[Groups(['posts','categories'])]
+    #[Groups(['posts'])]
     private ?string $resume = null;
 
     #[ORM\Column]
@@ -33,7 +33,7 @@ class Post
     private ?bool $is_offer = null;
 
     #[ORM\Column]
-    #[Groups(['posts','categories'])]
+    #[Groups(['posts'])]
     private ?\DateTimeImmutable $published_at = null;
 
     #[ORM\Column(nullable: true)]
@@ -46,7 +46,7 @@ class Post
 
     #[ORM\ManyToOne(inversedBy: 'post')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['posts','categories'])]
+    #[Groups(['posts'])]
     private ?User $user = null;
 
     #[ORM\OneToMany(mappedBy: 'post', targetEntity: Comment::class)]
