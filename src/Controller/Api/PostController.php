@@ -64,19 +64,9 @@ class PostController extends AbstractController
             return $this->json($errors, Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
-        $categoryName = $data['category']['name'];
-        $category = $manager->getRepository(Category::class)->findOneBy(['name' => $categoryName]);
-        $city = $data['city'];
-        $city = $manager->getRepository(City::class)->findOneBy(['name' => $city]);
-        $userAlias = $data['user']['alias'];
-        $user = $manager->getRepository(User::class)->findOneBy(['alias' => $userAlias]);
-
-        $post->setPublishedAt(new \DateTimeImmutable($data['published_at']));
-        $post->setUpdatedAt(new \DateTimeImmutable($data['updated_at']));
+        $categoryId = $data['category'];
+        $category = $manager->getRepository(Category::class)->find($categoryId);
         $post->setCategory($category);
-        $post->setCity($city);
-        $post->setUser($user);
-
         $manager->persist($post);
         $manager->flush();
         
