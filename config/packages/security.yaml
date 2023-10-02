@@ -1,4 +1,5 @@
 security:
+    enable_authenticator_manager: true
     # https://symfony.com/doc/current/security.html#registering-the-user-hashing-passwords
     password_hashers:
         Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
@@ -17,16 +18,14 @@ security:
             pattern: ^/api/login
             stateless: true
             json_login:
-                check_path: /api/login_check # or api_login_check as defined in config/routes.yaml
+                check_path: /api/login_check
                 success_handler: lexik_jwt_authentication.handler.authentication_success
                 failure_handler: lexik_jwt_authentication.handler.authentication_failure
 
         api:
             pattern:   ^/api
             stateless: true
-            guard:
-                authenticators:
-                    - lexik_jwt_authentication.jwt_token_authenticator    
+            jwt: ~
         main:
             lazy: true
             provider: app_user_provider
