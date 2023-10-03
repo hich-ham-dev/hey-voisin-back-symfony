@@ -39,7 +39,7 @@ class PostController extends AbstractController
         return $this->json($post, Response::HTTP_OK, [], ['groups' => 'posts']);
     }
 
-    #[Route('/post/new', name: 'app_api_post_new', methods: ['POST'])]
+    #[Route('/post', name: 'app_api_post_new', methods: ['POST'])]
     public function new(EntityManagerInterface $manager, Request $request, SerializerInterface $serializer, ValidatorInterface $validator): JsonResponse
     {
 
@@ -64,19 +64,22 @@ class PostController extends AbstractController
             return $this->json($errors, Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
+        $user = $this->getUser();
+        \dump($user);
+
+        if (!$user) {
+            return $this->json(['error' => "Vous devez être connecté pour publier une annonce."], Response::HTTP_UNAUTHORIZED);
+        }
+
         $categoryId = $data['category'];
-        //! Code à changer, en attente du login
-        $userId = $data['user'];
         $cityId = $data['city'];
-        //!---------------------------------
+
         $city = $manager->getRepository(City::class)->find($cityId);
-        $user = $manager->getRepository(User::class)->find($userId);
         $category = $manager->getRepository(Category::class)->find($categoryId);
         $post->setCategory($category);
-        //! Code à changer, en attente du login
         $post->setCity($city);
         $post->setUser($user);
-        //! -------------------------------
+
         $manager->persist($post);
         $manager->flush();
         
