@@ -101,7 +101,7 @@ class UserController extends AbstractController
         $manager->persist($user);
         $manager->flush();
     
-        // On retourne un message de succès en tant que réponse JSON avec le code HTTP 200 OK
-        return $this->json(['message' => 'Merci de vous être inscrit !'], Response::HTTP_OK);
+        // On retourne un message de succès en tant que réponse JSON avec le code HTTP 201 OK
+        return $this->json(['message' => 'Merci de vous être inscrit !'], Response::HTTP_CREATED, [], ['groups' => 'users']);
     }    
 }

@@ -22,6 +22,7 @@ class Category
     private ?string $name = null;
 
     #[ORM\OneToMany(mappedBy: 'category', targetEntity: Post::class)]
+    #[Groups(['categories'])]
     private Collection $posts;
 
     public function __construct()
