@@ -64,6 +64,12 @@ class PostController extends AbstractController
             return $this->json($errors, Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
+        $user = $this->getUser();
+
+        if (!$user) {
+            return $this->json(['error' => "Vous devez être connecté pour publier une annonce."], Response::HTTP_UNAUTHORIZED);
+        }
+
         $categoryId = $data['category'];
         //! Code à changer, en attente du login
         $userId = $data['user'];
