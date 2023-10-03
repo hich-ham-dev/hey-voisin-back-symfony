@@ -11,15 +11,15 @@ class City
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['cities'])]
+    #[Groups(['cities','users','categories','posts'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 50)]
-    #[Groups(['cities','users'])]
+    #[Groups(['cities','users','categories','posts'])]
     private ?string $name = null;
 
     #[ORM\Column(length: 5)]
-    #[Groups(['cities','users'])]
+    #[Groups(['cities','users','categories','posts'])]
     private ?string $zipcode = null;
 
     public function getId(): ?int

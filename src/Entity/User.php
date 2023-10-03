@@ -54,12 +54,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private Collection $post;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['users','city'])]
+    #[Groups(['users'])]
     private ?string $address = null;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['users','city'])]
+    #[Groups(['users','cities'])]
     private ?City $city = null;
 
     public function __construct()
