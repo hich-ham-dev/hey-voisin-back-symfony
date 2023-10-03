@@ -53,7 +53,7 @@ class AppFixtures extends Fixture
         }
 
 
-        // Création de 10 villes
+        // CrrandomDigit  villes
         $citiesList = [];
 
         for ($c=1; $c <= 10; $c++) { 
@@ -80,6 +80,7 @@ class AppFixtures extends Fixture
         $admin->setLastname($faker->lastName());
         $admin->setAvatar($avatarList[array_rand($avatarList)]);
         $admin->setAddress($faker->streetAddress());
+        $admin->setCity($citiesList[array_rand($citiesList)]);
         
         $manager->persist($admin);
 
@@ -95,7 +96,7 @@ class AppFixtures extends Fixture
         $moderator->setLastname($faker->lastName());
         $moderator->setAvatar($avatarList[array_rand($avatarList)]);
         $moderator->setAddress($faker->streetAddress());
-
+        $moderator->setCity($citiesList[array_rand($citiesList)]);
 
         $manager->persist($moderator);
 
@@ -115,6 +116,7 @@ class AppFixtures extends Fixture
             $user->setLastname($faker->lastName());
             $user->setAvatar($avatarList[array_rand($avatarList)]);
             $user->setAddress($faker->streetAddress());
+            $user->setCity($citiesList[array_rand($citiesList)]);
             $userList[] = $user;
 
             $manager->persist($user); 
@@ -142,7 +144,7 @@ class AppFixtures extends Fixture
             
             $post = new Post;
             
-            $post->setTitle($faker->sentence(4));
+            $post->setTitle($faker->sentence(3));
             $post->setResume($faker->paragraph());
             $publishedAt = new DateTimeImmutable($faker->dateTimeBetween('-6 months')->format('Y-m-d H:i:s'));
             $post->setPublishedAt($publishedAt);
