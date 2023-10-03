@@ -39,7 +39,7 @@ class PostController extends AbstractController
         return $this->json($post, Response::HTTP_OK, [], ['groups' => 'posts']);
     }
 
-    #[Route('/post/new', name: 'app_api_post_new', methods: ['POST'])]
+    #[Route('/post', name: 'app_api_post_new', methods: ['POST'])]
     public function new(EntityManagerInterface $manager, Request $request, SerializerInterface $serializer, ValidatorInterface $validator): JsonResponse
     {
 
