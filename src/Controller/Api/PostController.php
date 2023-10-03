@@ -86,7 +86,7 @@ class PostController extends AbstractController
     #[Route('/post/city/{id}', name: 'app_api_post_city', methods: ['GET'])]
     public function showByCity(PostRepository $post, int $id): JsonResponse
     {
-        $posts = $post->findBy(['city' => $id]);
+        $posts = $post->findOneBy(['city' => $id]);
 
         return $this->json($posts, Response::HTTP_OK, [], ['groups' => 'posts']);
     }

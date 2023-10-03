@@ -11,6 +11,7 @@ class AuthenticationSuccessListener
     public function onAuthenticationSuccessResponse(AuthenticationSuccessEvent $event)
     {
         $data = $event->getData();
+        /** @var User $user */
         $user = $event->getUser();
 
         if (!$user instanceof UserInterface) {
