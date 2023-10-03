@@ -3,19 +3,20 @@
 {% block title %}Posts index{% endblock %}
 
 {% block body %}
-    <h1>Posts index</h1>
+<div class="container">
+    <h1 class="mt-5">Posts index</h1>
 
-    <table class="table">
+    <table class="table table-bordered table-striped">
         <thead>
             <tr>
                 <th>Id</th>
                 <th>Title</th>
                 <th>Resume</th>
-                <th>Is_active</th>
-                <th>Is_offer</th>
-                <th>Published_at</th>
-                <th>Updated_at</th>
-                <th>actions</th>
+                <th>Is Active</th>
+                <th>Is Offer</th>
+                <th>Published At</th>
+                <th>Updated At</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -29,17 +30,18 @@
                 <td>{{ post.publishedAt ? post.publishedAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ post.updatedAt ? post.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>
-                    <a href="{{ path('app_post_show', {'id': post.id}) }}">show</a>
-                    <a href="{{ path('app_post_edit', {'id': post.id}) }}">edit</a>
+                    <a href="{{ path('app_post_show', {'id': post.id}) }}" class="btn btn-primary">Show</a>
+                    <a href="{{ path('app_post_edit', {'id': post.id}) }}" class="btn btn-warning">Edit</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="8">no records found</td>
+                <td colspan="8">No records found</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('app_post_new') }}">Create new</a>
+    <a href="{{ path('app_post_new') }}" class="btn btn-success">Create New</a>
+</div>
 {% endblock %}

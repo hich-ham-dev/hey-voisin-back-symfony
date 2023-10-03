@@ -3,9 +3,10 @@
 {% block title %}Posts{% endblock %}
 
 {% block body %}
-    <h1>Posts</h1>
+<div class="container">
+    <h1 class="mt-5">Posts</h1>
 
-    <table class="table">
+    <table class="table table-bordered">
         <tbody>
             <tr>
                 <th>Id</th>
@@ -20,27 +21,28 @@
                 <td>{{ post.resume }}</td>
             </tr>
             <tr>
-                <th>Is_active</th>
+                <th>Is Active</th>
                 <td>{{ post.isActive ? 'Yes' : 'No' }}</td>
             </tr>
             <tr>
-                <th>Is_offer</th>
+                <th>Is Offer</th>
                 <td>{{ post.isOffer ? 'Yes' : 'No' }}</td>
             </tr>
             <tr>
-                <th>Published_at</th>
+                <th>Published At</th>
                 <td>{{ post.publishedAt ? post.publishedAt|date('Y-m-d H:i:s') : '' }}</td>
             </tr>
             <tr>
-                <th>Updated_at</th>
+                <th>Updated At</th>
                 <td>{{ post.updatedAt ? post.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
             </tr>
         </tbody>
     </table>
 
-    <a href="{{ path('app_post_index') }}">back to list</a>
+    <a href="{{ path('app_post_index') }}" class="btn btn-secondary">Back to List</a>
 
-    <a href="{{ path('app_post_edit', {'id': post.id}) }}">edit</a>
+    <a href="{{ path('app_post_edit', {'id': post.id}) }}" class="btn btn-primary">Edit</a>
 
     {{ include('post/_delete_form.html.twig') }}
+</div>
 {% endblock %}
