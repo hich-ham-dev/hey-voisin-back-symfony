@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des utilisateurs{% endblock %}
+
+{% block body %}
+<div class="container col-9">
+    
+    <h1 class="mt-5">Liste des utilisateurs <a href="{{ path('app_user_new') }}" class="btn btn-success btn-sm rounded-pill">Ajouter un utilisateur</a></h1>
+
+    <table class="table table-bordered table-striped table-sm">
+        <thead class="table-dark">
+            <tr>
+                <th>Id</th>
+                <th>Email</th>
+                <th>Rôles</th>
+                {# <th>Password</th> #}
+                <th>Alias</th>
+                <th>Prénom</th>
+                <th>Nom</th>
+                <th>Adresse</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for user in pagination %}
+            <tr>
+                <td>{{ user.id }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
+                {# <td>{{ user.password }}</td> #}
+                <td>{{ user.alias }}</td>
+                <td>{{ user.firstname }}</td>
+                <td>{{ user.lastname }}</td>
+                <td>{{ user.address }}</td>
+                <td>
+                    <a href="{{ path('app_user_show', {'id': user.id}) }}" class="btn btn-primary m-1 btn-sm rounded-pill">Voir</a>
+                    <a href="{{ path('app_user_edit', {'id': user.id}) }}" class="btn btn-warning m-1 btn-sm rounded-pill">Modifier</a>
+                    <a href="{{ path('app_user_delete', {'id': user.id}) }}" class="btn btn-danger m-1 btn-sm rounded-pill">Supprimer</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="9">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {{ knp_pagination_render(pagination) }}
+</div>
+{% endblock %}

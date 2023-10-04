@@ -16,4 +16,5 @@ return [
     Lexik\Bundle\JWTAuthenticationBundle\LexikJWTAuthenticationBundle::class => ['all' => true],
     JMS\SerializerBundle\JMSSerializerBundle::class => ['all' => true],
     Nelmio\ApiDocBundle\NelmioApiDocBundle::class => ['all' => true],
+    Knp\Bundle\PaginatorBundle\KnpPaginatorBundle::class => ['all' => true],
 ];

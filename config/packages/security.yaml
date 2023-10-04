@@ -47,6 +47,8 @@ security:
     access_control:
         - { path: ^/api/user/new, roles: PUBLIC_ACCESS }
         - { path: ^/api/login, roles: PUBLIC_ACCESS }
+        - { path: ^/api/city, roles: PUBLIC_ACCESS }
+        - { path: ^/api/avatar, roles: PUBLIC_ACCESS }
         - { path: ^/api, roles: ROLE_USER }
 
 when@test:

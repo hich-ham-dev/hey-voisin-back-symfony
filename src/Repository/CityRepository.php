@@ -21,6 +21,17 @@ class CityRepository extends ServiceEntityRepository
         parent::__construct($registry, City::class);
     }
 
+    /**
+    * City pagination query
+    */
+    public function paginationQuery()
+    {
+        return $this->createQueryBuilder('c')
+            ->orderBy('c.id', 'ASC')
+            ->getQuery()
+        ;
+    }
+
 //    /**
 //     * @return City[] Returns an array of City objects
 //     */

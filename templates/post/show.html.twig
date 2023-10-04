@@ -1,46 +1,44 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Posts{% endblock %}
+{% block title %}Publication #{{ post.id }}{% endblock %}
 
 {% block body %}
-    <h1>Posts</h1>
+<div class="container col-9">
+    <h1>Publication <a href="{{ path('app_post_edit', {'id': post.id}) }}" class="btn btn-warning m-1 btn-sm rounded-pill">Modifier</a></h1>
 
-    <table class="table">
+    <table class="table table-bordered table-striped table-sm">
         <tbody>
             <tr>
-                <th>Id</th>
+                <th class="table-dark">Id</th>
                 <td>{{ post.id }}</td>
             </tr>
             <tr>
-                <th>Title</th>
+                <th class="table-dark">Titre</th>
                 <td>{{ post.title }}</td>
             </tr>
             <tr>
-                <th>Resume</th>
+                <th class="table-dark">Résumé</th>
                 <td>{{ post.resume }}</td>
             </tr>
             <tr>
-                <th>Is_active</th>
+                <th class="table-dark">Actif</th>
                 <td>{{ post.isActive ? 'Yes' : 'No' }}</td>
             </tr>
             <tr>
-                <th>Is_offer</th>
+                <th class="table-dark">Offre</th>
                 <td>{{ post.isOffer ? 'Yes' : 'No' }}</td>
             </tr>
             <tr>
-                <th>Published_at</th>
+                <th class="table-dark">Publié le</th>
                 <td>{{ post.publishedAt ? post.publishedAt|date('Y-m-d H:i:s') : '' }}</td>
             </tr>
             <tr>
-                <th>Updated_at</th>
+                <th class="table-dark">Mis à jour le</th>
                 <td>{{ post.updatedAt ? post.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
             </tr>
         </tbody>
     </table>
-
-    <a href="{{ path('app_post_index') }}">back to list</a>
-
-    <a href="{{ path('app_post_edit', {'id': post.id}) }}">edit</a>
-
     {{ include('post/_delete_form.html.twig') }}
+    <a href="{{ path('app_post_index') }}" class="btn btn-primary m-1 btn-sm rounded-pill">Retour</a>
+</div>
 {% endblock %}

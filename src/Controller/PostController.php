@@ -4,22 +4,29 @@ namespace App\Controller;
 
 use App\Entity\Post;
 use App\Form\PostType;
+use App\Repository\CategoryRepository;
 use App\Repository\PostRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Knp\Component\Pager\PaginatorInterface;
 
 
 #[Route('/post')]
 class PostController extends AbstractController
 {
     #[Route('/', name: 'app_post_index', methods: ['GET'])]
-    public function index(PostRepository $postRepository): Response
+    public function index(PostRepository $postRepository, Request $request, PaginatorInterface $paginator): Response
     {
+        $pagination = $paginator->paginate(
+            $postRepository->paginationQuery(),
+            $request->query->getInt('page', 1),
+            10
+        );
         return $this->render('post/index.html.twig', [
-            'post' => $postRepository->findAll(),
+            'pagination' => $pagination,            
         ]);
     }
 
@@ -56,6 +63,7 @@ class PostController extends AbstractController
     {
         $form = $this->createForm(PostType::class, $post);
         $form->handleRequest($request);
+      
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
@@ -66,6 +74,7 @@ class PostController extends AbstractController
         return $this->render('post/edit.html.twig', [
             'post' => $post,
             'form' => $form,
+           
         ]);
     }
 

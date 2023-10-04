@@ -1,11 +1,14 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Avatars index{% endblock %}
+{% block title %}Liste des avatars{% endblock %}
 
 {% block body %}
-    <h1>Avatars index</h1>
+<div class="container col-9">
+    
+    <h1 class="mt-5">Liste des avatars <a href="{{ path('app_avatar_new') }}" class="btn btn-success btn-sm rounded-pill">Ajouter un avatar</a></h1>
 
-    <table class="table">
+    <table class="table table-bordered table-striped table-sm">
+        <thead class="table-dark">
         <thead>
             <tr>
                 <th>Id</th>
@@ -15,23 +18,24 @@
             </tr>
         </thead>
         <tbody>
-        {% for avatar in avatar %}
+        {% for avatar in pagination %}
             <tr>
                 <td>{{ avatar.id }}</td>
                 <td>{{ avatar.url }}</td>
                 <td>{{ avatar.name }}</td>
                 <td>
-                    <a href="{{ path('app_avatar_show', {'id': avatar.id}) }}">show</a>
-                    <a href="{{ path('app_avatar_edit', {'id': avatar.id}) }}">edit</a>
+                    <a href="{{ path('app_avatar_show', {'id': avatar.id}) }}" class="btn btn-primary m-1 btn-sm rounded-pill">Voir</a>
+                    <a href="{{ path('app_avatar_edit', {'id': avatar.id}) }}" class="btn btn-warning m-1 btn-sm rounded-pill">Modifier</a>
+                    <a href="{{ path('app_avatar_delete', {'id': avatar.id}) }}" class="btn btn-danger m-1 btn-sm rounded-pill">Supprimer</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="4">no records found</td>
+                <td colspan="9">no records found</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
-
-    <a href="{{ path('app_avatar_new') }}">Create new</a>
+    {{ knp_pagination_render(pagination) }}
+</div>
 {% endblock %}
