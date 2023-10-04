@@ -14,7 +14,7 @@
             </tr>
         </thead>
         <tbody>
-        {% for category in category %}
+        {% for category in pagination %}
             <tr>
                 <td>{{ category.id }}</td>
                 <td>{{ category.name }}</td>
@@ -30,6 +30,6 @@
         {% endfor %}
         </tbody>
     </table>
-
+    {{ knp_pagination_render(pagination) }}
     <a href="{{ path('app_category_new') }}">Create new</a>
 {% endblock %}

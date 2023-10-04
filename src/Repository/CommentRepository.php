@@ -21,6 +21,17 @@ class CommentRepository extends ServiceEntityRepository
         parent::__construct($registry, Comment::class);
     }
 
+    /**
+    * Comment pagination query
+    */
+    public function paginationQuery()
+    {
+        return $this->createQueryBuilder('c')
+            ->orderBy('c.id', 'ASC')
+            ->getQuery()
+        ;
+    }
+
 //    /**
 //     * @return Comment[] Returns an array of Comment objects
 //     */

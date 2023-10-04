@@ -20,7 +20,7 @@
             </tr>
         </thead>
         <tbody>
-        {% for post in post %}
+        {% for post in pagination %}
             <tr>
                 <td>{{ post.id }}</td>
                 <td>{{ post.title }}</td>
@@ -41,7 +41,7 @@
         {% endfor %}
         </tbody>
     </table>
-
+    {{ knp_pagination_render(pagination) }}
     <a href="{{ path('app_post_new') }}" class="btn btn-success">Create New</a>
 </div>
 {% endblock %}

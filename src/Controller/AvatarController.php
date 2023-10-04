@@ -6,6 +6,7 @@ use App\Entity\Avatar;
 use App\Form\AvatarType;
 use App\Repository\AvatarRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,10 +16,16 @@ use Symfony\Component\Routing\Annotation\Route;
 class AvatarController extends AbstractController
 {
     #[Route('/', name: 'app_avatar_index', methods: ['GET'])]
-    public function index(AvatarRepository $avatarRepository): Response
+    public function index(AvatarRepository $avatarRepository, Request $request, PaginatorInterface $paginator): Response
     {
+        $pagination = $paginator->paginate(
+            $avatarRepository->paginationQuery(),
+            $request->query->getInt('page', 1),
+            10
+        );
+
         return $this->render('avatar/index.html.twig', [
-            'avatar' => $avatarRepository->findAll(),
+            'pagination' => $pagination,
         ]);
     }
 

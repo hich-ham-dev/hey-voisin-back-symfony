@@ -15,7 +15,7 @@
             </tr>
         </thead>
         <tbody>
-        {% for avatar in avatar %}
+        {% for avatar in pagination %}
             <tr>
                 <td>{{ avatar.id }}</td>
                 <td>{{ avatar.url }}</td>
@@ -32,6 +32,6 @@
         {% endfor %}
         </tbody>
     </table>
-
+    {{ knp_pagination_render(pagination) }}
     <a href="{{ path('app_avatar_new') }}">Create new</a>
 {% endblock %}

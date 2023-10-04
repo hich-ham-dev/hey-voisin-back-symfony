@@ -21,6 +21,17 @@ class CategoryRepository extends ServiceEntityRepository
         parent::__construct($registry, Category::class);
     }
 
+    /**
+    * Category pagination query
+    */
+    public function paginationQuery()
+    {
+        return $this->createQueryBuilder('c')
+            ->orderBy('c.id', 'ASC')
+            ->getQuery()
+        ;
+    }
+
 //    /**
 //     * @return Category[] Returns an array of Category objects
 //     */
