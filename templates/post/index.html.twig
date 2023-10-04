@@ -30,9 +30,9 @@
                 <td>{{ post.publishedAt ? post.publishedAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ post.updatedAt ? post.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>
-                    <a href="{{ path('app_user_show', {'id': post.id}) }}" class="btn btn-primary m-1 btn-sm rounded-pill">show</a>
-                    <a href="{{ path('app_user_edit', {'id': post.id}) }}" class="btn btn-warning m-1 btn-sm rounded-pill">edit</a>
-                    <a href="{{ path('app_user_delete', {'id': post.id}) }}" class="btn btn-danger m-1 btn-sm rounded-pill">delete</a>
+                    <a href="{{ path('app_post_show', {'id': post.id}) }}" class="btn btn-primary m-1 btn-sm rounded-pill">Voir</a>
+                    <a href="{{ path('app_post_edit', {'id': post.id}) }}" class="btn btn-warning m-1 btn-sm rounded-pill">Modifier</a>
+                    <a href="{{ path('app_post_delete', {'id': post.id}) }}" class="btn btn-danger m-1 btn-sm rounded-pill">Supprimer</a>
                 </td>
             </tr>
         {% else %}

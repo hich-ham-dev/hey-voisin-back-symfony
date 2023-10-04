@@ -5,7 +5,7 @@
 {% block body %}
 <div class="container col-9">
     
-    <h1 class="mt-5">Liste des commentaires <a href="{{ path('app_user_new') }}" class="btn btn-success btn-sm rounded-pill">Ajouter un commentaire</a></h1>
+    <h1 class="mt-5">Liste des commentaires <a href="{{ path('app_comment_new') }}" class="btn btn-success btn-sm rounded-pill">Ajouter un commentaire</a></h1>
 
     <table class="table table-bordered table-striped table-sm">
         <thead class="table-dark">
@@ -28,9 +28,9 @@
                 <td>{{ comment.publishedAt ? comment.publishedAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ comment.updatedAt ? comment.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>
-                    <a href="{{ path('app_user_show', {'id': comment.id}) }}" class="btn btn-primary m-1 btn-sm rounded-pill">show</a>
-                    <a href="{{ path('app_user_edit', {'id': comment.id}) }}" class="btn btn-warning m-1 btn-sm rounded-pill">edit</a>
-                    <a href="{{ path('app_user_delete', {'id': comment.id}) }}" class="btn btn-danger m-1 btn-sm rounded-pill">delete</a>
+                    <a href="{{ path('app_comment_show', {'id': comment.id}) }}" class="btn btn-primary m-1 btn-sm rounded-pill">Voir</a>
+                    <a href="{{ path('app_comment_edit', {'id': comment.id}) }}" class="btn btn-warning m-1 btn-sm rounded-pill">Modifier</a>
+                    <a href="{{ path('app_comment_delete', {'id': comment.id}) }}" class="btn btn-danger m-1 btn-sm rounded-pill">Supprimer</a>
                 </td>
             </tr>
         {% else %}

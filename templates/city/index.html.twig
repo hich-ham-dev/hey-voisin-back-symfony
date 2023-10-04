@@ -5,7 +5,7 @@
 {% block body %}
 <div class="container col-9">
     
-    <h1 class="mt-5">Liste des villes <a href="{{ path('app_user_new') }}" class="btn btn-success btn-sm rounded-pill">Ajouter une ville</a></h1>
+    <h1 class="mt-5">Liste des villes <a href="{{ path('app_city_new') }}" class="btn btn-success btn-sm rounded-pill">Ajouter une ville</a></h1>
 
     <table class="table table-bordered table-striped table-sm">
         <thead class="table-dark">
@@ -24,9 +24,9 @@
                 <td>{{ city.name }}</td>
                 <td>{{ city.zipcode }}</td>
                 <td>
-                    <a href="{{ path('app_user_show', {'id': city.id}) }}" class="btn btn-primary m-1 btn-sm rounded-pill">show</a>
-                    <a href="{{ path('app_user_edit', {'id': city.id}) }}" class="btn btn-warning m-1 btn-sm rounded-pill">edit</a>
-                    <a href="{{ path('app_user_delete', {'id': city.id}) }}" class="btn btn-danger m-1 btn-sm rounded-pill">delete</a>
+                    <a href="{{ path('app_city_show', {'id': city.id}) }}" class="btn btn-primary m-1 btn-sm rounded-pill">Voir</a>
+                    <a href="{{ path('app_city_edit', {'id': city.id}) }}" class="btn btn-warning m-1 btn-sm rounded-pill">Modifier</a>
+                    <a href="{{ path('app_city_delete', {'id': city.id}) }}" class="btn btn-danger m-1 btn-sm rounded-pill">Supprimer</a>
                 </td>
             </tr>
         {% else %}
