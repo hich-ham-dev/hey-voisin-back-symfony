@@ -1,50 +1,48 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}User{% endblock %}
+{% block title %}Utilisateur #{{ user.id }}{% endblock %}
 
 {% block body %}
-    <h1>User</h1>
+<div class="container col-9">
+    <h1>Utilisateur <a href="{{ path('app_user_edit', {'id': user.id}) }}" class="btn btn-warning m-1 btn-sm rounded-pill">Modifier</a></h1>
 
-    <table class="table">
+    <table class="table table-bordered table-striped table-sm">
         <tbody>
             <tr>
-                <th>Id</th>
+                <th class="table-dark">Id</th>
                 <td>{{ user.id }}</td>
             </tr>
             <tr>
-                <th>Email</th>
+                <th class="table-dark">Email</th>
                 <td>{{ user.email }}</td>
             </tr>
             <tr>
-                <th>Roles</th>
+                <th class="table-dark">Rôles</th>
                 <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
             </tr>
             <tr>
-                <th>Password</th>
+                <th class="table-dark">Mot de passe</th>
                 <td>{{ user.password }}</td>
             </tr>
             <tr>
-                <th>Alias</th>
+                <th class="table-dark">Alias</th>
                 <td>{{ user.alias }}</td>
             </tr>
             <tr>
-                <th>Firstname</th>
+                <th class="table-dark">Prénom</th>
                 <td>{{ user.firstname }}</td>
             </tr>
             <tr>
-                <th>Lastname</th>
+                <th class="table-dark">Nom</th>
                 <td>{{ user.lastname }}</td>
             </tr>
             <tr>
-                <th>Address</th>
+                <th class="table-dark">Adresse</th>
                 <td>{{ user.address }}</td>
             </tr>
         </tbody>
     </table>
-
-    <a href="{{ path('app_user_index') }}">back to list</a>
-
-    <a href="{{ path('app_user_edit', {'id': user.id}) }}">edit</a>
-
     {{ include('user/_delete_form.html.twig') }}
+    <a href="{{ path('app_user_index') }}" class="btn btn-primary m-1 btn-sm rounded-pill">Retour</a>
+</div>
 {% endblock %}
