@@ -8,15 +8,29 @@
         <div class="col-md-8 offset-md-2">
             <h1 class="mt-5">Hey_Voisin, le Back-Office Officiel.</h1>
             <p>Vous êtes connecté en tant que Admin.</p>
-            <p>Veuillez sélectionner une des options suivantes :</p>
-            <ul class="list-unstyled">
-                <li class="mb-2"><a href="{{path('app_post_index') }}" class="btn btn-primary">Accéder aux publications</a></li>
-                <li class="mb-2"><a href="{{path('app_category_index') }}"class="btn btn-primary">Accéder aux catégories</a></li>
-                <li class="mb-2"><a href="{{path('app_user_index') }}" class="btn btn-primary">Accéder aux utilisateurs</a></li>
-                <li class="mb-2"><a href="{{path('app_city_index') }}" class="btn btn-primary">Accéder aux localités</a></li>
-                <li class="mb-2"><a href="{{path('app_avatar_index') }}" class="btn btn-primary">Accéder aux avatars</a></li>
-                <li class="mb-2"><a href="{{path('app_comment_index') }}" class="btn btn-primary">Accéder aux commentaires</a></li>
-            </ul>
+            <p>Veuillez sélectionner l'une des options suivantes :</p>
+            <div class="container mt-5 bg-light rounded p-5">
+                <ul class="list-unstyled">
+                    <li class="col-md-6 mb-2">
+                        <a href="{{ path('app_post_index') }}" class="btn btn-primary btn-block">Accéder aux publications</a>
+                    </li>
+                    <li class="col-md-6 mb-2">
+                        <a href="{{ path('app_category_index') }}" class="btn btn-primary btn-block">Accéder aux catégories</a>
+                    </li>
+                    <li class="col-md-6 mb-2">
+                        <a href="{{ path('app_user_index') }}" class="btn btn-primary btn-block">Accéder aux utilisateurs</a>
+                    </li>
+                    <li class="col-md-6 mb-2">
+                        <a href="{{ path('app_city_index') }}" class="btn btn-primary btn-block">Accéder aux localités</a>
+                    </li>
+                    <li class="col-md-6 mb-2">
+                        <a href="{{ path('app_avatar_index') }}" class="btn btn-primary btn-block">Accéder aux avatars</a>
+                    </li>
+                    <li class="col-md-6 mb-2">
+                        <a href="{{ path('app_comment_index') }}" class="btn btn-primary btn-block">Accéder aux commentaires</a>
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
 </div>
