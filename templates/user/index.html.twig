@@ -3,20 +3,22 @@
 {% block title %}User index{% endblock %}
 
 {% block body %}
-    <h1>User index</h1>
+<div class="container col-9">
+    
+    <h1 class="mt-5 d-flex justify-content-between">Liste des utilisateurs <a href="{{ path('app_user_new') }}" class="btn btn-success btn-sm rounded-pill align-middle">Créer un nouvel utilisateur</a></h1>
 
-    <table class="table">
-        <thead>
+    <table class="table table-bordered table-striped table-sm">
+        <thead class="table-dark">
             <tr>
                 <th>Id</th>
                 <th>Email</th>
-                <th>Roles</th>
-                <th>Password</th>
+                <th>Rôles</th>
+                {# <th>Password</th> #}
                 <th>Alias</th>
-                <th>Firstname</th>
-                <th>Lastname</th>
-                <th>Address</th>
-                <th>actions</th>
+                <th>Prénom</th>
+                <th>Nom</th>
+                <th>Adresse</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -25,14 +27,15 @@
                 <td>{{ user.id }}</td>
                 <td>{{ user.email }}</td>
                 <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
-                <td>{{ user.password }}</td>
+                {# <td>{{ user.password }}</td> #}
                 <td>{{ user.alias }}</td>
                 <td>{{ user.firstname }}</td>
                 <td>{{ user.lastname }}</td>
                 <td>{{ user.address }}</td>
                 <td>
-                    <a href="{{ path('app_user_show', {'id': user.id}) }}">show</a>
-                    <a href="{{ path('app_user_edit', {'id': user.id}) }}">edit</a>
+                    <a href="{{ path('app_user_show', {'id': user.id}) }}" class="btn btn-primary m-1 btn-sm rounded-pill">show</a>
+                    <a href="{{ path('app_user_edit', {'id': user.id}) }}" class="btn btn-warning m-1 btn-sm rounded-pill">edit</a>
+                    <a href="{{ path('app_user_delete', {'id': user.id}) }}" class="btn btn-danger m-1 btn-sm rounded-pill">delete</a>
                 </td>
             </tr>
         {% else %}
@@ -42,6 +45,5 @@
         {% endfor %}
         </tbody>
     </table>
-
-    <a href="{{ path('app_user_new') }}">Create new</a>
+</div>
 {% endblock %}
