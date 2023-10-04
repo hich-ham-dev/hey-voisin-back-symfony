@@ -1,11 +1,14 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}City index{% endblock %}
+{% block title %}Liste des villes{% endblock %}
 
 {% block body %}
-    <h1>City index</h1>
+<div class="container col-9">
+    
+    <h1 class="mt-5">Liste des villes <a href="{{ path('app_user_new') }}" class="btn btn-success btn-sm rounded-pill">Ajouter une ville</a></h1>
 
-    <table class="table">
+    <table class="table table-bordered table-striped table-sm">
+        <thead class="table-dark">
         <thead>
             <tr>
                 <th>Id</th>
@@ -21,17 +24,18 @@
                 <td>{{ city.name }}</td>
                 <td>{{ city.zipcode }}</td>
                 <td>
-                    <a href="{{ path('app_city_show', {'id': city.id}) }}">show</a>
-                    <a href="{{ path('app_city_edit', {'id': city.id}) }}">edit</a>
+                    <a href="{{ path('app_user_show', {'id': city.id}) }}" class="btn btn-primary m-1 btn-sm rounded-pill">show</a>
+                    <a href="{{ path('app_user_edit', {'id': city.id}) }}" class="btn btn-warning m-1 btn-sm rounded-pill">edit</a>
+                    <a href="{{ path('app_user_delete', {'id': city.id}) }}" class="btn btn-danger m-1 btn-sm rounded-pill">delete</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="4">no records found</td>
+                <td colspan="9">no records found</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
     {{ knp_pagination_render(pagination) }}
-    <a href="{{ path('app_city_new') }}">Create new</a>
+</div>
 {% endblock %}

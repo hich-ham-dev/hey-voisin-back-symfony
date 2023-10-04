@@ -1,11 +1,14 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Comments index{% endblock %}
+{% block title %}Liste des commentaires{% endblock %}
 
 {% block body %}
-    <h1>Comments index</h1>
+<div class="container col-9">
+    
+    <h1 class="mt-5">Liste des commentaires <a href="{{ path('app_user_new') }}" class="btn btn-success btn-sm rounded-pill">Ajouter un commentaire</a></h1>
 
-    <table class="table">
+    <table class="table table-bordered table-striped table-sm">
+        <thead class="table-dark">
         <thead>
             <tr>
                 <th>Id</th>
@@ -25,17 +28,18 @@
                 <td>{{ comment.publishedAt ? comment.publishedAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ comment.updatedAt ? comment.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>
-                    <a href="{{ path('app_comment_show', {'id': comment.id}) }}">show</a>
-                    <a href="{{ path('app_comment_edit', {'id': comment.id}) }}">edit</a>
+                    <a href="{{ path('app_user_show', {'id': comment.id}) }}" class="btn btn-primary m-1 btn-sm rounded-pill">show</a>
+                    <a href="{{ path('app_user_edit', {'id': comment.id}) }}" class="btn btn-warning m-1 btn-sm rounded-pill">edit</a>
+                    <a href="{{ path('app_user_delete', {'id': comment.id}) }}" class="btn btn-danger m-1 btn-sm rounded-pill">delete</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="6">no records found</td>
+                <td colspan="9">no records found</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
     {{ knp_pagination_render(pagination) }}
-    <a href="{{ path('app_comment_new') }}">Create new</a>
+</div>
 {% endblock %}

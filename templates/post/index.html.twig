@@ -1,13 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Posts index{% endblock %}
+{% block title %}Liste des publications{% endblock %}
 
 {% block body %}
-<div class="container">
-    <h1 class="mt-5">Posts index</h1>
+<div class="container col-9">
+    <h1 class="mt-5">Liste des publications <a href="{{ path('app_post_new') }}" class="btn btn-success btn-sm rounded-pill">Ajouter une publication</a></h1>
 
-    <table class="table table-bordered table-striped">
-        <thead>
+    <table class="table table-bordered table-striped table-sm">
+        <thead class="table-dark">
             <tr>
                 <th>Id</th>
                 <th>Title</th>
@@ -30,18 +30,18 @@
                 <td>{{ post.publishedAt ? post.publishedAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ post.updatedAt ? post.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>
-                    <a href="{{ path('app_post_show', {'id': post.id}) }}" class="btn btn-primary">Show</a>
-                    <a href="{{ path('app_post_edit', {'id': post.id}) }}" class="btn btn-warning">Edit</a>
+                    <a href="{{ path('app_user_show', {'id': post.id}) }}" class="btn btn-primary m-1 btn-sm rounded-pill">show</a>
+                    <a href="{{ path('app_user_edit', {'id': post.id}) }}" class="btn btn-warning m-1 btn-sm rounded-pill">edit</a>
+                    <a href="{{ path('app_user_delete', {'id': post.id}) }}" class="btn btn-danger m-1 btn-sm rounded-pill">delete</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="8">No records found</td>
+                <td colspan="9">no records found</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
     {{ knp_pagination_render(pagination) }}
-    <a href="{{ path('app_post_new') }}" class="btn btn-success">Create New</a>
 </div>
 {% endblock %}
