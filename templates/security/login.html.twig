@@ -3,8 +3,8 @@
 {% block title %}Log in!{% endblock %}
 
 {% block body %}
-<div class="container mt-5 bg-light rounded p-5">
-    <form method="post" class="needs-validation" novalidate>
+<div class="container mt-5 bg-light rounded p-5 col-9 d-flex align-items-center">
+    <form method="post" class="needs-validation col-6 mx-auto" novalidate>
         {% if error %}
             <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
         {% endif %}
@@ -18,14 +18,14 @@
         <h1 class="h3 mb-3 font-weight-normal">Veuillez vous connecter</h1>
         <div class="mb-3">
             <label for="inputEmail" class="form-label">Email</label>
-            <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
+            <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control col-6" autocomplete="email" required autofocus>
             <div class="invalid-feedback">
                 Please enter a valid email address.
             </div>
         </div>
         <div class="mb-3">
             <label for="inputPassword" class="form-label">Mot de passe</label>
-            <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+            <input type="password" name="password" id="inputPassword" class="form-control col-6" autocomplete="current-password" required>
             <div class="invalid-feedback">
                 Please enter your password.
             </div>
