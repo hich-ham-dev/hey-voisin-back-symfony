@@ -21,6 +21,17 @@ class AvatarRepository extends ServiceEntityRepository
         parent::__construct($registry, Avatar::class);
     }
 
+    /**
+    * Avatar pagination query
+    */
+    public function paginationQuery()
+    {
+        return $this->createQueryBuilder('a')
+            ->orderBy('a.id', 'ASC')
+            ->getQuery()
+        ;
+    }
+
 //    /**
 //     * @return Avatar[] Returns an array of Avatar objects
 //     */
