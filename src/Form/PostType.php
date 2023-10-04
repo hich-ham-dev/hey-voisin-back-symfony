@@ -24,11 +24,11 @@ class PostType extends AbstractType
             ->add('is_offer', CheckboxType::class)
             ->add('published_at', DateTimeType::class)
             ->add('updated_at')
-            ->add('categories', EntityType::class, [
+            ->add('category', EntityType::class, [
                 'class' => Category::class,
                 'choice_label' => 'name',
             ])
-            ->add('users')
+            ->add('user')
         ;
     }
 

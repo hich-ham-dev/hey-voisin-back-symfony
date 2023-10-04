@@ -7,6 +7,7 @@ use App\Repository\CategoryRepository;
 use App\Repository\CityRepository;
 use App\Repository\PostRepository;
 use App\Repository\UserRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -29,7 +30,7 @@ class MainController extends AbstractController
             'numberCategory' => $category,
             'numberCity' => $city,
             'numberAvatar' => $avatar,
-            
+
         ]);
     }
 }
