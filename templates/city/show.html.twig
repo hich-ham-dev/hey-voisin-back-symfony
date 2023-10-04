@@ -1,30 +1,28 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}City{% endblock %}
+{% block title %}Ville #{{ city.id }}{% endblock %}
 
 {% block body %}
-    <h1>City</h1>
+<div class="container col-9">
+    <h1>Ville <a href="{{ path('app_city_edit', {'id': city.id}) }}" class="btn btn-warning m-1 btn-sm rounded-pill">Modifier</a></h1>
 
-    <table class="table">
+    <table class="table table-bordered table-striped table-sm">
         <tbody>
             <tr>
                 <th>Id</th>
                 <td>{{ city.id }}</td>
             </tr>
             <tr>
-                <th>Name</th>
+                <th>Ville</th>
                 <td>{{ city.name }}</td>
             </tr>
             <tr>
-                <th>Zipcode</th>
+                <th>Code postal</th>
                 <td>{{ city.zipcode }}</td>
             </tr>
         </tbody>
     </table>
-
-    <a href="{{ path('app_city_index') }}">back to list</a>
-
-    <a href="{{ path('app_city_edit', {'id': city.id}) }}">edit</a>
-
     {{ include('city/_delete_form.html.twig') }}
+    <a href="{{ path('app_city_index') }}" class="btn btn-primary m-1 btn-sm rounded-pill">Retour</a>
+</div>
 {% endblock %}
