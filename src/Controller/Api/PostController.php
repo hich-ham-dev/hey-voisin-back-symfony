@@ -2,33 +2,35 @@
 
 namespace App\Controller\Api;
 
-use App\Entity\Category;
 use App\Entity\City;
 use App\Entity\Post;
 use App\Entity\User;
-use App\Repository\CategoryRepository;
+use App\Entity\Category;
 use App\Repository\PostRepository;
+use Symfony\Component\Mailer\Mailer;
+use App\Repository\CategoryRepository;
 use Doctrine\ORM\EntityManagerInterface;
-
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Serializer\Exception\NotEncodableValueException;
-use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Serializer\Exception\NotEncodableValueException;
 
 #[Route('/api')]
 class PostController extends AbstractController
 {
-    
     #[Route('/post', name: 'app_api_post', methods: ['GET'])]
     public function index(PostRepository $post): JsonResponse
     {
         $posts = $post->findAll();
-        
+
         return $this->json($posts, Response::HTTP_OK, [], ['groups' => 'posts']);
     }
 
@@ -83,7 +85,7 @@ class PostController extends AbstractController
 
         $manager->persist($post);
         $manager->flush();
-        
+
         return $this->json(['message' => 'Votre annonce a bien été publiée.'], Response::HTTP_CREATED, [], ['groups' => 'posts']);
     }
 
@@ -101,5 +103,56 @@ class PostController extends AbstractController
         $posts = $post->findOneBy(['category' => $id]);
 
         return $this->json($posts, Response::HTTP_OK, [], ['groups' => 'posts']);
+    }
+
+    #[Route('/post/{id}/mailer', name: 'app_api_post_mailer', methods: ['GET , POST'])]
+    public function sendEmail(EntityManagerInterface $manager, Request $request, ValidatorInterface $validator, Post $post, MailerInterface $mailer): JsonResponse
+    {
+        //!TODO recupération des données front
+        $data = json_decode($request->getContent(), true);
+        /** @var User $user */
+        $user = $this->getUser();
+        $senderEmail = $user->getEmail();
+        $recipientEmail = $post->getUser()->getEmail();
+       
+        // Text, Email du destinataire ,
+        //!TODO vérification des données via le validator
+
+        $constraints = new Assert\Collection([
+            'text' => [
+                new Assert\Length(
+                    min:5,
+                    max:255,
+                    minMessage: 'Your first name must be at least {{ limit }} characters long',
+                    maxMessage: 'Your first name cannot be longer than {{ limit }} characters',
+                )
+            ],
+        ]);
+        // validate data
+        $errors = $validator->validate($data, $constraints);
+        if (count($errors) > 0) {
+            return $this->json($errors, Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+        //?TODO envoi du mail
+        $email = (new TemplatedEmail())
+        ->from('heyvoisin.off@gmail.com')
+        ->to($recipientEmail)
+        ->subject('Sending emails is fun again!')
+
+        // path of the Twig template to render
+        ->htmlTemplate('email/mail.html.twig')
+
+        // pass variables (name => value) to the template
+        ->context([
+        'expiration_date' => new \DateTime('+7 days'),
+        'text' => $data['text'],
+        'senderEmail' => $senderEmail,
+        'postTitle' => $post->getTitle(),
+        'senderUsername' => $user->getAlias(),
+
+        ]);
+        
+        $mailer->send($email);
+        return $this->json($post, Response::HTTP_OK, ['message' => 'Votre Mail as bien été envoyé !']);
     }
 }
