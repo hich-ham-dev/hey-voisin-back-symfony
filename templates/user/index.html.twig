@@ -33,9 +33,16 @@
                 <td>{{ user.lastname }}</td>
                 <td>{{ user.address }}</td>
                 <td>
-                    <a href="{{ path('app_user_show', {'id': user.id}) }}" class="btn btn-primary m-1 btn-sm rounded-pill">Voir</a>
-                    <a href="{{ path('app_user_edit', {'id': user.id}) }}" class="btn btn-warning m-1 btn-sm rounded-pill">Modifier</a>
-                    <a href="{{ path('app_user_delete', {'id': user.id}) }}" class="btn btn-danger m-1 btn-sm rounded-pill">Supprimer</a>
+                    <div class="dropdown">
+                        <button class="btn btn-outline-primary m-1 btn-sm rounded-pill dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Actions
+                        </button>
+                        <ul class="dropdown-menu rounded-4 p-1">
+                            <li><a class="dropdown-item" href="{{ path('app_user_show', {'id': user.id}) }}" >Voir</a></li>
+                            <li><a class="dropdown-item" href="{{ path('app_user_edit', {'id': user.id}) }}" >Modifier</a></li>
+                            <li><a class="dropdown-item bg-danger rounded-pill text-light" href="{{ path('app_user_delete', {'id': user.id}) }}">Supprimer</a></li>
+                        </ul>
+                    </div>
                 </td>
             </tr>
         {% else %}
