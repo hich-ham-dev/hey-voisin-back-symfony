@@ -63,7 +63,6 @@ class PostController extends AbstractController
     {
         $form = $this->createForm(PostType::class, $post);
         $form->handleRequest($request);
-      
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
@@ -74,7 +73,6 @@ class PostController extends AbstractController
         return $this->render('post/edit.html.twig', [
             'post' => $post,
             'form' => $form,
-           
         ]);
     }
 

@@ -41,7 +41,7 @@ class UserController extends AbstractController
         return $this->json($user, Response::HTTP_OK, [], ['groups' => 'users']);
     }
     
-    #[Route('/user/new', name: 'app_api_user_new', methods: ['POST'])]
+    #[Route('/user', name: 'app_api_user_new', methods: ['POST'])]
     public function new(Request $request, UserPasswordHasherInterface $passwordHasher, EntityManagerInterface $manager, SerializerInterface $serializer, ValidatorInterface $validator): JsonResponse
     {   
         // On récupère les données JSON de la requête et on les transforme en tableau associatif
