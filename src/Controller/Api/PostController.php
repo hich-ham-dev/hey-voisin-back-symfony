@@ -6,6 +6,7 @@ use App\Entity\Category;
 use App\Entity\City;
 use App\Entity\Post;
 use App\Entity\User;
+use App\Repository\CategoryRepository;
 use App\Repository\PostRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -90,6 +91,14 @@ class PostController extends AbstractController
     public function showByCity(PostRepository $post, int $id): JsonResponse
     {
         $posts = $post->findOneBy(['city' => $id]);
+
+        return $this->json($posts, Response::HTTP_OK, [], ['groups' => 'posts']);
+    }
+
+    #[Route('/post/category/{id}', name: 'app_api_post_category', methods: ['GET'])]
+    public function showByCategory(PostRepository $post, int $id): JsonResponse
+    {
+        $posts = $post->findOneBy(['category' => $id]);
 
         return $this->json($posts, Response::HTTP_OK, [], ['groups' => 'posts']);
     }
