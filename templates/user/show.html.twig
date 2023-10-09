@@ -1,12 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Utilisateur #{{ user.id }}
+{% block title %}Utilisateur #
+	{{ user.id }}
 {% endblock %}
 
 {% block body %}
 	<div class="container col-9">
-		<h1>Utilisateur #
-			{{ user.id }}
+		<h1>Utilisateur
+			<span class="badge rounded-pill text-bg-success">{{ user.id }}</span>
 		</h1>
 
 		<table class="table table-borderless table-striped table-sm">

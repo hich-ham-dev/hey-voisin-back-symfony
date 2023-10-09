@@ -1,13 +1,16 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Categories{% endblock %}
+{% block title %}Modifier une catégorie
+{% endblock %}
 
 {% block body %}
-    <h1>Edit Categories</h1>
+<div class="container">
+    <h1 class="mt-5">Modifier la catégorie <span class="badge rounded-pill text-bg-success">{{ category.id }}</span></h1>
 
-    {{ include('category/_form.html.twig', {'button_label': 'Update'}) }}
+    {{ include('category/_form.html.twig', {'button_label': 'Sauvegarder'}) }}
 
-    <a href="{{ path('app_category_index') }}">back to list</a>
+    <a href="{{ path('app_category_index') }}" class="btn btn-secondary m-1 btn-sm rounded-pill">Retour</a>
 
     {{ include('category/_delete_form.html.twig') }}
+</div>
 {% endblock %}

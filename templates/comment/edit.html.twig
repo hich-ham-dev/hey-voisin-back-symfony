@@ -1,13 +1,19 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Comments{% endblock %}
+{% block title %}Modifier un commentaire
+{% endblock %}
 
 {% block body %}
-    <h1>Edit Comments</h1>
+	<div class="container">
+		<h1 class="mt-5">Modifier le commentaire
+			<span class="badge rounded-pill text-bg-success">
+				{{ comment.id }}
+			</span>
+		</h1>
+		{{ include('comment/_form.html.twig', {'button_label': 'Sauvegarder'}) }}
 
-    {{ include('comment/_form.html.twig', {'button_label': 'Update'}) }}
+		<a href="{{ path('app_comment_index') }}" class="btn btn-secondary m-1 btn-sm rounded-pill">Retour</a>
 
-    <a href="{{ path('app_comment_index') }}">back to list</a>
-
-    {{ include('comment/_delete_form.html.twig') }}
+		{{ include('comment/_delete_form.html.twig') }}
+	</div>
 {% endblock %}

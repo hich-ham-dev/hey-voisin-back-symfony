@@ -1,16 +1,19 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Modifier une publication{% endblock %}
+{% block title %}Modifier une publication
+{% endblock %}
 
 {% block body %}
-<div class="container">
-    <h1 class="mt-5">Modifier la publication # {{ post.id }} </h1>
-        <div>
-            {{ include('post/_form.html.twig', {'button_label': 'Valider'}) }}
+	<div class="container">
+		<h1 class="mt-5">Modifier la publication
+			<span class="badge rounded-pill text-bg-success">
+				{{ post.id }}
+			</span>
+		</h1>
+		{{ include('post/_form.html.twig', {'button_label': 'Sauvegarder'}) }}
 
-            <a href="{{ path('app_post_index') }}" class="btn btn-secondary m-1 btn-sm rounded-pill">Retour</a>
-        
-            {{ include('post/_delete_form.html.twig') }}
-        </div>
-</div>
+		<a href="{{ path('app_post_index') }}" class="btn btn-secondary m-1 btn-sm rounded-pill">Retour</a>
+
+		{{ include('post/_delete_form.html.twig') }}
+	</div>
 {% endblock %}

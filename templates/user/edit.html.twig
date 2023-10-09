@@ -1,16 +1,20 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit User{% endblock %}
+{% block title %}Modifier un utilisateur
+{% endblock %}
 
 {% block body %}
-<div class="container">
-    <h1 class="mt-5">Edit User</h1>
+	<div class="container">
+		<h1 class="mt-5">Modifier l'utilisateur
+			<span class="badge rounded-pill text-bg-success">
+				{{ user.id }}
+			</span>
+		</h1>
 
-    {{ include('user/_form.html.twig', {'button_label': 'Update'}) }}
+		{{ include('user/_form.html.twig', {'button_label': 'Saueegarder'}) }}
 
-    <a href="{{ path('app_user_index') }}">back to list</a>
+		<a href="{{ path('app_user_index') }}" class="btn btn-secondary m-1 btn-sm rounded-pill">Retour</a>
 
-    {{ include('user/_delete_form.html.twig') }}
-</div>
-
+		{{ include('user/_delete_form.html.twig') }}
+	</div>
 {% endblock %}
