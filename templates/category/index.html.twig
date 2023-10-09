@@ -11,8 +11,8 @@
         <thead class="table-dark">
             <tr>
                 <th>Id</th>
-                <th>Name</th>
-                <th>Actions</th>
+                <th>Catégorie</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -21,9 +21,16 @@
                 <td>{{ category.id }}</td>
                 <td>{{ category.name }}</td>
                 <td>
-                    <a href="{{ path('app_category_show', {'id': category.id}) }}" class="btn btn-primary m-1 btn-sm rounded-pill">Voir</a>
-                    <a href="{{ path('app_category_edit', {'id': category.id}) }}" class="btn btn-warning m-1 btn-sm rounded-pill">Modifier</a>
-                    <a href="{{ path('app_category_delete', {'id': category.id}) }}" class="btn btn-danger m-1 btn-sm rounded-pill">Supprimer</a>
+                    <div class="dropdown">
+                        <button class="btn btn-outline-primary m-1 btn-sm rounded-pill dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Actions
+                        </button>
+                        <ul class="dropdown-menu rounded-4 p-1">
+                            <li><a class="dropdown-item" href="{{ path('app_category_show', {'id': category.id}) }}" >Voir</a></li>
+                            <li><a class="dropdown-item" href="{{ path('app_category_edit', {'id': category.id}) }}" >Modifier</a></li>
+                            <li><a class="dropdown-item bg-danger rounded-pill text-light" href="{{ path('app_category_delete', {'id': category.id}) }}">Supprimer</a></li>
+                        </ul>
+                    </div>
                 </td>
             </tr>
         {% else %}

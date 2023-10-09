@@ -9,12 +9,11 @@
 
     <table class="table table-bordered table-striped table-sm">
         <thead class="table-dark">
-        <thead>
             <tr>
                 <th>Id</th>
                 <th>Url</th>
-                <th>Name</th>
-                <th>actions</th>
+                <th>Nom</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -24,9 +23,16 @@
                 <td>{{ avatar.url }}</td>
                 <td>{{ avatar.name }}</td>
                 <td>
-                    <a href="{{ path('app_avatar_show', {'id': avatar.id}) }}" class="btn btn-primary m-1 btn-sm rounded-pill">Voir</a>
-                    <a href="{{ path('app_avatar_edit', {'id': avatar.id}) }}" class="btn btn-warning m-1 btn-sm rounded-pill">Modifier</a>
-                    <a href="{{ path('app_avatar_delete', {'id': avatar.id}) }}" class="btn btn-danger m-1 btn-sm rounded-pill">Supprimer</a>
+                    <div class="dropdown">
+                        <button class="btn btn-outline-primary m-1 btn-sm rounded-pill dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Actions
+                        </button>
+                        <ul class="dropdown-menu rounded-4 p-1">
+                            <li><a class="dropdown-item" href="{{ path('app_avatar_show', {'id': avatar.id}) }}" >Voir</a></li>
+                            <li><a class="dropdown-item" href="{{ path('app_avatar_edit', {'id': avatar.id}) }}" >Modifier</a></li>
+                            <li><a class="dropdown-item bg-danger rounded-pill text-light" href="{{ path('app_avatar_delete', {'id': avatar.id}) }}">Supprimer</a></li>
+                        </ul>
+                    </div>
                 </td>
             </tr>
         {% else %}
