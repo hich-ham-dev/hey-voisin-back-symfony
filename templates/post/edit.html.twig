@@ -1,10 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Posts{% endblock %}
+{% block title %}Modifier une publication{% endblock %}
 
 {% block body %}
 <div class="container">
-    <h1 class="mt-5">Edit Posts</h1>
+    <h1 class="mt-5">Modifier la publication # {{ post.id }} </h1>
 
     {{ include('post/_form.html.twig', {'button_label': 'Update'}) }}
 
