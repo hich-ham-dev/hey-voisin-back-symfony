@@ -5,10 +5,10 @@
 
 {% block body %}
 	<div class="container">
-		<h1 class="mt-5">Ajouter une ville</h1>
+		<h1 class="mt-5">Ajouter une nouvelle ville</h1>
 
 		{{ include('city/_form.html.twig') }}
 
-		<a href="{{ path('city_index') }}">Retour</a>
+        <a href="{{ path('app_city_index') }}" class="btn btn-secondary m-1 btn-sm rounded-pill">Retour</a>
 	</div>
 {% endblock %}
