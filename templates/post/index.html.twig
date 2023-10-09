@@ -9,10 +9,10 @@
 			<a href="{{ path('app_post_new') }}" class="btn btn-success btn-sm rounded-pill">Ajouter une publication</a>
 		</h1>
 
-		<table class="table table-bordered table-striped table-sm">
-			<thead class="table-dark">
+        <table class="table align-middle vertical-align-middle text-center table-borderless table-striped table-sm">
+            <thead class="table-group-divider text-center text-nowrap">
 				<tr>
-					<th>Id</th>
+					<th>#</th>
 					<th>Titre</th>
 					<th>Contenu</th>
 					<th>Active</th>
@@ -24,17 +24,26 @@
 			</thead>
 			<tbody>
 				{% for post in pagination %}
-					<tr>
-						<td>{{ post.id }}</td>
+                    <tr class="table-group-divider">
+						<td class="fw-bold">{{ post.id }}</td>
 						<td>{{ post.title }}</td>
 						<td>{{ post.resume }}</td>
 						<td>{{ post.isActive ? 'Oui' : 'Non' }}</td>
 						<td>{{ post.isOffer ? 'Oui' : 'Non' }}</td>
-						<td>{{ post.publishedAt ? post.publishedAt|date('Y-m-d H:i') : '' }}</td>
-						<td>{{ post.updatedAt ? post.updatedAt|date('Y-m-d H:i') : '' }}</td>
-						<td>
-                            {{ include('fragments/_actions_btns.html.twig', {'id': post.id}) }}
-						</td>
+						<td>{{ post.publishedAt ? post.publishedAt|date('d-m-Y H:i') : '' }}</td>
+						<td>{{ post.updatedAt ? post.updatedAt|date('d-m-Y H:i') : '' }}</td>
+                        <td>
+                            <div class="dropdown">
+                                <button class="btn btn-outline-primary m-1 btn-sm rounded-pill dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Actions
+                                </button>
+                                <ul class="dropdown-menu rounded-4 p-1">
+                                    <li><a class="dropdown-item" href="{{ path('app_post_show', {'id': post.id}) }}" >Voir</a></li>
+                                    <li><a class="dropdown-item" href="{{ path('app_post_edit', {'id': post.id}) }}" >Modifier</a></li>
+                                    <li><a class="dropdown-item bg-danger rounded-pill text-light" href="{{ path('app_post_delete', {'id': post.id}) }}">Supprimer</a></li>
+                                </ul>
+                            </div>
+                        </td>
 					</tr>
 				{% else %}
 					<tr>

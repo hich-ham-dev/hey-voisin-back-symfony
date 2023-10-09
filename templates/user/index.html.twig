@@ -7,10 +7,10 @@
     
     <h1 class="mt-5">Liste des utilisateurs <a href="{{ path('app_user_new') }}" class="btn btn-success btn-sm rounded-pill">Ajouter un utilisateur</a></h1>
 
-    <table class="table table-bordered table-striped table-sm">
-        <thead class="table-dark">
+    <table class="table align-middle vertical-align-middle text-center table-borderless table-striped table-sm">
+        <thead class="table-group-divider text-center text-nowrap">
             <tr>
-                <th>Id</th>
+                <th>#</th>
                 <th>Email</th>
                 <th>Rôles</th>
                 {# <th>Password</th> #}
@@ -18,13 +18,15 @@
                 <th>Prénom</th>
                 <th>Nom</th>
                 <th>Adresse</th>
-                <th>Actions</th>
+                <th>Code Postal</th>
+                <th>Ville</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
         {% for user in pagination %}
-            <tr>
-                <td>{{ user.id }}</td>
+            <tr class="table-group-divider">
+                <td class="fw-bold">{{ user.id }}</td>
                 <td>{{ user.email }}</td>
                 <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
                 {# <td>{{ user.password }}</td> #}
@@ -32,14 +34,16 @@
                 <td>{{ user.firstname }}</td>
                 <td>{{ user.lastname }}</td>
                 <td>{{ user.address }}</td>
+                <td> {{ user.getCity().zipcode }} </td>
+                <td>{{ user.getCity().name }}</td>
                 <td>
                     <div class="dropdown">
                         <button class="btn btn-outline-primary m-1 btn-sm rounded-pill dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Actions
                         </button>
                         <ul class="dropdown-menu rounded-4 p-1">
-                            <li><a class="dropdown-item" href="{{ path('app_user_show', {'id': user.id}) }}" >Voir</a></li>
-                            <li><a class="dropdown-item" href="{{ path('app_user_edit', {'id': user.id}) }}" >Modifier</a></li>
+                            <li><a class="dropdown-item rounded-pill" href="{{ path('app_user_show', {'id': user.id}) }}" >Voir</a></li>
+                            <li><a class="dropdown-item rounded-pill" href="{{ path('app_user_edit', {'id': user.id}) }}" >Modifier</a></li>
                             <li><a class="dropdown-item bg-danger rounded-pill text-light" href="{{ path('app_user_delete', {'id': user.id}) }}">Supprimer</a></li>
                         </ul>
                     </div>

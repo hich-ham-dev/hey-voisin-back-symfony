@@ -1,28 +1,37 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Ville #{{ city.id }}{% endblock %}
+{% block title %}Ville #{{ city.id }}
+{% endblock %}
 
 {% block body %}
-<div class="container col-9">
-    <h1>Ville <a href="{{ path('app_city_edit', {'id': city.id}) }}" class="btn btn-warning m-1 btn-sm rounded-pill">Modifier</a></h1>
+	<div class="container col-9">
+		<h1>Ville #
+			{{ city.id }}
+		</h1>
 
-    <table class="table table-bordered table-striped table-sm">
-        <tbody>
-            <tr>
-                <th class="table-dark">Id</th>
-                <td>{{ city.id }}</td>
-            </tr>
-            <tr>
-                <th class="table-dark">Ville</th>
-                <td>{{ city.name }}</td>
-            </tr>
-            <tr>
-                <th class="table-dark">Code postal</th>
-                <td>{{ city.zipcode }}</td>
-            </tr>
-        </tbody>
-    </table>
-    {{ include('city/_delete_form.html.twig') }}
-    <a href="{{ path('app_city_index') }}" class="btn btn-primary m-1 btn-sm rounded-pill">Retour</a>
-</div>
+		<table class="table table-borderless table-striped table-sm">
+			<tbody>
+				<tr>
+					<th>Ville</th>
+					<td>{{ city.name }}</td>
+				</tr>
+				<tr>
+					<th>Code postal</th>
+					<td>{{ city.zipcode }}</td>
+				</tr>
+			</tbody>
+		</table>
+		<div class="dropdown">
+			<button class="btn btn-outline-primary m-1 btn-sm rounded-pill dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+				Actions
+			</button>
+			<ul class="dropdown-menu rounded-4 p-1 text-center">
+				<li>
+					<a class="dropdown-item rounded-pill m-1 text-center" href="{{ path('app_city_edit', {'id': city.id}) }}">Modifier</a>
+				</li>
+				{{ include('city/_delete_form.html.twig') }}
+			</ul>
+		</div>
+		<a href="{{ path('app_city_index') }}" class="btn btn-secondary m-1 btn-sm rounded-pill">Retour</a>
+	</div>
 {% endblock %}

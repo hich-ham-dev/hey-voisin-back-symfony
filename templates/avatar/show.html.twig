@@ -4,25 +4,30 @@
 
 {% block body %}
 <div class="container col-9">
-    <h1>Avatar <a href="{{ path('app_avatar_edit', {'id': avatar.id}) }}" class="btn btn-warning m-1 btn-sm rounded-pill">Modifier</a></h1>
+    <h1>Avatar # {{ avatar.id }} </h1>
 
-    <table class="table table-bordered table-striped table-sm">
+    <table class="table table-borderless table-striped table-sm">
         <tbody>
-            <tr>
-                <th class="table-dark">Id</th>
-                <td>{{ avatar.id }}</td>
-            </tr>
-            <tr>
-                <th class="table-dark">Url</th>
+                <th>Url</th>
                 <td>{{ avatar.url }}</td>
             </tr>
             <tr>
-                <th class="table-dark">Nom</th>
+                <th>Nom</th>
                 <td>{{ avatar.name }}</td>
             </tr>
         </tbody>
     </table>
-    {{ include('avatar/_delete_form.html.twig') }}
-    <a href="{{ path('app_avatar_index') }}" class="btn btn-primary m-1 btn-sm rounded-pill">Retour</a>
+    <div class="dropdown">
+        <button class="btn btn-outline-primary m-1 btn-sm rounded-pill dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Actions
+        </button>
+        <ul class="dropdown-menu rounded-4 p-1 text-center">
+            <li>
+                <a class="dropdown-item rounded-pill m-1 text-center" href="{{ path('app_avatar_edit', {'id': avatar.id}) }}">Modifier</a>
+            </li>
+            {{ include('avatar/_delete_form.html.twig') }}
+        </ul>
+    </div>
+    <a href="{{ path('app_avatar_index') }}" class="btn btn-secondary m-1 btn-sm rounded-pill">Retour</a>
 </div>
 {% endblock %}

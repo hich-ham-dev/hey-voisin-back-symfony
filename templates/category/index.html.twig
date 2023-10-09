@@ -7,18 +7,18 @@
     
     <h1 class="mt-5">Liste des catégories <a href="{{ path('app_category_new') }}" class="btn btn-success btn-sm rounded-pill">Ajouter une catégorie</a></h1>
 
-    <table class="table table-bordered table-striped table-sm">
-        <thead class="table-dark">
+    <table class="table align-middle vertical-align-middle text-center table-borderless table-striped table-sm">
+        <thead class="table-group-divider text-center text-nowrap">
             <tr>
-                <th>Id</th>
+                <th>#</th>
                 <th>Catégorie</th>
                 <th></th>
             </tr>
         </thead>
         <tbody>
         {% for category in pagination %}
-            <tr>
-                <td>{{ category.id }}</td>
+        <tr class="table-group-divider">
+                <td class="fw-bold">{{ category.id }}</td>
                 <td>{{ category.name }}</td>
                 <td>
                     <div class="dropdown">
@@ -26,8 +26,8 @@
                             Actions
                         </button>
                         <ul class="dropdown-menu rounded-4 p-1">
-                            <li><a class="dropdown-item" href="{{ path('app_category_show', {'id': category.id}) }}" >Voir</a></li>
-                            <li><a class="dropdown-item" href="{{ path('app_category_edit', {'id': category.id}) }}" >Modifier</a></li>
+                            <li><a class="dropdown-item rounded-pill" href="{{ path('app_category_show', {'id': category.id}) }}" >Voir</a></li>
+                            <li><a class="dropdown-item rounded-pill" href="{{ path('app_category_edit', {'id': category.id}) }}" >Modifier</a></li>
                             <li><a class="dropdown-item bg-danger rounded-pill text-light" href="{{ path('app_category_delete', {'id': category.id}) }}">Supprimer</a></li>
                         </ul>
                     </div>

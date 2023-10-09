@@ -1,44 +1,56 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Publication #{{ post.id }}{% endblock %}
+{% block title %}Publication #{{ post.id }}
+{% endblock %}
 
 {% block body %}
-<div class="container col-9">
-    <h1>Publication <a href="{{ path('app_post_edit', {'id': post.id}) }}" class="btn btn-warning m-1 btn-sm rounded-pill">Modifier</a></h1>
+	<div class="container col-9">
+		<h1>Publication #
+			{{ post.id }}</h1>
 
-    <table class="table table-bordered table-striped table-sm">
-        <tbody>
-            <tr>
-                <th class="table-dark">Id</th>
-                <td>{{ post.id }}</td>
-            </tr>
-            <tr>
-                <th class="table-dark">Titre</th>
-                <td>{{ post.title }}</td>
-            </tr>
-            <tr>
-                <th class="table-dark">Résumé</th>
-                <td>{{ post.resume }}</td>
-            </tr>
-            <tr>
-                <th class="table-dark">Actif</th>
-                <td>{{ post.isActive ? 'Yes' : 'No' }}</td>
-            </tr>
-            <tr>
-                <th class="table-dark">Offre</th>
-                <td>{{ post.isOffer ? 'Yes' : 'No' }}</td>
-            </tr>
-            <tr>
-                <th class="table-dark">Publié le</th>
-                <td>{{ post.publishedAt ? post.publishedAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th class="table-dark">Mis à jour le</th>
-                <td>{{ post.updatedAt ? post.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-        </tbody>
-    </table>
-    {{ include('post/_delete_form.html.twig') }}
-    <a href="{{ path('app_post_index') }}" class="btn btn-primary m-1 btn-sm rounded-pill">Retour</a>
-</div>
+		<table class="table table-borderless table-striped table-sm">
+			<tbody>
+				<tr>
+					<th>#</th>
+					<td>{{ post.id }}</td>
+				</tr>
+				<tr>
+					<th>Titre</th>
+					<td>{{ post.title }}</td>
+				</tr>
+				<tr>
+					<th>Résumé</th>
+					<td>{{ post.resume }}</td>
+				</tr>
+				<tr>
+					<th>Actif</th>
+					<td>{{ post.isActive ? 'Oui' : 'Non' }}</td>
+				</tr>
+				<tr>
+					<th>Offre</th>
+					<td>{{ post.isOffer ? 'Oui' : 'Non' }}</td>
+				</tr>
+				<tr>
+					<th>Publié le</th>
+					<td>{{ post.publishedAt ? post.publishedAt|date('d-m-Y H:i') : '' }}</td>
+				</tr>
+				<tr>
+					<th>Modifié le</th>
+					<td>{{ post.updatedAt ? post.updatedAt|date('d-m-Y H:i') : '' }}</td>
+				</tr>
+			</tbody>
+		</table>
+		<div class="dropdown">
+			<button class="btn btn-outline-primary m-1 btn-sm rounded-pill dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+				Actions
+			</button>
+			<ul class="dropdown-menu rounded-4 p-1 text-center">
+				<li>
+					<a class="dropdown-item rounded-pill m-1 text-center" href="{{ path('app_post_edit', {'id': post.id}) }}">Modifier</a>
+				</li>
+				{{ include('post/_delete_form.html.twig') }}
+			</ul>
+		</div>
+		<a href="{{ path('app_post_index') }}" class="btn btn-secondary m-1 btn-sm rounded-pill">Retour</a>
+	</div>
 {% endblock %}
