@@ -15,7 +15,7 @@ class CityType extends AbstractType
         $builder
             ->add('name', TextType::class, [
                 'label' => 'Nom'
-                ])
+            ])
             ->add('zipcode', TextType::class, [
                 'label' => 'Code postal'
             ]);

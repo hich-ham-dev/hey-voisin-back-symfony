@@ -18,8 +18,7 @@ class AvatarType extends AbstractType
             ])
             ->add('name', TextType::class, [
                 'label' => 'Nom de l\'avatar',
-            ])
-        ;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

@@ -19,12 +19,24 @@ class PostType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('title', TextType::class, ['label' => 'Titre'])
-            ->add('resume', TextareaType::class, ['label' => 'Résumé'])
-            ->add('is_active', CheckboxType::class, ['label' => 'Actif'])
-            ->add('is_offer', CheckboxType::class, ['label' => 'Offre'])
-            ->add('published_at', DateTimeType::class, ['label' => 'Date de publication'])
-            ->add('updated_at', DateTimeType::class, ['label' => 'Date de mise à jour'])
+            ->add('title', TextType::class, [
+                'label' => 'Titre'
+            ])
+            ->add('resume', TextareaType::class, [
+                'label' => 'Résumé'
+            ])
+            ->add('is_active', CheckboxType::class, [
+                'label' => 'Actif'
+            ])
+            ->add('is_offer', CheckboxType::class, [
+                'label' => 'Offre'
+            ])
+            ->add('published_at', DateTimeType::class, [
+                'label' => 'Date de publication'
+            ])
+            ->add('updated_at', DateTimeType::class, [
+                'label' => 'Date de mise à jour'
+            ])
             ->add('category', EntityType::class, [
                 'class' => Category::class,
                 'choice_label' => 'name',

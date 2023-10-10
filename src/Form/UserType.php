@@ -17,13 +17,24 @@ class UserType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('email', EmailType::class, ['label' => 'Email'])
-            ->add('roles', TextType::class, ['label' => 'Rôles'])
-            // ->add('password')
-            ->add('alias', TextType::class, ['label' => 'Alias'])
-            ->add('firstname', TextType::class, ['label' => 'Prénom'])
-            ->add('lastname', TextType::class, ['label' => 'Nom'])
-            ->add('address', TextType::class, ['label' => 'Adresse'])
+            ->add('email', EmailType::class, [
+                'label' => 'Email'
+            ])
+            ->add('roles', TextType::class, [
+                'label' => 'Rôles'
+            ])
+            ->add('alias', TextType::class, [
+                'label' => 'Alias'
+            ])
+            ->add('firstname', TextType::class, [
+                'label' => 'Prénom'
+            ])
+            ->add('lastname', TextType::class, [
+                'label' => 'Nom'
+            ])
+            ->add('address', TextType::class, [
+                'label' => 'Adresse'
+            ])
             ->add('avatar', EntityType::class, [
                 'class' => Avatar::class,
                 'choice_label' => 'name',
@@ -31,8 +42,7 @@ class UserType extends AbstractType
             ->add('city', EntityType::class, [
                 'class' => City::class,
                 'choice_label' => 'name',
-            ])
-        ;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
