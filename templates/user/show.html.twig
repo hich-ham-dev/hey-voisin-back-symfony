@@ -52,7 +52,7 @@
             </button>
             <ul class="dropdown-menu rounded-4 p-1">
                 <li><a class="dropdown-item rounded-pill" href="{{ path('app_user_edit', {'id': user.id}) }}" >Modifier</a></li>
-                <li><a class="dropdown-item bg-danger rounded-pill text-light" href="{{ path('app_user_delete', {'id': user.id}) }}">Supprimer</a></li>
+				{{ include('user/_delete_form.html.twig') }}
             </ul>
         </div>
 		<a href="{{ path('app_user_index') }}" class="btn btn-secondary m-1 btn-sm rounded-pill">Retour</a>

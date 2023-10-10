@@ -4,7 +4,7 @@ namespace App\Form;
 
 use App\Entity\Comment;
 use App\Entity\Post;
-use Doctrine\DBAL\Types\DateTimeType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -22,16 +22,16 @@ class CommentType extends AbstractType
             ->add('content', TextareaType::class, [
                 'label' => 'Contenu'
             ])
-            ->add('publishedAt', DateTimeType::class, [
-                'label' => 'Date de publication'
-            ])
             ->add('updatedAt', DateTimeType::class, [
-                'label' => 'Date de mise à jour'
+                'label' => 'Date de mise à jour',
+                'input' => 'datetime_immutable'
             ])
-            ->add('posts', PostType::class, [
+            ->add('posts', EntityType::class, [
+                'class' => Post::class,
                 'label' => 'Publication'
             ])
-            ->add('users', UserType::class, [
+            ->add('users', EntityType::class, [
+                'class' => User::class,
                 'label' => 'Utilisateur'
             ]);
     }

@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Category;
 use App\Entity\Post;
 use App\Entity\User;
+use DateTimeImmutable;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -31,11 +32,9 @@ class PostType extends AbstractType
             ->add('is_offer', CheckboxType::class, [
                 'label' => 'Offre'
             ])
-            ->add('published_at', DateTimeType::class, [
-                'label' => 'Date de publication'
-            ])
             ->add('updated_at', DateTimeType::class, [
-                'label' => 'Date de mise à jour'
+                'label' => 'Date de mise à jour',
+                'input' => 'datetime_immutable',
             ])
             ->add('category', EntityType::class, [
                 'class' => Category::class,
