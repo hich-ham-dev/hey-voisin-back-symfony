@@ -7,6 +7,7 @@ use App\Entity\City;
 use App\Entity\User;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -20,9 +21,13 @@ class UserType extends AbstractType
             ->add('email', EmailType::class, [
                 'label' => 'Email'
             ])
-            ->add('roles', TextType::class, [
-                'label' => 'Rôles'
-            ])
+            // ->add('roles', ChoiceType::class, [
+            //     'choices' => [
+            //         'Utilisateur' => "ROLE_USER",
+            //         'Administrateur' => "ROLE_ADMIN",
+            //         'Modérateur' => "ROLE_MODERATOR",
+            //     ],
+            // ])
             ->add('alias', TextType::class, [
                 'label' => 'Alias'
             ])
