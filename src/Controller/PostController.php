@@ -58,12 +58,11 @@ class PostController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_post_edit', methods: ['GET', 'POST'])]
+    #[Route('/{id}/edit', name: 'app_post_edit', methods: ['GET','POST','PUT'])]
     public function edit(Request $request, Post $post, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(PostType::class, $post);
         $form->handleRequest($request);
-      
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
@@ -74,7 +73,6 @@ class PostController extends AbstractController
         return $this->render('post/edit.html.twig', [
             'post' => $post,
             'form' => $form,
-           
         ]);
     }
 

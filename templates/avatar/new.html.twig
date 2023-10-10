@@ -1,11 +1,14 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Avatars{% endblock %}
+{% block title %}Ajouter un avatar
+{% endblock %}
 
 {% block body %}
-    <h1>Create new Avatars</h1>
+	<div class="container">
+		<h1 class="mt-5">Ajouter un nouvel avatar</h1>
 
-    {{ include('avatar/_form.html.twig') }}
+		{{ include('avatar/_form.html.twig') }}
 
-    <a href="{{ path('app_avatar_index') }}">back to list</a>
+		<a href="{{ path('app_avatar_index') }}" class="btn btn-secondary m-1 rounded-pill">Retour</a>
+	</div>
 {% endblock %}

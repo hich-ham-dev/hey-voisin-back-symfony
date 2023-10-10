@@ -1,47 +1,57 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Liste des publications{% endblock %}
+{% block title %}Liste des publications
+{% endblock %}
 
 {% block body %}
-<div class="container col-9">
-    <h1 class="mt-5">Liste des publications <a href="{{ path('app_post_new') }}" class="btn btn-success btn-sm rounded-pill">Ajouter une publication</a></h1>
+	<div class="container col-9">
+		<h1 class="mt-5 bg-secondary bg-gradient rounded-5 p-3 text-light text-center">Liste des publications
+			<a href="{{ path('app_post_new') }}" class="btn btn-success btn-sm rounded-pill fw-bold">Ajouter une publication</a>
+		</h1>
 
-    <table class="table table-bordered table-striped table-sm">
-        <thead class="table-dark">
-            <tr>
-                <th>Id</th>
-                <th>Title</th>
-                <th>Resume</th>
-                <th>Is Active</th>
-                <th>Is Offer</th>
-                <th>Published At</th>
-                <th>Updated At</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for post in pagination %}
-            <tr>
-                <td>{{ post.id }}</td>
-                <td>{{ post.title }}</td>
-                <td>{{ post.resume }}</td>
-                <td>{{ post.isActive ? 'Yes' : 'No' }}</td>
-                <td>{{ post.isOffer ? 'Yes' : 'No' }}</td>
-                <td>{{ post.publishedAt ? post.publishedAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ post.updatedAt ? post.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>
-                    <a href="{{ path('app_post_show', {'id': post.id}) }}" class="btn btn-primary m-1 btn-sm rounded-pill">Voir</a>
-                    <a href="{{ path('app_post_edit', {'id': post.id}) }}" class="btn btn-warning m-1 btn-sm rounded-pill">Modifier</a>
-                    <a href="{{ path('app_post_delete', {'id': post.id}) }}" class="btn btn-danger m-1 btn-sm rounded-pill">Supprimer</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="9">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-    {{ knp_pagination_render(pagination) }}
-</div>
+        <table class="table align-middle vertical-align-middle text-center table-borderless table-striped table-sm">
+            <thead class="table-group-divider text-center text-nowrap">
+				<tr>
+					<th>#</th>
+					<th>Titre</th>
+					<th>Contenu</th>
+					<th>Active</th>
+					<th>Offre</th>
+					<th>Publiée le</th>
+					<th>Modifiée le</th>
+					<th>Actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for post in pagination %}
+                    <tr class="table-group-divider">
+						<td class="fw-bold">{{ post.id }}</td>
+						<td>{{ post.title }}</td>
+						<td>{{ post.resume }}</td>
+						<td>{{ post.isActive ? 'Oui' : 'Non' }}</td>
+						<td>{{ post.isOffer ? 'Oui' : 'Non' }}</td>
+						<td>{{ post.publishedAt ? post.publishedAt|date('d-m-Y H:i') : '' }}</td>
+						<td>{{ post.updatedAt ? post.updatedAt|date('d-m-Y H:i') : '' }}</td>
+                        <td>
+                            <div class="dropdown">
+                                <button class="btn btn-outline-primary m-1 btn-sm rounded-pill dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Actions
+                                </button>
+                                <ul class="dropdown-menu rounded-4 p-1">
+                                    <li><a class="dropdown-item rounded-pill text-center" href="{{ path('app_post_show', {'id': post.id}) }}" >Voir</a></li>
+                                    <li><a class="dropdown-item rounded-pill text-center" href="{{ path('app_post_edit', {'id': post.id}) }}" >Modifier</a></li>
+                                    <li><a class="dropdown-item bg-danger rounded-pill text-light text-center" href="{{ path('app_post_delete', {'id': post.id}) }}">Supprimer</a></li>
+                                </ul>
+                            </div>
+                        </td>
+					</tr>
+				{% else %}
+					<tr>
+						<td colspan="9">no records found</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+		{{ knp_pagination_render(pagination) }}
+	</div>
 {% endblock %}

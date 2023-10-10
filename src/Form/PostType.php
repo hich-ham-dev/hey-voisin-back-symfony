@@ -4,6 +4,8 @@ namespace App\Form;
 
 use App\Entity\Category;
 use App\Entity\Post;
+use App\Entity\User;
+use DateTimeImmutable;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -18,18 +20,30 @@ class PostType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('title', TextType::class)
-            ->add('resume', TextareaType::class)
-            ->add('is_active', CheckboxType::class)
-            ->add('is_offer', CheckboxType::class)
-            ->add('published_at', DateTimeType::class)
-            ->add('updated_at')
+            ->add('title', TextType::class, [
+                'label' => 'Titre'
+            ])
+            ->add('resume', TextareaType::class, [
+                'label' => 'Résumé'
+            ])
+            ->add('is_active', CheckboxType::class, [
+                'label' => 'Actif'
+            ])
+            ->add('is_offer', CheckboxType::class, [
+                'label' => 'Offre'
+            ])
+            ->add('updated_at', DateTimeType::class, [
+                'label' => 'Date de mise à jour',
+                'input' => 'datetime_immutable',
+            ])
             ->add('category', EntityType::class, [
                 'class' => Category::class,
                 'choice_label' => 'name',
             ])
-            ->add('user')
-        ;
+            ->add('user', EntityType::class, [
+                'class' => User::class,
+                'choice_label' => 'alias',
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

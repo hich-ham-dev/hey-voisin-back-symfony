@@ -1,28 +1,36 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Avatar #{{ avatar.id }}{% endblock %}
+{% block title %}Avatar #
+	{{ avatar.id }}
+{% endblock %}
 
 {% block body %}
-<div class="container col-9">
-    <h1>Avatar <a href="{{ path('app_avatar_edit', {'id': avatar.id}) }}" class="btn btn-warning m-1 btn-sm rounded-pill">Modifier</a></h1>
+	<div class="container col-9">
+		<h1>Avatar
+            <span class="badge rounded-pill text-bg-success">{{ avatar.id }}</span>
+		</h1>
 
-    <table class="table table-bordered table-striped table-sm">
-        <tbody>
-            <tr>
-                <th class="table-dark">Id</th>
-                <td>{{ avatar.id }}</td>
-            </tr>
-            <tr>
-                <th class="table-dark">Url</th>
-                <td>{{ avatar.url }}</td>
-            </tr>
-            <tr>
-                <th class="table-dark">Nom</th>
-                <td>{{ avatar.name }}</td>
-            </tr>
-        </tbody>
-    </table>
-    {{ include('avatar/_delete_form.html.twig') }}
-    <a href="{{ path('app_avatar_index') }}" class="btn btn-primary m-1 btn-sm rounded-pill">Retour</a>
+		<table class="table table-borderless table-striped table-sm">
+			<tbody>
+				<th>Url</th>
+				<td>{{ avatar.url }}</td>
+			</tbody>
+		</tr>
+		<tr>
+			<th>Nom</th>
+			<td>{{ avatar.name }}</td>
+		</tr>
+	</tbody>
+</table>
+<div class="dropdown">
+	<button class="btn btn-outline-primary m-1 btn-sm rounded-pill dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+		Actions
+	</button>
+	<ul class="dropdown-menu rounded-4 p-1 text-center">
+		<li>
+			<a class="dropdown-item rounded-pill m-1 text-center" href="{{ path('app_avatar_edit', {'id': avatar.id}) }}">Modifier</a>
+		</li>
+		{{ include('avatar/_delete_form.html.twig') }}
+	</ul>
 </div>
-{% endblock %}
+<a href="{{ path('app_avatar_index') }}" class="btn btn-secondary m-1 btn-sm rounded-pill">Retour</a></div>{% endblock %}

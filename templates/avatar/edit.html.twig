@@ -1,13 +1,19 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Avatars{% endblock %}
+{% block title %}Modifier un avatar
+{% endblock %}
 
 {% block body %}
-    <h1>Edit Avatars</h1>
+	<div class="container">
+		<h1 class="mt-5">Modifier l'avatar
+			<span class="badge rounded-pill text-bg-success">
+				{{ avatar.id }}
+			</span>
+		</h1>
+		{{ include('avatar/_form.html.twig', {'button_label': 'Sauvegarder'}) }}
 
-    {{ include('avatar/_form.html.twig', {'button_label': 'Update'}) }}
+		<a href="{{ path('app_avatar_index') }}" class="btn btn-secondary m-1 btn-sm rounded-pill">Retour</a>
 
-    <a href="{{ path('app_avatar_index') }}">back to list</a>
-
-    {{ include('avatar/_delete_form.html.twig') }}
+		{{ include('avatar/_delete_form.html.twig') }}
+	</div>
 {% endblock %}

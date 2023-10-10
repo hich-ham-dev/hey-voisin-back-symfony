@@ -1,24 +1,34 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Catégorie #{{ category.id }}{% endblock %}
+{% block title %}Catégorie #
+	{{ category.id }}
+{% endblock %}
 
 {% block body %}
-<div class="container col-9">
-    <h1>Catégorie <a href="{{ path('app_category_edit', {'id': category.id}) }}" class="btn btn-warning m-1 btn-sm rounded-pill">Modifier</a></h1>
+	<div class="container col-9">
+		<h1>Catégorie
+			<span class="badge rounded-pill text-bg-success">{{ category.id }}</span>
+		</h1>
 
-    <table class="table table-bordered table-striped table-sm">
-        <tbody>
-            <tr>
-                <th class="table-dark">Id</th>
-                <td>{{ category.id }}</td>
-            </tr>
-            <tr>
-                <th class="table-dark">Catégorie</th>
-                <td>{{ category.name }}</td>
-            </tr>
-        </tbody>
-    </table>
-    {{ include('category/_delete_form.html.twig') }}
-    <a href="{{ path('app_category_index') }}" class="btn btn-primary m-1 btn-sm rounded-pill">Retour</a>
-</div>
+		<table class="table table-borderless table-striped table-sm">
+			<tbody>
+				<tr>
+					<th class="table-center">Catégorie</th>
+					<td>{{ category.name }}</td>
+				</tr>
+			</tbody>
+		</table>
+		<div class="dropdown">
+			<button class="btn btn-outline-primary m-1 btn-sm rounded-pill dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+				Actions
+			</button>
+			<ul class="dropdown-menu rounded-4 p-1 text-center">
+				<li>
+					<a class="dropdown-item rounded-pill m-1 text-center" href="{{ path('app_category_edit', {'id': category.id}) }}">Modifier</a>
+				</li>
+				{{ include('category/_delete_form.html.twig') }}
+			</ul>
+		</div>
+		<a href="{{ path('app_category_index') }}" class="btn btn-secondary m-1 btn-sm rounded-pill">Retour</a>
+	</div>
 {% endblock %}

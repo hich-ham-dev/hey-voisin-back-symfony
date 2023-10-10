@@ -5,28 +5,34 @@
 {% block body %}
 <div class="container col-9">
     
-    <h1 class="mt-5">Liste des avatars <a href="{{ path('app_avatar_new') }}" class="btn btn-success btn-sm rounded-pill">Ajouter un avatar</a></h1>
+    <h1 class="mt-5 bg-secondary bg-gradient rounded-5 p-3 text-light text-center">Liste des avatars <a href="{{ path('app_avatar_new') }}" class="btn btn-success btn-sm rounded-pill fw-bold">Ajouter un avatar</a></h1>
 
-    <table class="table table-bordered table-striped table-sm">
-        <thead class="table-dark">
-        <thead>
+    <table class="table align-middle vertical-align-middle text-center table-borderless table-striped table-sm">
+        <thead class="table-group-divider text-center text-nowrap">
             <tr>
-                <th>Id</th>
+                <th>#</th>
                 <th>Url</th>
-                <th>Name</th>
-                <th>actions</th>
+                <th>Nom</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
         {% for avatar in pagination %}
-            <tr>
-                <td>{{ avatar.id }}</td>
+            <tr class="table-group-divider">
+                <td class="fw-bold">{{ avatar.id }}</td>
                 <td>{{ avatar.url }}</td>
                 <td>{{ avatar.name }}</td>
                 <td>
-                    <a href="{{ path('app_avatar_show', {'id': avatar.id}) }}" class="btn btn-primary m-1 btn-sm rounded-pill">Voir</a>
-                    <a href="{{ path('app_avatar_edit', {'id': avatar.id}) }}" class="btn btn-warning m-1 btn-sm rounded-pill">Modifier</a>
-                    <a href="{{ path('app_avatar_delete', {'id': avatar.id}) }}" class="btn btn-danger m-1 btn-sm rounded-pill">Supprimer</a>
+                    <div class="dropdown">
+                        <button class="btn btn-outline-primary m-1 btn-sm rounded-pill dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Actions
+                        </button>
+                        <ul class="dropdown-menu rounded-4 p-1">
+                            <li><a class="dropdown-item rounded-pill" href="{{ path('app_avatar_show', {'id': avatar.id}) }}" >Voir</a></li>
+                            <li><a class="dropdown-item rounded-pill" href="{{ path('app_avatar_edit', {'id': avatar.id}) }}" >Modifier</a></li>
+                            <li><a class="dropdown-item bg-danger rounded-pill text-light" href="{{ path('app_avatar_delete', {'id': avatar.id}) }}">Supprimer</a></li>
+                        </ul>
+                    </div>
                 </td>
             </tr>
         {% else %}
