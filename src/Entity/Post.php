@@ -54,6 +54,7 @@ class Post
     private ?User $user = null;
 
     #[ORM\OneToMany(mappedBy: 'post', targetEntity: Comment::class)]
+    #[Groups(['posts', 'comments'])]
     private Collection $comments;
 
     #[ORM\ManyToOne]

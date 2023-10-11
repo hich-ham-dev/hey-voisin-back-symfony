@@ -1,52 +1,60 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Liste des commentaires{% endblock %}
+{% block title %}Liste des commentaires
+{% endblock %}
 
 {% block body %}
-<div class="container col-9">
-    
-    <h1 class="mt-5 bg-secondary bg-gradient rounded-5 p-3 text-light text-center">Liste des commentaires <a href="{{ path('app_comment_new') }}" class="btn btn-success btn-sm rounded-pill fw-bold">Ajouter un commentaire</a></h1>
-
-    <table class="table align-middle vertical-align-middle text-center table-borderless table-striped table-sm">
-        <thead class="table-group-divider text-center text-nowrap">
-        <thead>
-            <tr class="table-group-divider">
-                <th class="fw-bold">#</th>
-                <th>Titre</th>
-                <th>Contenu</th>
-                <th>Publié le</th>
-                <th>Modifié le</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for comment in pagination %}
-            <tr>
-                <td>{{ comment.id }}</td>
-                <td>{{ comment.title }}</td>
-                <td>{{ comment.content }}</td>
-                <td>{{ comment.publishedAt ? comment.publishedAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ comment.updatedAt ? comment.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>
-                    <div class="dropdown">
-                        <button class="btn btn-outline-primary m-1 btn-sm rounded-pill dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Actions
-                        </button>
-                        <ul class="dropdown-menu rounded-4 p-1">
-                            <li><a class="dropdown-item rounded-pill" href="{{ path('app_comment_show', {'id': comment.id}) }}" >Voir</a></li>
-                            <li><a class="dropdown-item rounded-pill" href="{{ path('app_comment_edit', {'id': comment.id}) }}" >Modifier</a></li>
-                            <li><a class="dropdown-item bg-danger rounded-pill text-light" href="{{ path('app_comment_delete', {'id': comment.id}) }}">Supprimer</a></li>
-                        </ul>
-                    </div>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="9">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-    {{ knp_pagination_render(pagination) }}
-</div>
+	<div class="container col-9">
+		<h1 class="mt-5 bg-secondary bg-gradient rounded-top-5 p-3 text-light text-center mb-0">Liste des commentaires
+			<a href="{{ path('app_comment_new') }}" class="btn btn-success bg-gradient shadow btn-sm rounded-pill fw-bold">Ajouter un commentaire</a>
+		</h1>
+		<table class="table align-middle vertical-align-middle text-center table-borderless table-striped table-sm shadow">
+			<thead class="table-group-divider text-center text-nowrap">
+				<tr class="table-group-divider">
+					<th class="fw-bold">#</th>
+					<th>Titre</th>
+					<th>Contenu</th>
+					<th>Publication</th>
+					<th>Publié le</th>
+					<th>Modifié le</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for comment in pagination %}
+					<tr class="table-group-divider">
+						<td>{{ comment.id }}</td>
+						<td>{{ comment.title }}</td>
+						<td>{{ comment.content }}</td>
+						<td>{{ comment.post().title }}</td>
+						<td>{{ comment.publishedAt ? comment.publishedAt|date('d-m-Y H:i') : '' }}</td>
+						<td>{{ comment.updatedAt ? comment.updatedAt|date('d-m-Y H:i') : '' }}</td>
+						<td>
+							<div class="dropdown">
+								<button class="btn btn-outline-primary m-1 btn-sm rounded-pill dropdown-toggle fw-bold" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+									Actions
+								</button>
+								<ul class="dropdown-menu rounded-4 p-1">
+									<li>
+										<a class="dropdown-item rounded-pill" href="{{ path('app_comment_show', {'id': comment.id}) }}">Voir</a>
+									</li>
+									<li>
+										<a class="dropdown-item rounded-pill" href="{{ path('app_comment_edit', {'id': comment.id}) }}">Modifier</a>
+									</li>
+									<li>
+										<a class="dropdown-item bg-danger rounded-pill text-light" href="{{ path('app_comment_delete', {'id': comment.id}) }}">Supprimer</a>
+									</li>
+								</ul>
+							</div>
+						</td>
+					</tr>
+				{% else %}
+					<tr>
+						<td colspan="9">Aucune entrée trouvée</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+		{% include "fragments/_pagination.html.twig" %}
+	</div>
 {% endblock %}

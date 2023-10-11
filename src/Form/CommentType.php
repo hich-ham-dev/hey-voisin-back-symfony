@@ -4,10 +4,12 @@ namespace App\Form;
 
 use App\Entity\Comment;
 use App\Entity\Post;
+use App\Entity\User;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -26,12 +28,14 @@ class CommentType extends AbstractType
                 'label' => 'Date de mise à jour',
                 'input' => 'datetime_immutable'
             ])
-            ->add('posts', EntityType::class, [
+            ->add('post', EntityType::class, [
                 'class' => Post::class,
-                'label' => 'Publication'
+                'choice_label' => 'title',
+                'label' => 'Article'
             ])
-            ->add('users', EntityType::class, [
+            ->add('user', EntityType::class, [
                 'class' => User::class,
+                'choice_label' => 'alias',
                 'label' => 'Utilisateur'
             ]);
     }

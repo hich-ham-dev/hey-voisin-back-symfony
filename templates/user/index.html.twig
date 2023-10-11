@@ -5,12 +5,10 @@
 
 {% block body %}
 	<div class="container col-9">
-
-		<h1 class="mt-5 bg-secondary bg-gradient rounded-5 p-3 text-light text-center">Liste des utilisateurs
-			<a href="{{ path('app_user_new') }}" class="btn btn-success btn-sm rounded-pill fw-bold">Ajouter un utilisateur</a>
+		<h1 class="mt-5 bg-secondary bg-gradient rounded-top-5 p-3 text-light text-center mb-0">Liste des utilisateurs
+			<a href="{{ path('app_user_new') }}" class="btn btn-success bg-gradient shadow btn-sm rounded-pill fw-bold">Ajouter un utilisateur</a>
 		</h1>
-
-		<table class="table align-middle vertical-align-middle text-center table-borderless table-striped table-sm">
+		<table class="table align-middle vertical-align-middle text-center table-borderless table-striped table-sm shadow">
 			<thead class="table-group-divider text-center text-nowrap">
 				<tr>
 					<th>#</th>
@@ -35,14 +33,14 @@
 						<td>{{ user.alias }}</td>
 						<td>{{ user.firstname }}</td>
 						<td>{{ user.lastname }}</td>
-						<td>{{ user.address }}</td>
+						<td class="text-nowrap">{{ user.address }}</td>
 						<td>
 							{{ user.getCity().zipcode }}
 						</td>
-						<td>{{ user.getCity().name }}</td>
+						<td class="text-nowrap">{{ user.getCity().name }}</td>
 						<td>
 							<div class="dropdown">
-								<button class="btn btn-outline-primary m-1 btn-sm rounded-pill dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+								<button class="btn btn-outline-primary m-1 btn-sm rounded-pill dropdown-toggle fw-bold" type="button" data-bs-toggle="dropdown" aria-expanded="false">
 									Actions
 								</button>
 								<ul class="dropdown-menu rounded-4 p-1">
@@ -61,11 +59,11 @@
 					</tr>
 				{% else %}
 					<tr>
-						<td colspan="9">no records found</td>
+						<td colspan="9">Aucune entrée trouvée</td>
 					</tr>
 				{% endfor %}
 			</tbody>
 		</table>
-		{{ knp_pagination_render(pagination) }}
+		{% include "fragments/_pagination.html.twig" %}
 	</div>
 {% endblock %}
