@@ -5,10 +5,28 @@
 			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			</button>
-			<div class="collapse navbar-collapse" id="navbarNavDropdown">
+			<div class="collapse navbar-collapse ms-5" id="navbarNavDropdown">
 				<ul class="navbar-nav">
 					<li class="nav-item">
 						<a class="nav-link active fw-bold" aria-current="page" href="{{ path('app_main') }}">Accueil</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link fw-bold" href="{{ path('app_post_index') }}">Publications</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link fw-bold" href="{{ path('app_category_index') }}">Catégories</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link fw-bold" href="{{ path('app_user_index') }}">Utilisateurs</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link fw-bold" href="{{ path('app_city_index') }}">Villes</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link fw-bold" href="{{ path('app_avatar_index') }}">Avatars</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link fw-bold" href="{{ path('app_comment_index') }}">Commentaires</a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link bg-danger-subtle rounded-pill fw-bold" href="#">Déconnexion</a>

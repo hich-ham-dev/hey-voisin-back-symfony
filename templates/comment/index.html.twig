@@ -5,12 +5,10 @@
 
 {% block body %}
 	<div class="container col-9">
-
 		<h1 class="mt-5 bg-secondary bg-gradient rounded-top-5 p-3 text-light text-center mb-0">Liste des commentaires
 			<a href="{{ path('app_comment_new') }}" class="btn btn-success btn-sm rounded-pill fw-bold">Ajouter un commentaire</a>
 		</h1>
-
-		<table class="table align-middle vertical-align-middle text-center table-borderless table-striped table-sm">
+		<table class="table align-middle vertical-align-middle text-center table-borderless table-striped table-sm shadow">
 			<thead class="table-group-divider text-center text-nowrap">
 				<tr class="table-group-divider">
 					<th class="fw-bold">#</th>
@@ -50,7 +48,7 @@
 					</tr>
 				{% else %}
 					<tr>
-						<td colspan="9">no records found</td>
+						<td colspan="9">Aucune entrée trouvée</td>
 					</tr>
 				{% endfor %}
 			</tbody>
