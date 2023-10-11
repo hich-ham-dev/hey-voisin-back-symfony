@@ -1,45 +1,52 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Liste des catégories{% endblock %}
+{% block title %}Liste des catégories
+{% endblock %}
 
 {% block body %}
-<div class="container col-9">
-    
-    <h1 class="mt-5 bg-secondary bg-gradient rounded-5 p-3 text-light text-center">Liste des catégories <a href="{{ path('app_category_new') }}" class="btn btn-success btn-sm rounded-pill fw-bold">Ajouter une catégorie</a></h1>
-
-    <table class="table align-middle vertical-align-middle text-center table-borderless table-striped table-sm">
-        <thead class="table-group-divider text-center text-nowrap">
-            <tr>
-                <th>#</th>
-                <th>Catégorie</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for category in pagination %}
-        <tr class="table-group-divider">
-                <td class="fw-bold">{{ category.id }}</td>
-                <td>{{ category.name }}</td>
-                <td>
-                    <div class="dropdown">
-                        <button class="btn btn-outline-primary m-1 btn-sm rounded-pill dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Actions
-                        </button>
-                        <ul class="dropdown-menu rounded-4 p-1">
-                            <li><a class="dropdown-item rounded-pill" href="{{ path('app_category_show', {'id': category.id}) }}" >Voir</a></li>
-                            <li><a class="dropdown-item rounded-pill" href="{{ path('app_category_edit', {'id': category.id}) }}" >Modifier</a></li>
-                            <li><a class="dropdown-item bg-danger rounded-pill text-light" href="{{ path('app_category_delete', {'id': category.id}) }}">Supprimer</a></li>
-                        </ul>
-                    </div>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="9">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-    {{ knp_pagination_render(pagination) }}
-</div>
+	<div class="container col-9">
+		<h1 class="mt-5 bg-secondary bg-gradient rounded-top-5 p-3 text-light text-center mb-0">Liste des catégories
+			<a href="{{ path('app_category_new') }}" class="btn btn-success bg-gradient shadow btn-sm rounded-pill fw-bold">Ajouter une catégorie</a>
+		</h1>
+		<table class="table align-middle vertical-align-middle text-center table-borderless table-striped table-sm shadow">
+			<thead class="table-group-divider text-center text-nowrap">
+				<tr>
+					<th>#</th>
+					<th>Catégorie</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for category in pagination %}
+					<tr class="table-group-divider">
+						<td class="fw-bold">{{ category.id }}</td>
+						<td>{{ category.name }}</td>
+						<td>
+							<div class="dropdown">
+								<button class="btn btn-outline-primary m-1 btn-sm rounded-pill dropdown-toggle fw-bold" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+									Actions
+								</button>
+								<ul class="dropdown-menu rounded-4 p-1">
+									<li>
+										<a class="dropdown-item rounded-pill" href="{{ path('app_category_show', {'id': category.id}) }}">Voir</a>
+									</li>
+									<li>
+										<a class="dropdown-item rounded-pill" href="{{ path('app_category_edit', {'id': category.id}) }}">Modifier</a>
+									</li>
+									<li>
+										<a class="dropdown-item bg-danger rounded-pill text-light" href="{{ path('app_category_delete', {'id': category.id}) }}">Supprimer</a>
+									</li>
+								</ul>
+							</div>
+						</td>
+					</tr>
+				{% else %}
+					<tr>
+						<td colspan="9">no records found</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+		{% include "fragments/_pagination.html.twig" %}
+	</div>
 {% endblock %}

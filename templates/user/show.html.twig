@@ -6,11 +6,11 @@
 
 {% block body %}
 	<div class="container col-9">
-		<h1>Utilisateur
+		<h1 class="mt-5 bg-secondary bg-gradient rounded-top-5 p-3 text-light text-center mb-0">Utilisateur
 			<span class="badge rounded-pill text-bg-success">{{ user.id }}</span>
 		</h1>
 
-		<table class="table table-borderless table-striped table-sm">
+		<table class="table table-borderless table-striped table-sm shadow">
 			<tbody>
 				<tr>
 					<th>Email</th>
@@ -47,7 +47,7 @@
 			</tbody>
 		</table>
 		<div class="dropdown">
-            <button class="btn btn-outline-primary m-1 btn-sm rounded-pill dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <button class="btn btn-outline-primary m-1 btn-sm rounded-pill dropdown-toggle fw-bold" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                 Actions
             </button>
             <ul class="dropdown-menu rounded-4 p-1">

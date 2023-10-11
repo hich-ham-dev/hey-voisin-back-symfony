@@ -3,8 +3,10 @@
 {% block title %}Log in!{% endblock %}
 
 {% block body %}
-<div class="container mt-5 bg-light rounded p-5 col-9 d-flex align-items-center">
-    <form method="post" action="{{ path('app_login') }}" class="needs-validation col-6 mx-auto" novalidate>
+
+<div class="container mt-5 bg-light rounded-3 p-5 col-9 d-flex align-items-center shadow">
+    <form method="post" class="needs-validation col-6 mx-auto" novalidate>
+
         {% if error %}
             <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
         {% endif %}
