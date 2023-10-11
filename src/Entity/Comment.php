@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\CommentRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: CommentRepository::class)]
 class Comment
@@ -15,19 +16,24 @@ class Comment
     private ?int $id = null;
 
     #[ORM\Column(length: 100)]
+    #[Groups(['posts', 'comments'])]
     private ?string $title = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Groups(['posts', 'comments'])]
     private ?string $content = null;
 
     #[ORM\Column]
+    #[Groups(['posts', 'comments'])]
     private ?\DateTimeImmutable $publishedAt = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['posts', 'comments'])]
     private ?\DateTimeImmutable $updatedAt = null;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['posts', 'comments'])]
     private ?User $user = null;
 
     #[ORM\ManyToOne(inversedBy: 'comments')]

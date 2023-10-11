@@ -28,12 +28,14 @@ class CommentType extends AbstractType
                 'label' => 'Date de mise à jour',
                 'input' => 'datetime_immutable'
             ])
-            ->add('posts', EntityType::class, [
+            ->add('post', EntityType::class, [
                 'class' => Post::class,
-                'label' => 'Publication'
+                'choice_label' => 'title',
+                'label' => 'Article'
             ])
-            ->add('users', EntityType::class, [
+            ->add('user', EntityType::class, [
                 'class' => User::class,
+                'choice_label' => 'alias',
                 'label' => 'Utilisateur'
             ]);
     }
