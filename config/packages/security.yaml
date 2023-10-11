@@ -21,7 +21,7 @@ security:
                 check_path: /api/login_check
                 success_handler: lexik_jwt_authentication.handler.authentication_success
                 failure_handler: lexik_jwt_authentication.handler.authentication_failure
-            custom_authenticator: App\Security\LoginFormAuthenticator
+            # custom_authenticator: App\Security\LoginFormAuthenticator
 
         api:
             pattern:   ^/api
@@ -30,12 +30,19 @@ security:
         main:
             lazy: true
             provider: app_user_provider
-
+            entry_point: 'form_login'
+            form_login:
+                # "app_login" is the name of the route created previously
+                login_path: app_login
+                check_path: app_login
+               # username_parameter: "login_form[email]"
+               # password_parameter: "login_form[password]"
+            custom_authenticator: App\Security\LoginFormAuthenticator
             logout:
                 path: app_logout
                 # where to redirect after logout
                 # target: app_any_route
-
+            
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
 
@@ -50,11 +57,13 @@ security:
         - { path: ^/api/city, roles: PUBLIC_ACCESS }
         - { path: ^/api/avatar, roles: PUBLIC_ACCESS }
         - { path: ^/api, roles: ROLE_USER }
-        - { path: ^public/login/main, roles: ROLE_ADMIN }
+        # BACKOFICE
+        - { path: ^/login, roles: PUBLIC_ACCESS }
+        - { path: ^/, roles: ROLE_MODERATOR}
 
-    role_hierarchy:
-        ROLE_ADMIN: ROLE_MMODERATOR
-        ROLE_MANAGER: ROLE_USER
+    role_hierarchy:    
+        ROLE_MODERATOR: ROLE_USER
+        ROLE_ADMIN: ROLE_MODERATOR
      
 
 when@test:

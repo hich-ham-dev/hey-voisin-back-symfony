@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class MainController extends AbstractController
 {
-    #[Route('/main', name: 'app_main')]
+    #[Route('/', name: 'app_main')]
     public function index(PostRepository $post, UserRepository $user, CategoryRepository $category, CityRepository $city, AvatarRepository $avatar): Response
     {
         $post = $post->count([]);
