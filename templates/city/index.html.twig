@@ -6,7 +6,7 @@
 {% block body %}
 	<div class="container col-9">
 		<h1 class="mt-5 bg-secondary bg-gradient rounded-top-5 p-3 text-light text-center mb-0">Liste des villes
-			<a href="{{ path('app_city_new') }}" class="btn btn-success btn-sm rounded-pill fw-bold">Ajouter une ville</a>
+			<a href="{{ path('app_city_new') }}" class="btn btn-success bg-gradient shadow btn-sm rounded-pill fw-bold">Ajouter une ville</a>
 		</h1>
 		<table class="table align-middle vertical-align-middle text-center table-borderless table-striped table-sm shadow">
 			<thead class="table-group-divider text-center text-nowrap">
@@ -25,7 +25,7 @@
 						<td>{{ city.zipcode }}</td>
 						<td>
 							<div class="dropdown">
-								<button class="btn btn-outline-primary m-1 btn-sm rounded-pill dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+								<button class="btn btn-outline-primary m-1 btn-sm rounded-pill dropdown-toggle fw-bold" type="button" data-bs-toggle="dropdown" aria-expanded="false">
 									Actions
 								</button>
 								<ul class="dropdown-menu rounded-4 p-1">
