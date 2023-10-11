@@ -35,8 +35,8 @@ security:
                 # "app_login" is the name of the route created previously
                 login_path: app_login
                 check_path: app_login
-               # username_parameter: "login_form[email]"
-               # password_parameter: "login_form[password]"
+                # username_parameter: "login_form[email]"
+                # password_parameter: "login_form[password]"
             custom_authenticator: App\Security\LoginFormAuthenticator
             logout:
                 path: app_logout
@@ -64,7 +64,6 @@ security:
     role_hierarchy:    
         ROLE_MODERATOR: ROLE_USER
         ROLE_ADMIN: ROLE_MODERATOR
-     
 
 when@test:
     security:
