@@ -1,33 +1,53 @@
-{% extends 'base.html.twig' %}
+{% extends 'base.html.twig' %} {% block title %}Accueil {% endblock %} {% block
+body %}
+<div class="container">
+  <div class="col-md-10 offset-md-1 bg-light bg-gradient rounded-4">
+    <h1
+      class="mt-5 text-bg-secondary bg-gradient text-center rounded-top-4 p-3"
+    >
+      Administration
+    </h1>
+    <p class="m-2">Vous êtes connecté en tant que Administrateur.</p>
+    <p class="m-2">Veuillez sélectionner l'une des options suivantes :</p>
 
-{% block title %}Accueil
-{% endblock %}
-
-{% block body %}
-	<div class="container d-flex">
-		<div class="col-md-10 offset-md-1 bg-light bg-gradient">
-			<h1 class="mt-5 text-bg-secondary bg-gradient text-center rounded-4 p-3">Administration</h1>
-			<p>Vous êtes connecté en tant que Administrateur.</p>
-			<p>Veuillez sélectionner l'une des options suivantes :</p>
-
-			<div class="list-group">
-				<a href="{{ path('app_post_index') }}" class="list-group-item list-group-item-action list-group-item-dark d-flex justify-content-between align-items-center">Accéder aux publications
-					<span class="badge bg-primary rounded-pill">{{ numberPost }}</span>
-				</a>
-				<a href="{{ path('app_category_index') }}" class="list-group-item list-group-item-action list-group-item-secondary d-flex justify-content-between align-items-center">Accéder aux catégories
-					<span class="badge bg-primary rounded-pill">{{ numberCategory }}</span>
-				</a>
-				<a href="{{ path('app_user_index') }}" class="list-group-item list-group-item-action list-group-item-dark d-flex justify-content-between align-items-center">Accéder à la gestion utilisateurs
-					<span class="badge bg-primary rounded-pill">{{ numberUser }}</span>
-				</a>
-				<a href="{{ path('app_city_index') }}" class="list-group-item list-group-item-action list-group-item-secondary d-flex justify-content-between align-items-center">Accéder aux villes
-					<span class="badge bg-primary rounded-pill">{{ numberCity }}</span>
-				</a>
-				<a href="{{ path('app_avatar_index') }}" class="list-group-item list-group-item-action list-group-item-dark d-flex justify-content-between align-items-center">Accéder aux avatars
-					<span class="badge bg-primary rounded-pill">{{ numberAvatar }}</span>
-				</a>
-				<a href="{{ path('app_comment_index') }}" class="list-group-item list-group-item-action  disabled">Accéder aux commentaires</a>
-			</div>
-		</div>
-	</div>
+    <div class="list-group">
+      <a
+        href="{{ path('app_post_index') }}"
+        class="list-group-item list-group-item-action list-group-item-dark d-flex justify-content-between align-items-center"
+        >Accéder aux publications
+        <span class="badge bg-primary rounded-pill">{{ numberPost }}</span>
+      </a>
+      <a
+        href="{{ path('app_category_index') }}"
+        class="list-group-item list-group-item-action list-group-item-secondary d-flex justify-content-between align-items-center"
+        >Accéder aux catégories
+        <span class="badge bg-primary rounded-pill">{{ numberCategory }}</span>
+      </a>
+      <a
+        href="{{ path('app_user_index') }}"
+        class="list-group-item list-group-item-action list-group-item-dark d-flex justify-content-between align-items-center"
+        >Accéder à la gestion utilisateurs
+        <span class="badge bg-primary rounded-pill">{{ numberUser }}</span>
+      </a>
+      <a
+        href="{{ path('app_city_index') }}"
+        class="list-group-item list-group-item-action list-group-item-secondary d-flex justify-content-between align-items-center"
+        >Accéder aux villes
+        <span class="badge bg-primary rounded-pill">{{ numberCity }}</span>
+      </a>
+      <a
+        href="{{ path('app_avatar_index') }}"
+        class="list-group-item list-group-item-action list-group-item-dark d-flex justify-content-between align-items-center"
+        >Accéder aux avatars
+        <span class="badge bg-primary rounded-pill">{{ numberAvatar }}</span>
+      </a>
+      <a
+        href="{{ path('app_comment_index') }}"
+        class="list-group-item list-group-item-action list-group-item-dark d-flex justify-content-between align-items-center"
+        >Accéder aux commentaires</a
+      >
+      <span class="badge bg-primary rounded-pill">{{ numberComment }}</span>
+    </div>
+  </div>
+</div>
 {% endblock %}

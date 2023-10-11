@@ -13,9 +13,15 @@
 		<table class="table table-borderless table-striped table-sm">
 			<tbody>
 				<tr>
+					<th class="table-center">Publication <span class="badge rounded-pill text-bg-success">{{ comment.post().id }}</span></th>
+					<td>{{ comment.post().title }}</td>
+				<tr>
 					<th class="table-center">Titre</th>
 					<td>{{ comment.title }}</td>
 				</tr>
+				<tr>
+					<th class="table-center">Auteur</th>
+					<td>{{ comment.user().alias }}</td>
 				<tr>
 					<th class="table-center">Contenu</th>
 					<td>{{ comment.content }}</td>
