@@ -92,7 +92,7 @@ class PostController extends AbstractController
     #[Route('/post/city/{id}', name: 'app_api_post_city', methods: ['GET'])]
     public function showByCity(PostRepository $post, int $id): JsonResponse
     {
-        $posts = $post->findOneBy(['city' => $id]);
+        $posts = $post->findBy(['city' => $id]);
 
         return $this->json($posts, Response::HTTP_OK, [], ['groups' => 'posts']);
     }
@@ -100,7 +100,7 @@ class PostController extends AbstractController
     #[Route('/post/category/{id}', name: 'app_api_post_category', methods: ['GET'])]
     public function showByCategory(PostRepository $post, int $id): JsonResponse
     {
-        $posts = $post->findOneBy(['category' => $id]);
+        $posts = $post->findBy(['category' => $id]);
 
         return $this->json($posts, Response::HTTP_OK, [], ['groups' => 'posts']);
     }
