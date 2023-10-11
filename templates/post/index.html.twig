@@ -15,6 +15,8 @@
 					<th>#</th>
 					<th>Titre</th>
 					<th>Contenu</th>
+					<th>Ville</th>
+					<th>Catégorie</th>
 					<th>Active</th>
 					<th>Offre</th>
 					<th>Publiée le</th>
@@ -28,6 +30,8 @@
 						<td class="fw-bold">{{ post.id }}</td>
 						<td>{{ post.title }}</td>
 						<td>{{ post.resume }}</td>
+						<td class="text-nowrap">{{ post.city.name }}</td>
+						<td class="text-nowrap">{{ post.category.name }}</td>
 						<td>{{ post.isActive ? 'Oui' : 'Non' }}</td>
 						<td>{{ post.isOffer ? 'Oui' : 'Non' }}</td>
 						<td>{{ post.publishedAt ? post.publishedAt|date('d-m-Y H:i') : '' }}</td>
