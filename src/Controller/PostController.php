@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Entity\Post;
 use App\Form\PostType;
-use App\Repository\CategoryRepository;
 use App\Repository\PostRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -74,6 +73,11 @@ class PostController extends AbstractController
             $post->setUpdatedAt(new \DateTimeImmutable());
             $entityManager->flush();
 
+            $this->addFlash(
+                'warning', 
+                'Votre annonce a bien été modifiée'
+            );
+
             return $this->redirectToRoute('app_post_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -89,6 +93,11 @@ class PostController extends AbstractController
         if ($this->isCsrfTokenValid('delete'.$post->getId(), $request->request->get('_token'))) {
             $entityManager->remove($post);
             $entityManager->flush();
+
+            $this->addFlash(
+                'danger', 
+                'Votre annonce a bien été supprimée'
+            );
         }
 
         return $this->redirectToRoute('app_post_index', [], Response::HTTP_SEE_OTHER);
