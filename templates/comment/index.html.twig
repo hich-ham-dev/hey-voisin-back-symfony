@@ -27,7 +27,7 @@
 
 				{% for comment in pagination %}
 					<tr class="table-group-divider">
-						<td>{{ comment.id }}</td>
+						<td class="fw-bold">{{ comment.id }}</td>
 						<td>{{ comment.title }}</td>
 						<td>{{ comment.content }}</td>
 						<td>{{ comment.post().title }}</td>
