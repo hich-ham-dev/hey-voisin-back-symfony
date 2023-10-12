@@ -21,15 +21,9 @@ class SecurityController extends AbstractController
         // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
 
-        $errorMessage = null;
-        if ($error !== null) {
-            $errorMessage = 'Vous n\'avez pas les droits pour vous connecter';
-        }
-
         return $this->render('security/login.html.twig', [
             'last_username' => $lastUsername, 
             'error' => $error,
-            'custom_error_message' => $errorMessage,
         ]);
     }
 
