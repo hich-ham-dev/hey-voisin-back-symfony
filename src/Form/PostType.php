@@ -42,14 +42,17 @@ class PostType extends AbstractType
                 ],
             ])
             ->add('category', EntityType::class, [
+                'label' => 'Catégorie',
                 'class' => Category::class,
                 'choice_label' => 'name',
             ])
             ->add('user', EntityType::class, [
+                'label' => 'Utilisateur',
                 'class' => User::class,
                 'choice_label' => 'alias',
             ])
             ->add('city', EntityType::class, [
+                'label' => 'Ville',
                 'class' => City::class,
                 'choice_label' => 'name',
             ])

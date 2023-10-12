@@ -50,6 +50,7 @@ class UserType extends AbstractType
                 'choice_label' => 'name',
             ])
             ->add('city', EntityType::class, [
+                'label' => 'Ville',
                 'class' => City::class,
                 'choice_label' => 'name',
             ]);
