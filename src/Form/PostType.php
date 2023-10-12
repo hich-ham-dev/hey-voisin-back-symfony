@@ -3,8 +3,10 @@
 namespace App\Form;
 
 use App\Entity\Category;
+use App\Entity\City;
 use App\Entity\Post;
 use App\Entity\User;
+use Doctrine\ORM\Mapping\Entity;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -50,7 +52,12 @@ class PostType extends AbstractType
             ->add('user', EntityType::class, [
                 'class' => User::class,
                 'choice_label' => 'alias',
-            ]);
+            ])
+            ->add('city', EntityType::class, [
+                'class' => City::class,
+                'choice_label' => 'name',
+            ])
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

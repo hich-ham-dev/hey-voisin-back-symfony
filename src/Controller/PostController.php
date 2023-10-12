@@ -41,6 +41,11 @@ class PostController extends AbstractController
             $entityManager->persist($post);
             $entityManager->flush();
 
+            $this->addFlash(
+                'success', 
+                'Votre annonce a bien été créée'
+            );
+
             return $this->redirectToRoute('app_post_index', [], Response::HTTP_SEE_OTHER);
         }
 
