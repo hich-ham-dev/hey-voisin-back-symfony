@@ -33,6 +33,7 @@ class CommentController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $comment = new Comment();
+        $comment->setPublishedAt(new \DateTimeImmutable());
         $form = $this->createForm(CommentType::class, $comment);
         $form->handleRequest($request);
 
@@ -64,6 +65,7 @@ class CommentController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $comment->setUpdatedAt(new \DateTimeImmutable());
             $entityManager->flush();
 
             return $this->redirectToRoute('app_comment_index', [], Response::HTTP_SEE_OTHER);

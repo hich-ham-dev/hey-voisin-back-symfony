@@ -5,6 +5,9 @@
 
 {% block body %}
 	<div class="container col-9">
+
+		{% include "fragments/_flash_message.html.twig" %}
+
 		<h1 class="mt-5 bg-secondary bg-gradient rounded-top-5 p-3 text-light text-center mb-0">Liste des villes
 			<a href="{{ path('app_city_new') }}" class="btn btn-success bg-gradient shadow btn-sm rounded-pill fw-bold">Ajouter une ville</a>
 		</h1>
@@ -18,6 +21,7 @@
 				</tr>
 			</thead>
 			<tbody>
+
 				{% for city in pagination %}
 					<tr class="table-group-divider">
 						<td class="fw-bold">{{ city.id }}</td>
@@ -47,8 +51,11 @@
 						<td colspan="9">no records found</td>
 					</tr>
 				{% endfor %}
+
 			</tbody>
 		</table>
+
 		{% include "fragments/_pagination.html.twig" %}
+
 	</div>
 {% endblock %}

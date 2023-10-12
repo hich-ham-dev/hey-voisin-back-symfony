@@ -5,6 +5,9 @@
 
 {% block body %}
 	<div class="container col-9">
+
+		{% include "fragments/_flash_message.html.twig" %}
+
 		<h1 class="mt-5 bg-secondary bg-gradient rounded-top-5 p-3 text-light text-center mb-0">Liste des avatars
 			<a href="{{ path('app_avatar_new') }}" class="btn btn-success bg-gradient shadow btn-sm rounded-pill fw-bold">Ajouter un avatar</a>
 		</h1>

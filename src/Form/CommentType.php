@@ -24,10 +24,6 @@ class CommentType extends AbstractType
             ->add('content', TextareaType::class, [
                 'label' => 'Contenu'
             ])
-            ->add('updatedAt', DateTimeType::class, [
-                'label' => 'Date de mise à jour',
-                'input' => 'datetime_immutable'
-            ])
             ->add('post', EntityType::class, [
                 'class' => Post::class,
                 'choice_label' => 'title',
@@ -37,7 +33,8 @@ class CommentType extends AbstractType
                 'class' => User::class,
                 'choice_label' => 'alias',
                 'label' => 'Utilisateur'
-            ]);
+            ])
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
