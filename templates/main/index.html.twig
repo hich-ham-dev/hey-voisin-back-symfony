@@ -8,29 +8,34 @@ body %}
 			<h1 class="mt-5 text-bg-secondary bg-gradient text-center rounded-top-4 p-3">
 				Administration
 			</h1>
-			<p class="m-2">Vous êtes connecté en tant que <span class="fw-bold">Administrateur</span>.</p>
-			<p class="m-2">Veuillez sélectionner l'une des options suivantes :</p>
+			<p class="m-2">Vous êtes connecté en tant que
+				{% if 'ROLE_ADMIN' in app.user.roles %}
+					<span class="fw-bold">Administrateur</span>.</p>
+				{% else %}
+					<span class="fw-bold">Modérateur</span>.</p>
+				{% endif %}
 
-			<div class="list-group">
-				<a href="{{ path('app_post_index') }}" class="list-group-item list-group-item-action list-group-item-success fw-bold d-flex justify-content-between align-items-center">Accéder aux publications
-					<span class="badge bg-success rounded-pill">{{ numberPost }}</span>
-				</a>
-				<a href="{{ path('app_category_index') }}" class="list-group-item list-group-item-action list-group-item-primary fw-bold d-flex justify-content-between align-items-center">Accéder aux catégories
-					<span class="badge bg-success rounded-pill">{{ numberCategory }}</span>
-				</a>
-				<a href="{{ path('app_user_index') }}" class="list-group-item list-group-item-action list-group-item-success fw-bold d-flex justify-content-between align-items-center">Accéder à la gestion utilisateurs
-					<span class="badge bg-success rounded-pill">{{ numberUser }}</span>
-				</a>
-				<a href="{{ path('app_city_index') }}" class="list-group-item list-group-item-action list-group-item-primary fw-bold d-flex justify-content-between align-items-center">Accéder aux villes
-					<span class="badge bg-success rounded-pill">{{ numberCity }}</span>
-				</a>
-				<a href="{{ path('app_avatar_index') }}" class="list-group-item list-group-item-action list-group-item-success fw-bold d-flex justify-content-between align-items-center">Accéder aux avatars
-					<span class="badge bg-success rounded-pill">{{ numberAvatar }}</span>
-				</a>
-				<a href="{{ path('app_comment_index') }}" class="list-group-item list-group-item-action list-group-item-primary fw-bold d-flex justify-content-between align-items-center">Accéder aux commentaires
-                    <span class="badge bg-success rounded-pill">{{ numberComment }}</span>
-                </a>
-			</div>
+		<p class="m-2">Veuillez sélectionner l'une des options suivantes :</p>
+
+		<div class="list-group">
+			<a href="{{ path('app_post_index') }}" class="list-group-item list-group-item-action list-group-item-success fw-bold d-flex justify-content-between align-items-center">Accéder aux publications
+				<span class="badge bg-success rounded-pill">{{ numberPost }}</span>
+			</a>
+			<a href="{{ path('app_category_index') }}" class="list-group-item list-group-item-action list-group-item-primary fw-bold d-flex justify-content-between align-items-center">Accéder aux catégories
+				<span class="badge bg-success rounded-pill">{{ numberCategory }}</span>
+			</a>
+			<a href="{{ path('app_user_index') }}" class="list-group-item list-group-item-action list-group-item-success fw-bold d-flex justify-content-between align-items-center">Accéder à la gestion utilisateurs
+				<span class="badge bg-success rounded-pill">{{ numberUser }}</span>
+			</a>
+			<a href="{{ path('app_city_index') }}" class="list-group-item list-group-item-action list-group-item-primary fw-bold d-flex justify-content-between align-items-center">Accéder aux villes
+				<span class="badge bg-success rounded-pill">{{ numberCity }}</span>
+			</a>
+			<a href="{{ path('app_avatar_index') }}" class="list-group-item list-group-item-action list-group-item-success fw-bold d-flex justify-content-between align-items-center">Accéder aux avatars
+				<span class="badge bg-success rounded-pill">{{ numberAvatar }}</span>
+			</a>
+			<a href="{{ path('app_comment_index') }}" class="list-group-item list-group-item-action list-group-item-primary fw-bold d-flex justify-content-between align-items-center">Accéder aux commentaires
+				<span class="badge bg-success rounded-pill">{{ numberComment }}</span>
+			</a>
 		</div>
 	</div>
-{% endblock %}
+</div>{% endblock %}
