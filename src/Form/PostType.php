@@ -9,6 +9,7 @@ use DateTimeImmutable;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -26,11 +27,19 @@ class PostType extends AbstractType
             ->add('resume', TextareaType::class, [
                 'label' => 'Résumé'
             ])
-            ->add('is_active', CheckboxType::class, [
-                'label' => 'Actif'
+            ->add('is_active', ChoiceType::class, [
+                'label' => 'Active',
+                'choices' => [
+                    'Oui' => true,
+                    'Non' => false
+                ],
             ])
-            ->add('is_offer', CheckboxType::class, [
-                'label' => 'Offre'
+            ->add('is_offer', ChoiceType::class, [
+                'label' => 'Offre/Demande',
+                'choices' => [
+                    'Offre' => true,
+                    'Demande' => false
+                ],
             ])
             ->add('updated_at', DateTimeType::class, [
                 'label' => 'Date de mise à jour',
