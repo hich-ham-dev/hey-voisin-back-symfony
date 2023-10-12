@@ -105,7 +105,7 @@ class PostController extends AbstractController
         return $this->json($posts, Response::HTTP_OK, [], ['groups' => 'posts']);
     }
 
-    #[Route('/post/{id}/mailer', name: 'app_api_post_mailer', methods: ['GET , POST'])]
+    #[Route('/post/{id}/mailer', name: 'app_api_post_mailer', methods: ['POST'])]
     public function sendEmail(EntityManagerInterface $manager, Request $request, ValidatorInterface $validator, Post $post, MailerInterface $mailer): JsonResponse
     {
         //!TODO recupération des données front
@@ -120,6 +120,7 @@ class PostController extends AbstractController
 
         $constraints = new Assert\Collection([
             'text' => [
+                new Assert\NotBlank(),
                 new Assert\Length(
                     min:5,
                     max:255,
@@ -128,11 +129,13 @@ class PostController extends AbstractController
                 )
             ],
         ]);
+
         // validate data
         $errors = $validator->validate($data, $constraints);
         if (count($errors) > 0) {
             return $this->json($errors, Response::HTTP_UNPROCESSABLE_ENTITY);
         }
+
         //?TODO envoi du mail
         $email = (new TemplatedEmail())
         ->from('heyvoisin.off@gmail.com')
@@ -149,10 +152,9 @@ class PostController extends AbstractController
         'senderEmail' => $senderEmail,
         'postTitle' => $post->getTitle(),
         'senderUsername' => $user->getAlias(),
-
         ]);
         
         $mailer->send($email);
-        return $this->json($post, Response::HTTP_OK, ['message' => 'Votre Mail as bien été envoyé !']);
+        return $this->json($post, Response::HTTP_OK, [], ['groups' => 'posts']);
     }
 }
