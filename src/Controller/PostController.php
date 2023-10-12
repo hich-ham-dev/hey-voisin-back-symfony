@@ -34,6 +34,7 @@ class PostController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $post = new Post();
+        $post->setPublishedAt(new \DateTimeImmutable());
         $form = $this->createForm(PostType::class, $post);
         $form->handleRequest($request);
 
@@ -70,6 +71,7 @@ class PostController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $post->setUpdatedAt(new \DateTimeImmutable());
             $entityManager->flush();
 
             return $this->redirectToRoute('app_post_index', [], Response::HTTP_SEE_OTHER);

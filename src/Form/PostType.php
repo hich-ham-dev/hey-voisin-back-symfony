@@ -41,10 +41,6 @@ class PostType extends AbstractType
                     'Demande' => false
                 ],
             ])
-            ->add('updated_at', DateTimeType::class, [
-                'label' => 'Date de mise à jour',
-                'input' => 'datetime_immutable',
-            ])
             ->add('category', EntityType::class, [
                 'class' => Category::class,
                 'choice_label' => 'name',
