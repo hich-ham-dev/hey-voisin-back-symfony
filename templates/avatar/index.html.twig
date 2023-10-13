@@ -15,21 +15,18 @@
 			<thead class="table-group-divider text-center text-nowrap table-warning">
 				<tr>
 					<th class="fw-bold"><span class="badge bg-secondary rounded-pill">#</span></th>
-					<th>Url</th>
 					<th>Nom</th>
-					<th></th>
+					<th>Url</th>
 				</tr>
 			</thead>
 			<tbody>
 				{% for avatar in pagination %}
 					<tr class="table-group-divider">
 						<td class="fw-bold"><span class="badge bg-secondary rounded-pill">{{ avatar.id }}</span></td>
-						<td>{{ avatar.url }}</td>
-						<td>{{ avatar.name }}</td>
 						<td>
 							<div class="dropdown">
-								<button class="btn btn-outline-primary m-1 btn-sm rounded-pill dropdown-toggle fw-bold" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-									Actions
+								<button class="btn btn-outline-dark m-1 rounded-pill dropdown-toggle fw-bold" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+									{{ avatar.name }}
 								</button>
 								<ul class="dropdown-menu rounded-4 p-1">
 									<li>
@@ -41,6 +38,7 @@
 								</ul>
 							</div>
 						</td>
+						<td>{{ avatar.url }}</td>
 					</tr>
 				{% else %}
 					<tr>
