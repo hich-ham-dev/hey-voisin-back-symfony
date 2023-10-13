@@ -14,9 +14,9 @@
 		<table class="table align-middle vertical-align-middle text-center table-borderless table-striped table-sm shadow">
 			<thead class="table-group-divider text-center text-nowrap">
 				<tr class="table-group-divider">
-					<th class="fw-bold">#</th>
-					<th>Titre</th>
-					<th>Contenu</th>
+					<th class="fw-bold"><span class="badge bg-secondary rounded-pill">#</span></th>
+					<th>Auteur</th>
+					{# <th>Contenu</th> #}
 					<th>Publication</th>
 					<th>Publié le</th>
 					<th>Modifié le</th>
@@ -27,9 +27,9 @@
 
 				{% for comment in pagination %}
 					<tr class="table-group-divider">
-						<td class="fw-bold">{{ comment.id }}</td>
-						<td>{{ comment.title }}</td>
-						<td>{{ comment.content }}</td>
+						<td class="fw-bold"><span class="badge bg-secondary rounded-pill">{{ comment.id }}</span></td>
+						<td>{{ comment.user.alias }} <span class="badge bg-secondary rounded-pill">#{{ comment.user.id }}</span></td>
+						{# <td>{{ comment.content }}</td> #}
 						<td>{{ comment.post().title }}</td>
 						<td>{{ comment.publishedAt ? comment.publishedAt|date('d-m-Y H:i') : '' }}</td>
 						<td>{{ comment.updatedAt ? comment.updatedAt|date('d-m-Y H:i') : '' }}</td>

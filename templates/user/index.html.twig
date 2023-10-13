@@ -15,14 +15,14 @@
 		<table class="table align-middle vertical-align-middle text-center table-borderless table-striped table-sm shadow">
 			<thead class="table-group-divider text-center text-nowrap">
 				<tr>
-					<th>#</th>
+					<th class="fw-bold"><span class="badge bg-secondary rounded-pill">#</span></th>
 					<th>Email</th>
 					<th>Rôles</th>
 					<th>Alias</th>
-					<th>Prénom</th>
-					<th>Nom</th>
-					<th>Adresse</th>
-					<th>Code Postal</th>
+					{# <th>Prénom</th> #}
+					{# <th>Nom</th> #}
+					{# <th>Adresse</th> #}
+					{# <th>Code Postal</th> #}
 					<th>Ville</th>
 					<th></th>
 				</tr>
@@ -31,16 +31,14 @@
 
 				{% for user in pagination %}
 					<tr class="table-group-divider">
-						<td class="fw-bold">{{ user.id }}</td>
+						<td class="fw-bold"><span class="badge bg-secondary rounded-pill">{{ user.id }}</span></td>
 						<td>{{ user.email }}</td>
 						<td>{{ user.roles ? user.roles|json_encode : '' }}</td>
 						<td>{{ user.alias }}</td>
-						<td>{{ user.firstname }}</td>
-						<td>{{ user.lastname }}</td>
-						<td class="text-nowrap">{{ user.address }}</td>
-						<td>
-							{{ user.getCity().zipcode }}
-						</td>
+						{# <td>{{ user.firstname }}</td> #}
+						{# <td>{{ user.lastname }}</td> #}
+						{# <td class="text-nowrap">{{ user.address }}</td> #}
+						{# <td>{{ user.getCity().zipcode }}</td> #}
 						<td class="text-nowrap">{{ user.getCity().name }}</td>
 						<td>
 							<div class="dropdown">
