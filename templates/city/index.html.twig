@@ -17,7 +17,6 @@
 					<th class="fw-bold"><span class="badge bg-secondary rounded-pill">#</span></th>
 					<th>Ville</th>
 					<th>Code postal</th>
-					<th></th>
 				</tr>
 			</thead>
 			<tbody>
@@ -25,12 +24,10 @@
 				{% for city in pagination %}
 					<tr class="table-group-divider">
 						<td class="fw-bold"><span class="badge bg-secondary rounded-pill">{{ city.id }}</span></td>
-						<td>{{ city.name }}</td>
-						<td>{{ city.zipcode }}</td>
 						<td>
 							<div class="dropdown">
-								<button class="btn btn-outline-primary m-1 btn-sm rounded-pill dropdown-toggle fw-bold" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-									Actions
+								<button class="btn btn-outline-secondary m-1 rounded-pill dropdown-toggle fw-bold" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+									{{ city.name }}
 								</button>
 								<ul class="dropdown-menu rounded-4 p-1">
 									<li>
@@ -42,6 +39,7 @@
 								</ul>
 							</div>
 						</td>
+						<td>{{ city.zipcode }}</td>
 					</tr>
 				{% else %}
 					<tr>
