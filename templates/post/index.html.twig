@@ -15,7 +15,7 @@
 		<table class="table align-middle vertical-align-middle text-center table-borderless table-striped table-sm shadow">
 			<thead class="table-group-divider text-center text-nowrap">
 				<tr>
-					<th>#</th>
+					<th class="fw-bold"><span class="badge bg-secondary rounded-pill">#</span></th>
 					<th>Titre</th>
 					{# <th>Contenu</th> #}
 					<th>Ville</th>
@@ -31,7 +31,7 @@
 
 				{% for post in pagination %}
 					<tr class="table-group-divider">
-						<td class="fw-bold">{{ post.id }}</td>
+						<td class="fw-bold"><span class="badge bg-secondary rounded-pill">{{ post.id }}</span></td>
 						<td>{{ post.title }}</td>
 						{# <td>{{ post.resume }}</td> #}
 						<td class="text-nowrap">{{ post.city.name }}</td>
