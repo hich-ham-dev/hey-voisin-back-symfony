@@ -5,18 +5,18 @@
 {% endblock %}
 
 {% block body %}
-	<div class="container col-9">
+	<div class="container col-6">
 		<h1 class="mt-5 bg-secondary bg-gradient rounded-top-5 p-3 text-light text-center mb-0">Ville 
 			<span class="badge rounded-pill text-bg-success">{{ city.id }}</span>
 		</h1>
-		<table class="table table-borderless table-striped table-sm shadow">
+		<table class="table table-borderless table-striped table-sm shadow text-center">
 			<tbody>
 				<tr>
-					<th>Ville</th>
+					<th class="table-success">Ville</th>
 					<td>{{ city.name }}</td>
 				</tr>
 				<tr>
-					<th>Code postal</th>
+					<th class="table-success">Code postal</th>
 					<td>{{ city.zipcode }}</td>
 				</tr>
 			</tbody>

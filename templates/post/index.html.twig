@@ -13,55 +13,40 @@
 		</h1>
 
 		<table class="table align-middle vertical-align-middle text-center table-borderless table-striped table-sm shadow">
-			<thead class="table-group-divider text-center text-nowrap">
+			<thead class="table-group-divider text-center text-nowrap table-warning">
 				<tr>
-					<th>#</th>
+					<th class="fw-bold">
+						<span class="badge bg-secondary rounded-pill">#</span>
+					</th>
 					<th>Titre</th>
-					<th>Contenu</th>
+					{# <th>Contenu</th> #}
 					<th>Ville</th>
 					<th>Catégorie</th>
 					<th>Active</th>
 					<th>Offre</th>
-					<th>Publiée le</th>
-					<th>Modifiée le</th>
-					<th>Actions</th>
+					<th>Publié le</th>
+					{# <th>Modifiée le</th> #}
 				</tr>
 			</thead>
 			<tbody>
 
 				{% for post in pagination %}
 					<tr class="table-group-divider">
-						<td class="fw-bold">{{ post.id }}</td>
-						<td>{{ post.title }}</td>
-						<td>{{ post.resume }}</td>
+						<td class="fw-bold">
+							<span class="badge bg-secondary rounded-pill">{{ post.id }}</span>
+						</td>
+						<td><a class="btn btn-outline-dark rounded-pill text-center fw-bold" href="{{ path('app_post_show', {'id': post.id}) }}">{{ post.title }}</a></td>
+						{# <td>{{ post.resume }}</td> #}
 						<td class="text-nowrap">{{ post.city.name }}</td>
 						<td class="text-nowrap">{{ post.category.name }}</td>
 						<td>{{ post.isActive ? 'Oui' : 'Non' }}</td>
 						<td>{{ post.isOffer ? 'Oui' : 'Non' }}</td>
 						<td>{{ post.publishedAt ? post.publishedAt|date('d-m-Y H:i') : '' }}</td>
-						<td>{{ post.updatedAt ? post.updatedAt|date('d-m-Y H:i') : '' }}</td>
-						<td>
-							<div class="dropdown">
-								<button class="btn btn-outline-primary m-1 btn-sm rounded-pill dropdown-toggle fw-bold" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-									Actions
-								</button>
-								<ul class="dropdown-menu rounded-4 p-1">
-									<li>
-										<a class="dropdown-item rounded-pill text-center" href="{{ path('app_post_show', {'id': post.id}) }}">Voir</a>
-									</li>
-									<li>
-										<a class="dropdown-item rounded-pill text-center" href="{{ path('app_post_edit', {'id': post.id}) }}">Modifier</a>
-									</li>
-									<li>
-										<a class="dropdown-item bg-danger rounded-pill text-light text-center" href="{{ path('app_post_delete', {'id': post.id}) }}">Supprimer</a>
-									</li>
-								</ul>
-							</div>
-						</td>
+						{# <td>{{ post.updatedAt ? post.updatedAt|date('d-m-Y H:i') : '' }}</td> #}
 					</tr>
 				{% else %}
 					<tr>
-						<td colspan="9">Aucune entrée trouvée</td>
+						<td colspan="9" class="bg-danger">Aucune entrée trouvée</td>
 					</tr>
 				{% endfor %}
 
@@ -69,6 +54,6 @@
 		</table>
 
 		{% include "fragments/_pagination.html.twig" %}
-	
+
 	</div>
 {% endblock %}

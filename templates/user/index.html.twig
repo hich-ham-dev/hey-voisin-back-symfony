@@ -13,57 +13,35 @@
 		</h1>
 
 		<table class="table align-middle vertical-align-middle text-center table-borderless table-striped table-sm shadow">
-			<thead class="table-group-divider text-center text-nowrap">
+			<thead class="table-group-divider text-center text-nowrap table-warning">
 				<tr>
-					<th>#</th>
+					<th class="fw-bold"><span class="badge bg-secondary rounded-pill">#</span></th>
+					<th>Alias</th>
 					<th>Email</th>
 					<th>Rôles</th>
-					<th>Alias</th>
-					<th>Prénom</th>
-					<th>Nom</th>
-					<th>Adresse</th>
-					<th>Code Postal</th>
-					<th>Ville</th>
-					<th></th>
+					{# <th>Prénom</th> #}
+					{# <th>Nom</th> #}
+					{# <th>Adresse</th> #}
+					{# <th>Code Postal</th> #}
+					{# <th>Ville</th> #}
 				</tr>
 			</thead>
 			<tbody>
 
 				{% for user in pagination %}
 					<tr class="table-group-divider">
-						<td class="fw-bold">{{ user.id }}</td>
+						<td class="fw-bold"><span class="badge bg-secondary rounded-pill">{{ user.id }}</span></td>
+						<td><a class="btn btn-outline-dark rounded-pill text-center fw-bold" href="{{ path('app_user_show', {'id': user.id}) }}">{{ user.alias }}</a></td>
 						<td>{{ user.email }}</td>
 						<td>{{ user.roles ? user.roles|json_encode : '' }}</td>
-						<td>{{ user.alias }}</td>
-						<td>{{ user.firstname }}</td>
-						<td>{{ user.lastname }}</td>
-						<td class="text-nowrap">{{ user.address }}</td>
-						<td>
-							{{ user.getCity().zipcode }}
-						</td>
-						<td class="text-nowrap">{{ user.getCity().name }}</td>
-						<td>
-							<div class="dropdown">
-								<button class="btn btn-outline-primary m-1 btn-sm rounded-pill dropdown-toggle fw-bold" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-									Actions
-								</button>
-								<ul class="dropdown-menu rounded-4 p-1">
-									<li>
-										<a class="dropdown-item rounded-pill" href="{{ path('app_user_show', {'id': user.id}) }}">Voir</a>
-									</li>
-									<li>
-										<a class="dropdown-item rounded-pill" href="{{ path('app_user_edit', {'id': user.id}) }}">Modifier</a>
-									</li>
-									<li>
-										<a class="dropdown-item bg-danger rounded-pill text-light" href="{{ path('app_user_delete', {'id': user.id}) }}">Supprimer</a>
-									</li>
-								</ul>
-							</div>
-						</td>
+						{# <td>{{ user.firstname }}</td> #}
+						{# <td>{{ user.lastname }}</td> #}
+						{# <td class="text-nowrap">{{ user.address }}</td> #}
+						{# <td>{{ user.getCity().zipcode }}</td> #}
 					</tr>
 				{% else %}
 					<tr>
-						<td colspan="9">Aucune entrée trouvée</td>
+						<td colspan="9" class="bg-danger">Aucune entrée trouvée</td>
 					</tr>
 				{% endfor %}
 				

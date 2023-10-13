@@ -5,43 +5,43 @@
 {% endblock %}
 
 {% block body %}
-	<div class="container col-9">
+	<div class="container col-6">
 		<h1 class="mt-5 bg-secondary bg-gradient rounded-top-5 p-3 text-light text-center mb-0">Utilisateur
 			<span class="badge rounded-pill text-bg-success">{{ user.id }}</span>
 		</h1>
 
-		<table class="table table-borderless table-striped table-sm shadow">
+		<table class="table table-borderless table-striped table-sm shadow text-center">
 			<tbody>
 				<tr>
-					<th>Email</th>
+					<th class="table-success">Email</th>
 					<td>{{ user.email }}</td>
 				</tr>
 				<tr>
-					<th>Rôles</th>
+					<th class="table-success text-center">Rôles</th>
 					<td>{{ user.roles ? user.roles|json_encode : '' }}</td>
 				</tr>
 				<tr>
-					<th>Alias</th>
+					<th class="table-success">Alias</th>
 					<td>{{ user.alias }}</td>
 				</tr>
 				<tr>
-					<th>Prénom</th>
+					<th class="table-success">Prénom</th>
 					<td>{{ user.firstname }}</td>
 				</tr>
 				<tr>
-					<th>Nom</th>
+					<th class="table-success">Nom</th>
 					<td>{{ user.lastname }}</td>
 				</tr>
 				<tr>
-					<th>Adresse</th>
+					<th class="table-success">Adresse</th>
 					<td>{{ user.address }}</td>
 				</tr>
                 <tr>
-                    <th>Code postal</th>
+                    <th class="table-success">Code postal</th>
                     <td>{{ user.city().zipcode }}</td>
                 </tr>
                 <tr>
-                    <th>Ville</th>
+                    <th class="table-success">Ville</th>
                     <td>{{ user.city().name }}</td>
                 </tr>
 			</tbody>
