@@ -14,43 +14,32 @@
 		<table class="table align-middle vertical-align-middle text-center table-borderless table-striped table-sm shadow">
 			<thead class="table-group-divider text-center text-nowrap table-warning">
 				<tr class="table-group-divider">
-					<th class="fw-bold"><span class="badge bg-secondary rounded-pill">#</span></th>
+					<th class="fw-bold">
+						<span class="badge bg-secondary rounded-pill">#</span>
+					</th>
 					<th>Auteur</th>
 					{# <th>Contenu</th> #}
 					<th>Publication</th>
 					<th>Publié le</th>
 					<th>Modifié le</th>
-					<th></th>
 				</tr>
 			</thead>
 			<tbody>
 
 				{% for comment in pagination %}
 					<tr class="table-group-divider">
-						<td class="fw-bold"><span class="badge bg-secondary rounded-pill">{{ comment.id }}</span></td>
-						<td>{{ comment.user.alias }} <span class="badge bg-primary rounded-pill">#{{ comment.user.id }}</span></td>
+						<td class="fw-bold">
+							<span class="badge bg-secondary rounded-pill">{{ comment.id }}</span>
+						</td>
+						<td>
+							<a class="btn btn-outline-secondary rounded-pill text-center fw-bold" href="{{ path('app_comment_show', {'id': comment.id}) }}">{{ comment.user.alias }}
+								<span class="badge bg-primary rounded-pill">#{{ comment.user.id }}</span>
+							</a>
+						</td>
 						{# <td>{{ comment.content }}</td> #}
 						<td>{{ comment.post().title }}</td>
 						<td>{{ comment.publishedAt ? comment.publishedAt|date('d-m-Y H:i') : '' }}</td>
 						<td>{{ comment.updatedAt ? comment.updatedAt|date('d-m-Y H:i') : '' }}</td>
-						<td>
-							<div class="dropdown">
-								<button class="btn btn-outline-primary m-1 btn-sm rounded-pill dropdown-toggle fw-bold" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-									Actions
-								</button>
-								<ul class="dropdown-menu rounded-4 p-1">
-									<li>
-										<a class="dropdown-item rounded-pill" href="{{ path('app_comment_show', {'id': comment.id}) }}">Voir</a>
-									</li>
-									<li>
-										<a class="dropdown-item rounded-pill" href="{{ path('app_comment_edit', {'id': comment.id}) }}">Modifier</a>
-									</li>
-									<li>
-										<a class="dropdown-item bg-danger rounded-pill text-light" href="{{ path('app_comment_delete', {'id': comment.id}) }}">Supprimer</a>
-									</li>
-								</ul>
-							</div>
-						</td>
 					</tr>
 				{% else %}
 					<tr>
