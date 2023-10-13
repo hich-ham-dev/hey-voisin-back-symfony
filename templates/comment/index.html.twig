@@ -28,7 +28,7 @@
 				{% for comment in pagination %}
 					<tr class="table-group-divider">
 						<td class="fw-bold"><span class="badge bg-secondary rounded-pill">{{ comment.id }}</span></td>
-						<td>{{ comment.user.alias }} <span class="badge bg-secondary rounded-pill">#{{ comment.user.id }}</span></td>
+						<td>{{ comment.user.alias }} <span class="badge bg-primary rounded-pill">#{{ comment.user.id }}</span></td>
 						{# <td>{{ comment.content }}</td> #}
 						<td>{{ comment.post().title }}</td>
 						<td>{{ comment.publishedAt ? comment.publishedAt|date('d-m-Y H:i') : '' }}</td>
