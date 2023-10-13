@@ -4,7 +4,7 @@
 {% endblock %}
 
 {% block body %}
-	<div class="container col-9">
+	<div class="container col-6">
 
 		{% include "fragments/_flash_message.html.twig" %}
 
@@ -24,11 +24,10 @@
 				{% for category in pagination %}
 					<tr class="table-group-divider">
 						<td class="fw-bold"><span class="badge bg-secondary rounded-pill">{{ category.id }}</span></td>
-						<td>{{ category.name }}</td>
 						<td>
 							<div class="dropdown">
-								<button class="btn btn-outline-primary m-1 btn-sm rounded-pill dropdown-toggle fw-bold" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-									Actions
+								<button class="btn btn-outline-secondary m-1 rounded-pill dropdown-toggle fw-bold" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+									{{ category.name }}
 								</button>
 								<ul class="dropdown-menu rounded-4 p-1">
 									<li>
@@ -43,7 +42,7 @@
 					</tr>
 				{% else %}
 					<tr>
-						<td colspan="9">no records found</td>
+						<td colspan="9" class="bg-danger">Aucune entrée trouvée</td>
 					</tr>
 				{% endfor %}
 
