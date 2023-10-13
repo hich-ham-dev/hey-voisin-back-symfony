@@ -5,38 +5,38 @@
 {% endblock %}
 
 {% block body %}
-	<div class="container col-9">
+	<div class="container col-6">
 		<h1 class="mt-5 bg-secondary bg-gradient rounded-top-5 p-3 text-light text-center mb-0">Commentaire
 			<span class="badge rounded-pill text-bg-success">{{ comment.id }}</span>
 		</h1>
-		<table class="table table-borderless table-striped table-sm shadow">
+		<table class="table table-borderless table-striped table-sm shadow text-center">
 			<tbody>
 				<tr>
-					<th class="table-center">Publication <span class="badge rounded-pill text-bg-success">{{ comment.post().id }}</span></th>
-					<td>{{ comment.post().title }}</td>
-				<tr>
-					<th class="table-center">Titre</th>
+					<th class="table-success text-nowrap">Publication <span class="badge rounded-pill text-bg-success">{{ comment.post().id }}</span></th>
+					<td class="fw-bold">{{ comment.post().title }}</td>
+				{# <tr>
+					<th class="table-success">Titre</th>
 					<td>{{ comment.title }}</td>
-				</tr>
+				</tr> #}
 				<tr>
-					<th class="table-center">Auteur</th>
+					<th class="table-success">Auteur</th>
 					<td>{{ comment.user().alias }}</td>
 				<tr>
-					<th class="table-center">Contenu</th>
+					<th class="table-success">Contenu</th>
 					<td>{{ comment.content }}</td>
 				</tr>
 				<tr>
-					<th class="table-center">Publié le</th>
+					<th class="table-success">Publié le</th>
 					<td>{{ comment.publishedAt ? comment.publishedAt|date('d-m-Y H:i') : '' }}</td>
 				</tr>
 				<tr>
-					<th class="table-center">Mis à jour le</th>
+					<th class="table-success">Mis à jour le</th>
 					<td>{{ comment.updatedAt ? comment.updatedAt|date('d-m-Y H:i') : '' }}</td>
 				</tr>
 			</tbody>
 		</table>
 		<div class="dropdown">
-			<button class="btn btn-outline-primary m-1 btn-sm rounded-pill dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+			<button class="btn btn-outline-primary m-1 btn-sm rounded-pill dropdown-toggle fw-bold" type="button" data-bs-toggle="dropdown" aria-expanded="false">
 				Actions
 			</button>
 			<ul class="dropdown-menu rounded-4 p-1 text-center">
