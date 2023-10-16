@@ -42,9 +42,7 @@
 						<td>{{ comment.updatedAt ? comment.updatedAt|date('d-m-Y H:i') : '' }}</td>
 					</tr>
 				{% else %}
-					<tr>
-						<td colspan="9" class="bg-danger">Aucune entrée trouvée</td>
-					</tr>
+					{% include "fragments/_no_entry_message.html.twig" %}
 				{% endfor %}
 
 			</tbody>

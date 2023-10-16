@@ -15,25 +15,27 @@
 							<a class="nav-link fw-bold" href="{{ path('app_post_index') }}">Publications</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link fw-bold" href="{{ path('app_category_index') }}">Catégories</a>
-						</li>
-						<li class="nav-item">
 							<a class="nav-link fw-bold" href="{{ path('app_user_index') }}">Utilisateurs</a>
 						</li>
-						<li class="nav-item">
-							<a class="nav-link fw-bold" href="{{ path('app_city_index') }}">Villes</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link fw-bold" href="{{ path('app_avatar_index') }}">Avatars</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link fw-bold" href="{{ path('app_comment_index') }}">Commentaires</a>
-						</li>
+						{% if is_granted('ROLE_ADMIN') %}
+							<li class="nav-item">
+								<a class="nav-link fw-bold" href="{{ path('app_category_index') }}">Catégories</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link fw-bold" href="{{ path('app_city_index') }}">Villes</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link fw-bold" href="{{ path('app_avatar_index') }}">Avatars</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link fw-bold" href="{{ path('app_comment_index') }}">Commentaires</a>
+							</li>
+						{% endif %}
 						<li class="nav-item">
 							<a class="btn btn-outline-danger shadow rounded-pill fw-bold ms-3" href="{{ path('app_logout') }}">Déconnexion</a>
 						</li>
 					</ul>
-			{% endif %}
+				{% endif %}
 			</div>
 		</div>
 	</nav>

@@ -18,6 +18,7 @@
 				<tr>
 					<th class="table-success">Auteur</th>
 					<td>{{ post.user.alias }}</td>
+				</tr>
 				<tr>
 					<th class="table-success">Résumé</th>
 					<td>{{ post.resume }}</td>
@@ -41,15 +42,19 @@
 			</tbody>
 		</table>
 		<div class="dropdown">
-			<button class="btn btn-outline-primary m-1 btn-sm rounded-pill dropdown-toggle fw-bold" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-				Actions
-			</button>
-			<ul class="dropdown-menu rounded-4 p-1 text-center">
-				<li>
-					<a class="dropdown-item rounded-pill m-1 text-center" href="{{ path('app_post_edit', {'id': post.id}) }}">Modifier</a>
-				</li>
+			{% if is_granted('ROLE_ADMIN', post) %}
+				<button class="btn btn-outline-primary m-1 btn-sm rounded-pill dropdown-toggle fw-bold" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+					Actions
+				</button>
+				<ul class="dropdown-menu rounded-4 p-1 text-center">
+					<li>
+						<a class="dropdown-item rounded-pill m-1 text-center" href="{{ path('app_post_edit', {'id': post.id}) }}">Modifier</a>
+					</li>
+					{{ include('post/_delete_form.html.twig') }}
+				</ul>
+			{% else %}
 				{{ include('post/_delete_form.html.twig') }}
-			</ul>
+			{% endif %}
 		</div>
 		<a href="{{ path('app_post_index') }}" class="btn btn-secondary m-1 btn-sm rounded-pill">Retour</a>
 	</div>

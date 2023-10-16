@@ -10,10 +10,12 @@ body %}
 			</h1>
 			<p class="m-2">Vous êtes connecté en tant que
 				{% if 'ROLE_ADMIN' in app.user.roles %}
-					<span class="fw-bold badge rounded-pill text-bg-success">Administrateur</span></p>
-				{% else %}
-					<span class="fw-bold badge rounded-pill text-bg-warning">Modérateur</span></p>
-				{% endif %}
+					<span class="fw-bold badge rounded-pill text-bg-success">Administrateur</span>
+				</p>
+			{% else %}
+				<span class="fw-bold badge rounded-pill text-bg-warning">Modérateur</span>
+			</p>
+		{% endif %}
 
 		<p class="m-2">Veuillez sélectionner l'une des options suivantes :</p>
 
@@ -21,21 +23,23 @@ body %}
 			<a href="{{ path('app_post_index') }}" class="list-group-item list-group-item-action list-group-item-success fw-bold d-flex justify-content-between align-items-center">Accéder aux publications
 				<span class="badge bg-success rounded-pill">{{ numberPost }}</span>
 			</a>
-			<a href="{{ path('app_category_index') }}" class="list-group-item list-group-item-action list-group-item-primary fw-bold d-flex justify-content-between align-items-center">Accéder aux catégories
-				<span class="badge bg-success rounded-pill">{{ numberCategory }}</span>
-			</a>
-			<a href="{{ path('app_user_index') }}" class="list-group-item list-group-item-action list-group-item-success fw-bold d-flex justify-content-between align-items-center">Accéder à la gestion utilisateurs
+			<a href="{{ path('app_user_index') }}" class="list-group-item list-group-item-action list-group-item-primary fw-bold d-flex justify-content-between align-items-center">Accéder à la gestion utilisateurs
 				<span class="badge bg-success rounded-pill">{{ numberUser }}</span>
 			</a>
-			<a href="{{ path('app_city_index') }}" class="list-group-item list-group-item-action list-group-item-primary fw-bold d-flex justify-content-between align-items-center">Accéder aux villes
-				<span class="badge bg-success rounded-pill">{{ numberCity }}</span>
-			</a>
-			<a href="{{ path('app_avatar_index') }}" class="list-group-item list-group-item-action list-group-item-success fw-bold d-flex justify-content-between align-items-center">Accéder aux avatars
-				<span class="badge bg-success rounded-pill">{{ numberAvatar }}</span>
-			</a>
-			<a href="{{ path('app_comment_index') }}" class="list-group-item list-group-item-action list-group-item-primary fw-bold d-flex justify-content-between align-items-center">Accéder aux commentaires
-				<span class="badge bg-success rounded-pill">{{ numberComment }}</span>
-			</a>
+			{% if is_granted('ROLE_ADMIN') %}
+				<a href="{{ path('app_category_index') }}" class="list-group-item list-group-item-action list-group-item-success fw-bold d-flex justify-content-between align-items-center">Accéder aux catégories
+					<span class="badge bg-success rounded-pill">{{ numberCategory }}</span>
+				</a>
+				<a href="{{ path('app_city_index') }}" class="list-group-item list-group-item-action list-group-item-primary fw-bold d-flex justify-content-between align-items-center">Accéder aux villes
+					<span class="badge bg-success rounded-pill">{{ numberCity }}</span>
+				</a>
+				<a href="{{ path('app_avatar_index') }}" class="list-group-item list-group-item-action list-group-item-success fw-bold d-flex justify-content-between align-items-center">Accéder aux avatars
+					<span class="badge bg-success rounded-pill">{{ numberAvatar }}</span>
+				</a>
+				<a href="{{ path('app_comment_index') }}" class="list-group-item list-group-item-action list-group-item-primary fw-bold d-flex justify-content-between align-items-center">Accéder aux commentaires
+					<span class="badge bg-success rounded-pill">{{ numberComment }}</span>
+				</a>
+			{% endif %}
 		</div>
 	</div>
 </div>{% endblock %}
