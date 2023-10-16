@@ -5,34 +5,37 @@
 {% endblock %}
 
 {% block body %}
-	<div class="container col-9">
+	<div class="container col-6">
 		<h1 class="mt-5 bg-secondary bg-gradient rounded-top-5 p-3 text-light text-center mb-0">Publication
 			<span class="badge rounded-pill text-bg-success">{{ post.id }}</span>
 		</h1>
-		<table class="table table-borderless table-striped table-sm shadow">
+		<table class="table table-borderless table-striped table-sm shadow text-center">
 			<tbody>
 				<tr>
-					<th>Titre</th>
-					<td>{{ post.title }}</td>
+					<th class="table-success">Titre</th>
+					<td class="fw-bold">{{ post.title }}</td>
 				</tr>
 				<tr>
-					<th>Résumé</th>
+					<th class="table-success">Auteur</th>
+					<td>{{ post.user.alias }}</td>
+				<tr>
+					<th class="table-success">Résumé</th>
 					<td>{{ post.resume }}</td>
 				</tr>
 				<tr>
-					<th>Actif</th>
+					<th class="table-success">Actif</th>
 					<td>{{ post.isActive ? 'Oui' : 'Non' }}</td>
 				</tr>
 				<tr>
-					<th>Offre</th>
+					<th class="table-success">Offre</th>
 					<td>{{ post.isOffer ? 'Oui' : 'Non' }}</td>
 				</tr>
 				<tr>
-					<th>Publié le</th>
+					<th class="table-success">Publié le</th>
 					<td>{{ post.publishedAt ? post.publishedAt|date('d-m-Y H:i') : '' }}</td>
 				</tr>
 				<tr>
-					<th>Modifié le</th>
+					<th class="text-nowrap table-success">Modifié le</th>
 					<td>{{ post.updatedAt ? post.updatedAt|date('d-m-Y H:i') : '' }}</td>
 				</tr>
 			</tbody>

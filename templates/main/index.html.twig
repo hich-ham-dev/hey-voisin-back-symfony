@@ -10,9 +10,9 @@ body %}
 			</h1>
 			<p class="m-2">Vous êtes connecté en tant que
 				{% if 'ROLE_ADMIN' in app.user.roles %}
-					<span class="fw-bold">Administrateur</span>.</p>
+					<span class="fw-bold badge rounded-pill text-bg-success">Administrateur</span></p>
 				{% else %}
-					<span class="fw-bold">Modérateur</span>.</p>
+					<span class="fw-bold badge rounded-pill text-bg-warning">Modérateur</span></p>
 				{% endif %}
 
 		<p class="m-2">Veuillez sélectionner l'une des options suivantes :</p>

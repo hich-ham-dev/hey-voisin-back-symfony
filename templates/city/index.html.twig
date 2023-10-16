@@ -4,7 +4,7 @@
 {% endblock %}
 
 {% block body %}
-	<div class="container col-9">
+	<div class="container col-6">
 
 		{% include "fragments/_flash_message.html.twig" %}
 
@@ -12,30 +12,24 @@
 			<a href="{{ path('app_city_new') }}" class="btn btn-success bg-gradient shadow btn-sm rounded-pill fw-bold">Ajouter une ville</a>
 		</h1>
 		<table class="table align-middle vertical-align-middle text-center table-borderless table-striped table-sm shadow">
-			<thead class="table-group-divider text-center text-nowrap">
+			<thead class="table-group-divider text-center text-nowrap table-warning">
 				<tr>
-					<th>#</th>
+					<th class="fw-bold"><span class="badge bg-secondary rounded-pill">#</span></th>
 					<th>Ville</th>
 					<th>Code postal</th>
-					<th></th>
 				</tr>
 			</thead>
 			<tbody>
 
 				{% for city in pagination %}
 					<tr class="table-group-divider">
-						<td class="fw-bold">{{ city.id }}</td>
-						<td>{{ city.name }}</td>
-						<td>{{ city.zipcode }}</td>
+						<td class="fw-bold"><span class="badge bg-secondary rounded-pill">{{ city.id }}</span></td>
 						<td>
 							<div class="dropdown">
-								<button class="btn btn-outline-primary m-1 btn-sm rounded-pill dropdown-toggle fw-bold" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-									Actions
+								<button class="btn btn-outline-dark m-1 rounded-pill dropdown-toggle fw-bold" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+									{{ city.name }}
 								</button>
 								<ul class="dropdown-menu rounded-4 p-1">
-									<li>
-										<a class="dropdown-item rounded-pill" href="{{ path('app_city_show', {'id': city.id}) }}">Voir</a>
-									</li>
 									<li>
 										<a class="dropdown-item rounded-pill" href="{{ path('app_city_edit', {'id': city.id}) }}">Modifier</a>
 									</li>
@@ -45,10 +39,11 @@
 								</ul>
 							</div>
 						</td>
+						<td>{{ city.zipcode }}</td>
 					</tr>
 				{% else %}
 					<tr>
-						<td colspan="9">no records found</td>
+						<td colspan="9" class="bg-danger">Aucune entrée trouvée</td>
 					</tr>
 				{% endfor %}
 

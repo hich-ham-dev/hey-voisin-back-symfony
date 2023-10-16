@@ -5,18 +5,18 @@
 {% endblock %}
 
 {% block body %}
-	<div class="container col-9">
-		<h1 class="mt-5 bg-secondary bg-gradient rounded-top-5 p-3 text-light text-center mb-0">Avatar
+	<div class="container col-6">
+		<h1 class="mt-5 bg-secondary bg-gradient rounded-top-5 text-light text-center mb-0">Avatar
 			<span class="badge rounded-pill text-bg-success">{{ avatar.id }}</span>
 		</h1>
-		<table class="table table-borderless table-striped table-sm shadow">
+		<table class="table table-borderless table-striped table-sm shadow text-center">
 			<tbody>
 				<tr>
-					<th>Url</th>
+					<th class="table-success">Url</th>
 					<td>{{ avatar.url }}</td>
 				</tr>
 				<tr>
-					<th>Nom</th>
+					<th class="table-success">Nom</th>
 					<td>{{ avatar.name }}</td>
 				</tr>
 			</tbody>
