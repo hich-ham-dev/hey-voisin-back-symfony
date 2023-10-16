@@ -3,7 +3,9 @@
 namespace App\Security\Voter;
 
 use App\Entity\Post;
+use App\Entity\User;
 use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -17,7 +19,7 @@ class PostVoter extends Voter
     protected function supports(string $attribute, mixed $subject): bool
     {
         // Verify that the attribute is one we support
-        if (!in_array($attribute, [self::EDIT, self::VIEW, self::DELETE])) {
+        if (in_array($attribute, [self::EDIT, self::VIEW, self::DELETE])===false) {
             return false;
             }
         
@@ -29,12 +31,6 @@ class PostVoter extends Voter
         return true;
     }
 
-    public function __construct(
-        private Security $security,
-    ) {
-
-    }
-
     protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool
     {
         $user = $token->getUser();
@@ -43,30 +39,27 @@ class PostVoter extends Voter
             return false;
         }
 
-        if ($this->security->isGranted('ROLE_ADMIN')) {
+        if (in_array('ROLE_ADMIN', $user->getRoles())) {
             return true;
         }
 
-        if ($this->security->isGranted('ROLE_MODERATOR')) {
-            // ... (check conditions and return true to grant permission) ...
-        switch ($attribute) {
-            case self::EDIT:
-                return true;
+        if (in_array('ROLE_MODERATOR', $user->getRoles())) {
+            switch ($attribute) {
+                case 'POST_EDIT':
+                    return true;
+                    break;
+                
+                case 'POST_VIEW':
+                    return true;
+                    break;
+                
+                case 'POST_DELETE':
+                    return true;
+                    break;
+            }
 
-                break;
-
-            case self::VIEW:
-                return true;
-
-                break;
-            
-            case self::DELETE:
-                return true;
-
-                break;
+            return false;
         }
-
-        return false;
-        }
-    }
+    }   
 }
+
