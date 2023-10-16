@@ -47,7 +47,7 @@
 			</tbody>
 		</table>
 			<div class="dropdown">
-				{% if is_granted('USER_EDIT', user) %}
+				{% if is_granted('ROLE_ADMIN', user) %}
 				<button class="btn btn-outline-primary m-1 btn-sm rounded-pill dropdown-toggle fw-bold" type="button" data-bs-toggle="dropdown" aria-expanded="false">
 					Actions
 				</button>
