@@ -3,6 +3,7 @@
 namespace App\Security\Voter;
 
 use App\Entity\Post;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -28,6 +29,12 @@ class PostVoter extends Voter
         return true;
     }
 
+    public function __construct(
+        private Security $security,
+    ) {
+
+    }
+
     protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool
     {
         $user = $token->getUser();
@@ -36,24 +43,30 @@ class PostVoter extends Voter
             return false;
         }
 
-        // ... (check conditions and return true to grant permission) ...
+        if ($this->security->isGranted('ROLE_ADMIN')) {
+            return true;
+        }
+
+        if ($this->security->isGranted('ROLE_MODERATOR')) {
+            // ... (check conditions and return true to grant permission) ...
         switch ($attribute) {
             case self::EDIT:
-                // logic to determine if the user can EDIT
-                // return true or false
+                return true;
+
                 break;
 
             case self::VIEW:
-                // logic to determine if the user can VIEW
-                // return true or false
+                return true;
+
                 break;
             
             case self::DELETE:
-                // logic to determine if the user can DELETE
-                // return true or false
+                return true;
+
                 break;
         }
 
         return false;
+        }
     }
 }
