@@ -12,15 +12,15 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/post')]
 class PostController extends AbstractController
 {
     #[Route('/', name: 'app_post_index', methods: ['GET'])]
+    #[IsGranted('ROLE_MODERATOR')]
     public function index(PostRepository $post, Request $request, PaginatorInterface $paginator): Response
     {
-        $this->denyAccessUnlessGranted(PostVoter::VIEW, $post);
-
         $pagination = $paginator->paginate(
             $post->paginationQuery(),
             $request->query->getInt('page', 1),
@@ -32,6 +32,7 @@ class PostController extends AbstractController
     }
 
     #[Route('/new', name: 'app_post_new', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_ADMIN')]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {   
         $post = new Post();
@@ -58,20 +59,18 @@ class PostController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_post_show', methods: ['GET'])]
+    #[IsGranted('ROLE_MODERATOR')]
     public function show(Post $post): Response
     {
-        $this->denyAccessUnlessGranted(PostVoter::VIEW, $post);
-
         return $this->render('post/show.html.twig', [
             'post' => $post,
         ]);
     }
 
     #[Route('/{id}/edit', name: 'app_post_edit', methods: ['GET','POST','PUT'])]
+    #[IsGranted('ROLE_ADMIN')]
     public function edit(Request $request, Post $post, EntityManagerInterface $entityManager): Response
     {
-        $this->denyAccessUnlessGranted('POST_EDIT', $post);
-
         $form = $this->createForm(PostType::class, $post);
         $form->handleRequest($request);
 
@@ -94,10 +93,9 @@ class PostController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_post_delete', methods: ['POST'])]
+    #[IsGranted('ROLE_MODERATOR')]
     public function delete(Request $request, Post $post, EntityManagerInterface $entityManager): Response
     {
-        $this->denyAccessUnlessGranted(PostVoter::DELETE, $post);
-
         if ($this->isCsrfTokenValid('delete'.$post->getId(), $request->request->get('_token'))) {
             $entityManager->remove($post);
             $entityManager->flush();
