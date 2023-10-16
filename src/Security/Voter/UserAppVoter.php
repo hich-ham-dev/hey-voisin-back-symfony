@@ -2,29 +2,25 @@
 
 namespace App\Security\Voter;
 
-use App\Entity\Post;
 use App\Entity\User;
-use Symfony\Bundle\SecurityBundle\Security;
-use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class PostVoter extends Voter
+class UserAppVoter extends Voter
 {
-    public const EDIT = 'POST_EDIT';
-    public const VIEW = 'POST_VIEW';
-    public const DELETE = 'POST_DELETE';
+    public const VIEW = 'USER_VIEW';
+    public const DELETE = 'USER_DELETE';
 
     protected function supports(string $attribute, mixed $subject): bool
     {
         // Verify that the attribute is one we support
-        if (in_array($attribute, [self::EDIT, self::VIEW, self::DELETE])===false) {
+        if (in_array($attribute, [self::VIEW, self::DELETE])===false) {
             return false;
             }
         
         // Only vote on `Post` objects
-        if (!$subject instanceof Post) {
+        if (!$subject instanceof User) {
             return false;
         }
 
@@ -45,11 +41,11 @@ class PostVoter extends Voter
 
         if (in_array('ROLE_MODERATOR', $user->getRoles())) {
             switch ($attribute) {
-                case 'POST_VIEW':
+                case 'USER_VIEW':
                     return true;
                     break;
 
-                case 'POST_DELETE':
+                    case 'USER_DELETE':
                     return true;
                     break;
             }
