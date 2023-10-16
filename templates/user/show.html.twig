@@ -46,19 +46,19 @@
 				</tr>
 			</tbody>
 		</table>
-		<div class="dropdown">
-			<button class="btn btn-outline-primary m-1 btn-sm rounded-pill dropdown-toggle fw-bold" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-				Actions
-			</button>
-			<ul class="dropdown-menu rounded-4 p-1">
+			<div class="dropdown">
 				{% if is_granted('USER_EDIT', user) %}
+				<button class="btn btn-outline-primary m-1 btn-sm rounded-pill dropdown-toggle fw-bold" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+					Actions
+				</button>
+				<ul class="dropdown-menu rounded-4 p-1">
 					<li>
 						<a class="dropdown-item rounded-pill" href="{{ path('app_user_edit', {'id': user.id}) }}">Modifier</a>
 					</li>
-				{% endif %}
-				{{ include('user/_delete_form.html.twig') }}
-			</ul>
+					{{ include('user/_delete_form.html.twig') }}
+				</ul>
+			{% endif %}
 		</div>
-		<a href="{{ path('app_user_index') }}" class="btn btn-secondary m-1 btn-sm rounded-pill">Retour</a>
+		<a href="{{ path('app_user_index') }}" class="btn btn-secondary m-1 rounded-pill">Retour</a>
 	</div>
 {% endblock %}
