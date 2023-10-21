@@ -8,6 +8,7 @@
 /var/
 /vendor/
 /.vscode
+/.idea
 ###< symfony/framework-bundle ###
 
 ###> phpunit/phpunit ###
