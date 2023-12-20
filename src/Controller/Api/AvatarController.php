@@ -14,6 +14,7 @@ class AvatarController extends AbstractController
     #[Route('/avatar', name: 'app_api_avatar')]
     public function index(AvatarRepository $avatar): JsonResponse
     {
+        // Get all avatars
         $avatars = $avatar->findAll();
 
         return $this->json($avatars, Response::HTTP_OK, [], ['groups' => 'avatars']);
@@ -21,7 +22,8 @@ class AvatarController extends AbstractController
 
     #[Route('/avatar/{id}', name: 'app_api_avatar_show')]
     public function show(AvatarRepository $avatar, int $id): JsonResponse
-    {
+    {   
+        // Get one avatar by id       
         $avatar = $avatar->find($id);
 
         return $this->json($avatar, Response::HTTP_OK, [], ['groups' => 'avatars']);
