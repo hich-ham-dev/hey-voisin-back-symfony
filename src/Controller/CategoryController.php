@@ -47,6 +47,7 @@ class CategoryController extends AbstractController
             return $this->redirectToRoute('app_category_index', [], Response::HTTP_SEE_OTHER);
         }
 
+        // Render view
         return $this->render('category/new.html.twig', [
             'category' => $category,
             'form' => $form,
@@ -56,6 +57,7 @@ class CategoryController extends AbstractController
     #[Route('/{id}', name: 'app_category_show', methods: ['GET'])]
     public function show(Category $category): Response
     {
+        // Display a category
         return $this->render('category/show.html.twig', [
             'category' => $category,
         ]);
@@ -75,6 +77,7 @@ class CategoryController extends AbstractController
             return $this->redirectToRoute('app_category_index', [], Response::HTTP_SEE_OTHER);
         }
 
+        // Render view
         return $this->render('category/edit.html.twig', [
             'category' => $category,
             'form' => $form,
@@ -90,6 +93,7 @@ class CategoryController extends AbstractController
             $entityManager->flush();
         }
 
+        // Redirect to category index
         return $this->redirectToRoute('app_category_index', [], Response::HTTP_SEE_OTHER);
     }
 }

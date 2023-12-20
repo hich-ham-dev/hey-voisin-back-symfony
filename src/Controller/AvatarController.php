@@ -95,6 +95,7 @@ class AvatarController extends AbstractController
             $entityManager->flush();
         }
 
+        // Redirect to avatar index
         return $this->redirectToRoute('app_avatar_index', [], Response::HTTP_SEE_OTHER);
     }
 }
