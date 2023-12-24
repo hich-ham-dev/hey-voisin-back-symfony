@@ -8,10 +8,12 @@
 		</title>
 		<link rel="icon" type="image/png" href="{{ asset('img/LogoHeyVoisinNoBG.png') }}">
 		<link rel="stylesheet" href="{{ asset('styles/app.css') }}"></head>
-		<link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/flowbite.min.css" rel="stylesheet" />
-	<body class="h-full">
-		{% include 'nav/nav2.html.twig' %}
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/flowbite.min.css" rel="stylesheet"/>
+	<body class="h-full bg-gray-200">
+		{% if app.request.attributes.get('_route') != 'app_login' %}
+			{% include 'nav/nav2.html.twig' %}
+		{% endif %}
 		{% block body %}{% endblock %}
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/flowbite.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/flowbite.min.js"></script>
 	</body>
 </html>

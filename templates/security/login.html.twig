@@ -5,8 +5,16 @@
 
 {% block body %}
 	<div class="flex justify-center items-center h-full">
-		<div class="backdrop-blur-lg bg-white/30 max-h-80 w-full max-w-screen-md p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700">
+		<div class="max-h-80 w-full max-w-screen-md p-4 bg-blue-300 border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700">
+			
 			<form class="space-y-6" method="post">
+				<div class="flex flex-row items-center justify-center">
+					<img src="{{ asset('img/LogoHeyVoisinNoBG.png') }}" class="h-16" alt="Hey, voisin ! Logo">
+					<img src="{{ asset('img/TitleHeyVoisinNoBG.png') }}" class="h-12" alt="Nom du site Hey,voisin !">
+					<span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Le Back-Office</span>
+				</div>
+				
+				<img src="{{ asset('img/voisinage.png') }}" alt="Image de voisinage">
 
 				{% if error %}
 					<div class="flex items-center p-4 mb-4 text-sm text-red-800 border border-red-300 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400 dark:border-red-800" role="alert">
@@ -45,7 +53,7 @@
 					</div> #}
 				</div>
 				<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-				<button type="submit" class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Login to your account</button>
+				<button type="submit" class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Connexion</button>
 			</form>
 		</div>
 	</div>
