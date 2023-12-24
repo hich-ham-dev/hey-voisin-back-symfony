@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE>
 <html>
 	<head>
 		<meta charset="UTF-8">
@@ -6,10 +6,12 @@
 			{% block title %}Hey_Voisin, le Back-Office Officiel.
 			{% endblock %}
 		</title>
-		<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+		<link rel="icon" type="image/png" href="{{ asset('img/LogoHeyVoisinNoBG.png') }}">
 		<link rel="stylesheet" href="{{ asset('styles/app.css') }}"></head>
-		<body class="bg-light">
-			{% include 'nav/nav2.html.twig' %}
-			{% block body %}{% endblock %}
-		</body>
-	</html>
+		<link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/flowbite.min.css" rel="stylesheet" />
+	<body class="bg-light">
+		{% include 'nav/nav2.html.twig' %}
+		{% block body %}{% endblock %}
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/flowbite.min.js"></script>
+	</body>
+</html>

@@ -1,41 +1,44 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Log in!{% endblock %}
+{% block title %}Login | Hey, voisin !
+{% endblock %}
 
 {% block body %}
 
-<div class="container mt-5 bg-light rounded-3 p-5 col-9 d-flex align-items-center shadow">
-    <form method="post" class="needs-validation col-6 mx-auto" novalidate>
+	<div class="container mt-5 bg-light rounded-3 p-5 col-9 d-flex align-items-center shadow">
+		<form method="post" class="needs-validation col-6 mx-auto" novalidate>
 
-        {% if error %}
-            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-        {% endif %}
+			{% if error %}
+				<div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+			{% endif %}
 
-        {% if app.user %}
-            <div class="mb-3">
-                You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
-            </div>
-        {% endif %}
+			{% if app.user %}
+				<div class="mb-3">
+					You are logged in as
+					{{ app.user.userIdentifier }},
+					<a href="{{ path('app_logout') }}">Logout</a>
+				</div>
+			{% endif %}
 
-        <h1 class="h3 mb-3 font-weight-normal">Veuillez vous connecter</h1>
-        <div class="mb-3">
-            <label for="inputEmail" class="form-label">Email</label>
-            <input type="email" value="{{ last_username }}" name="_username" id="inputEmail" class="form-control col-6" autocomplete="email" required autofocus>
-            <div class="invalid-feedback">
-                Veuillez saisir une adresse email valide.
-            </div>
-        </div>
-        <div class="mb-3">
-            <label for="inputPassword" class="form-label">Mot de passe</label>
-            <input type="password" name="_password" id="inputPassword" class="form-control col-6" autocomplete="current-password" required>
-            <div class="invalid-feedback">
-                Veuillez saisir un mot de passe valide.
-            </div>
-        </div>
+			<h1 class="h3 mb-3 font-weight-normal">Veuillez vous connecter</h1>
+			<div class="mb-3">
+				<label for="inputEmail" class="form-label">Email</label>
+				<input type="email" value="{{ last_username }}" name="_username" id="inputEmail" class="form-control col-6" autocomplete="email" required autofocus>
+				<div class="invalid-feedback">
+					Veuillez saisir une adresse email valide.
+				</div>
+			</div>
+			<div class="mb-3">
+				<label for="inputPassword" class="form-label">Mot de passe</label>
+				<input type="password" name="_password" id="inputPassword" class="form-control col-6" autocomplete="current-password" required>
+				<div class="invalid-feedback">
+					Veuillez saisir un mot de passe valide.
+				</div>
+			</div>
 
-        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+			<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
-        <button class="btn btn-lg btn-secondary rounded-pill" type="submit">Connexion</button>
-    </form>
-</div>
+			<button class="btn btn-lg btn-secondary rounded-pill" type="submit">Connexion</button>
+		</form>
+	</div>
 {% endblock %}
