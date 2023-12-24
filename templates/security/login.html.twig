@@ -4,41 +4,50 @@
 {% endblock %}
 
 {% block body %}
+	<div class="container flex justify-center items-center">
+		<div class="flex justify-center items-center w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700">
+			<form class="space-y-6" method="post">
 
-	<div class="container mt-5 bg-light rounded-3 p-5 col-9 d-flex align-items-center shadow">
-		<form method="post" class="needs-validation col-6 mx-auto" novalidate>
+				{% if error %}
+					<div class="flex items-center p-4 mb-4 text-sm text-red-800 border border-red-300 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400 dark:border-red-800" role="alert">
+						<svg class="flex-shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewbox="0 0 20 20">
+							<path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
+						</svg>
+						<span class="sr-only">Info</span>
+						<div>
+							<span class="font-medium">Attention !</span>
+							{{ error.messageKey|trans(error.messageData, 'security') }}
+						</div>
+					</div>
+				{% endif %}
 
-			{% if error %}
-				<div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-			{% endif %}
+				{% if app.user %}
+					<div class="mb-3">
+						You are logged in as
+						{{ app.user.userIdentifier }},
+						<a href="{{ path('app_logout') }}">Logout</a>
+					</div>
+				{% endif %}
 
-			{% if app.user %}
-				<div class="mb-3">
-					You are logged in as
-					{{ app.user.userIdentifier }},
-					<a href="{{ path('app_logout') }}">Logout</a>
+				<h5 class="text-xl font-medium text-gray-900 dark:text-white">Veuillez vous connecter</h5>
+				<div>
+					<label for="inputEmail" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
+					<input type="email" value="{{ last_username }}" name="_username" id="inputEmail" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="name@company.com" required>
+					{# <div class="invalid-feedback">
+						Veuillez saisir une adresse email valide.
+					</div> #}
 				</div>
-			{% endif %}
-
-			<h1 class="h3 mb-3 font-weight-normal">Veuillez vous connecter</h1>
-			<div class="mb-3">
-				<label for="inputEmail" class="form-label">Email</label>
-				<input type="email" value="{{ last_username }}" name="_username" id="inputEmail" class="form-control col-6" autocomplete="email" required autofocus>
-				<div class="invalid-feedback">
-					Veuillez saisir une adresse email valide.
+				<div>
+					<label for="inputPassword" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Mot de passe</label>
+					<input type="password" name="_password" id="inputPassword" placeholder="••••••••" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required>
+					{# <div class="invalid-feedback">
+						Veuillez saisir un mot de passe valide.
+					</div> #}
 				</div>
-			</div>
-			<div class="mb-3">
-				<label for="inputPassword" class="form-label">Mot de passe</label>
-				<input type="password" name="_password" id="inputPassword" class="form-control col-6" autocomplete="current-password" required>
-				<div class="invalid-feedback">
-					Veuillez saisir un mot de passe valide.
-				</div>
-			</div>
-
-			<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-
-			<button class="btn btn-lg btn-secondary rounded-pill" type="submit">Connexion</button>
-		</form>
+				<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+				<button type="submit" class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Login to your account</button>
+			</form>
+		</div>
 	</div>
 {% endblock %}
+
