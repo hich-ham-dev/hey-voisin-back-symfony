@@ -5,12 +5,12 @@
 
 {% block body %}
 	<div class="flex flex-col justify-center items-center h-full">
-		<div class="max-h-50 w-full max-w-screen-md bg-blue-300 rounded-xl p-3">
+		<div class="max-h-60 w-full max-w-screen-md bg-blue-300 rounded-xl p-3">
 
 			{% include "fragments/_flash_message.html.twig" %}
 
-			<h1 class="text-center uppercase font-bold text-blue-600">Index des publications
-				<a href="{{ path('app_post_new') }}" class="lowercase">Ajouter une publication</a>
+			<h1 class="text-center uppercase font-bold bg-gray-50 rounded-xl p-3">Index des publications
+				{# <a href="{{ path('app_post_new') }}" class="lowercase">Ajouter une publication</a> #}
 			</h1>
 			{# <form>   
 				<label for="default-search" class="mb-2 text-sm font-small text-gray-900 sr-only dark:text-white">Rechercher</label>
@@ -31,7 +31,7 @@
 								<img class="h-24 rounded-xl" src="{{ asset('img/post.jpg') }}" alt="Image de publication">
 							</div> #}
 							<div class="flex flex-col p-3">
-								<h3> {{ post.title }} </h3>
+								<h3 class="font-bold"> {{ post.title }} </h3>
 								<div class="flex flex-row" >
 									<div class="p-3">
 										<h4>Catégorie</h4>
