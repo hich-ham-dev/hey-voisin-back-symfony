@@ -26,7 +26,7 @@ class CityController extends AbstractController
             $request->query->getInt('page', 1),
             10
         );
-        return $this->render('city/index.html.twig', [
+        return $this->render('city/index2.html.twig', [
             'pagination' => $pagination,
         ]);
     }

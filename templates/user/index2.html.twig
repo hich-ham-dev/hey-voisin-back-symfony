@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Index des publications | Hey, voisin !
+{% block title %}Index des utilisateurs | Hey, voisin !
 {% endblock %}
 
 {% block body %}
@@ -10,8 +10,8 @@
 			{% include "fragments/_flash_message.html.twig" %}
 
 			<h1 class="flex justify-center items-center text-center uppercase font-bold bg-gray-50 rounded-xl p-3">
-				<span><img class="h-16 p-3" src="{{ asset('img/post.jpg') }}" alt="Image de publication"></span>				
-				Index des publications
+				<span><img class="h-16 p-3" src="{{ asset('img/user-interface.png') }}" alt="Image d'utilisateur"></span>                
+                Index des utilisateurs
 				{# <a href="{{ path('app_post_new') }}" class="lowercase">Ajouter une publication</a> #}
 			</h1>
 			{# <form>   
@@ -27,25 +27,26 @@
 				</div>
 			</form> #}
 	
-					{% for post in pagination %}
+					{% for user in pagination %}
 						<div class="flex flex-row bg-gray-50 rounded-xl mt-3 p-3">
 							{# <div>
 								<img class="h-24 rounded-xl" src="{{ asset('img/post.jpg') }}" alt="Image de publication">
 							</div> #}
 							<div class="flex flex-col p-3">
-								<h3 class="font-bold"> {{ post.title }} </h3>
+								<h3 class="font-bold"> {{ user.alias }} </h3>
 								<div class="flex flex-row" >
+                                    <img class="h-16 rounded-full" src="{{ user.avatar.url }}" alt="Avatar de l'utilisateur">
 									<div class="p-3">
-										<h4>Catégorie</h4>
-										<p>{{ post.category.name }}</p>
+										<h4>Noms</h4>
+										<p>{{ user.firstname }} {{ user.lastname }}</p>
 									</div>
 									<div class="p-3">
-										<h4>Auteur</h4>
-										<p>{{ post.user.alias }}</p>
+										<h4>Email</h4>
+										<p>{{ user.email }}</p>
 									</div>
-									<div class="p-3">
-										<h4>Publié le</h4>
-										<p>{{ post.publishedAt ? post.publishedAt|date('d-m-Y H:i') : '' }}</p>
+                                    <div class="p-3">
+										<h4>Ville</h4>
+										<p>{{ user.city.name }}</p>
 									</div>
 								</div>						
 							</div>

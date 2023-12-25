@@ -25,11 +25,11 @@ class UserController extends AbstractController
         $pagination = $paginator->paginate(
             $userRepository->paginationQuery(),
             $request->query->getInt('page', 1),
-            10
+            5
         );
 
         // Render view
-        return $this->render('user/index.html.twig', [
+        return $this->render('user/index2.html.twig', [
             'pagination' => $pagination,
         ]);
     }
