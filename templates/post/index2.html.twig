@@ -1,57 +1,37 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Liste des publications | Hey, voisin !
+{% block title %}Index des publications | Hey, voisin !
 {% endblock %}
 
 {% block body %}
-	<div class="container">
+	<div class="flex justify-center items-center h-full">
+		<div class="max-h-80 w-full max-w-screen-md bg-blue-300 rounded-xl">
 
-		{% include "fragments/_flash_message.html.twig" %}
+			{% include "fragments/_flash_message.html.twig" %}
 
-		<h1 class="mt-5 bg-secondary bg-gradient rounded-top-5 p-3 text-light text-center mb-0">Liste des publications
-			<a href="{{ path('app_post_new') }}" class="btn btn-success bg-gradient shadow btn-sm rounded-pill fw-bold">Ajouter une publication</a>
-		</h1>
+			<h1 class="">Index des publications
+				<a href="{{ path('app_post_new') }}" class="">Ajouter une publication</a>
+			</h1>
+	
+					{% for post in pagination %}
+						<div class="flex flex-row bg-gray-50 rounded-xl m-3">
+							<div>
+								<img class="h-24" src="{{ asset('img/post.jpg') }}" alt="Image de publication">
+							</div>
+							<div>
+								<h3> {{ post.title }} </h3>
+								<p>{{ post.category.name }}</p>
+							</div>
+						</div>
+					{% else %}
+						{% include "fragments/_no_entry_message.html.twig" %}
+					{% endfor %}
+	
+				</tbody>
+			</table>
+		</div>
 
-		<table class="table align-middle vertical-align-middle text-center table-borderless table-striped table-sm shadow">
-			<thead class="table-group-divider text-center text-nowrap table-warning">
-				<tr>
-					<th class="fw-bold">
-						<span class="badge bg-secondary rounded-pill">#</span>
-					</th>
-					<th>Titre</th>
-					{# <th>Contenu</th> #}
-					<th>Ville</th>
-					<th>Catégorie</th>
-					<th>Active</th>
-					<th>Offre</th>
-					<th>Publié le</th>
-					{# <th>Modifiée le</th> #}
-				</tr>
-			</thead>
-			<tbody>
-
-				{% for post in pagination %}
-					<tr class="table-group-divider">
-						<td class="fw-bold">
-							<span class="badge bg-secondary rounded-pill">{{ post.id }}</span>
-						</td>
-						<td><a class="btn btn-outline-dark rounded-pill text-center fw-bold" href="{{ path('app_post_show', {'id': post.id}) }}">{{ post.title }}</a></td>
-						{# <td>{{ post.resume }}</td> #}
-						<td class="text-nowrap">{{ post.city.name }}</td>
-						<td class="text-nowrap">{{ post.category.name }}</td>
-						<td>{{ post.isActive ? 'Oui' : 'Non' }}</td>
-						<td>{{ post.isOffer ? 'Oui' : 'Non' }}</td>
-						<td>{{ post.publishedAt ? post.publishedAt|date('d-m-Y H:i') : '' }}</td>
-						{# <td>{{ post.updatedAt ? post.updatedAt|date('d-m-Y H:i') : '' }}</td> #}
-					</tr>
-				{% else %}
-					{% include "fragments/_no_entry_message.html.twig" %}
-				{% endfor %}
-
-			</tbody>
-		</table>
-
-		{% include "fragments/_pagination.html.twig" %}
+	{% include "fragments/_pagination.html.twig" %}
 
 	</div>
 {% endblock %}
