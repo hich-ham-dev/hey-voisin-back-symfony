@@ -5,17 +5,19 @@
 body %}
 	<div class="flex justify-center items-center h-full">
 		<div class="w-full max-w-screen-md p-6 bg-blue-300 border border-gray-200 rounded-lg shadow sm:p-6 dark:bg-gray-800 dark:border-gray-700">
-			<h5 class="mb-3 text-base text-center uppercase font-semibold text-gray-900 p-3 bg-gray-50 rounded-lg md:text-xl dark:text-white">
-				Panneau d'administration
-			</h5>
-			<p class="text-sm text-center font-bold text-blue-700 dark:text-gray-400">Vous êtes connecté en tant que
-			{% if 'ROLE_ADMIN' in app.user.roles %}
-				<span class="text-md p-2 rounded-lg bg-green-400">Administrateur</span>
-			</p>
-			{% else %}
-				<span class="text-md p-2 rounded-lg bg-yellow-400">Modérateur</span>
-			</p>
-			{% endif %}
+			<div class="bg-gray-50 p-3 rounded-lg">
+				<h5 class="mb-3 text-base text-center uppercase font-semibold text-gray-900  md:text-xl dark:text-white">
+					Panneau d'administration
+				</h5>
+				<p class="text-sm text-center font-bold text-blue-700 dark:text-gray-400">Vous êtes connecté en tant que
+				{% if 'ROLE_ADMIN' in app.user.roles %}
+					<span class="text-md p-2 rounded-lg text-white bg-green-400">Administrateur</span>
+				</p>
+				{% else %}
+					<span class="text-md p-2 rounded-lg text-white bg-yellow-400">Modérateur</span>
+				</p>
+				{% endif %}
+			</div>
 			<div class="flex justify-center">
 				<img class="flex justify-center" src="{{ asset('img/admin.png') }}" alt="Image d'admin">
 			</div>
