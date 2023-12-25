@@ -25,7 +25,7 @@ class PostController extends AbstractController
         $pagination = $paginator->paginate(
             $post->paginationQuery(),
             $request->query->getInt('page', 1),
-            10
+            5
         );
 
         // Render view
