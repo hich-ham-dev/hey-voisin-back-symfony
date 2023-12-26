@@ -9,7 +9,7 @@ body %}
 				<h5 class="mb-3 text-base text-center uppercase font-semibold text-gray-900  md:text-xl dark:text-white">
 					Panneau d'administration
 				</h5>
-				<p class="text-sm text-center font-bold text-blue-700 dark:text-gray-400">Vous êtes connecté en tant que
+				<p class="hidden sm:block text-sm text-center font-bold text-blue-700 dark:text-gray-400">Vous êtes connecté en tant que
 				{% if 'ROLE_ADMIN' in app.user.roles %}
 					<span class="text-md p-2 rounded-lg text-white bg-green-400">Administrateur</span>
 				</p>
@@ -19,7 +19,7 @@ body %}
 				{% endif %}
 			</div>
 			<div class="flex justify-center">
-				<img class="flex justify-center" src="{{ asset('img/admin.png') }}" alt="Image d'admin">
+				<img class="hidden sm:block justify-center" src="{{ asset('img/admin.png') }}" alt="Image d'admin">
 			</div>
 		<ul class="my-4 space-y-3">
 			<li>
