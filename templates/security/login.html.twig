@@ -23,8 +23,8 @@
 						</svg>
 						<span class="sr-only">Info</span>
 						<div>
-							<span class="font-medium">Attention !</span>
-							{{ error.messageKey|trans(error.messageData, 'security') }}
+							{# {{ error.messageKey|trans(error.messageData, 'security') }} #}
+							<p>Vos identifiants sont invalides !</p>
 						</div>
 					</div>
 				{% endif %}
