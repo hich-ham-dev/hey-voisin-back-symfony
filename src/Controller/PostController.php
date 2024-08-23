@@ -29,7 +29,7 @@ class PostController extends AbstractController
         );
 
         // Render view
-        return $this->render('post/index2.html.twig', [
+        return $this->render('post/index.html.twig', [
             'pagination' => $pagination,            
         ]);
     }
