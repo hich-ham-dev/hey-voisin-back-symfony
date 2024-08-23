@@ -13,7 +13,7 @@
 
 				<div class="p-4 bg-white dark:bg-gray-900 flex space-x-8 justify-between">
 					<h1 class="badge bg-white m-3 font-bold text-xl text-blue-900 flex items-center">Liste des avatars
-						<a href="{{ path('app_post_new') }}" class="btn btn-sm bg-blue-500 hover:bg-blue-200 hover:text-blue-950 p-2 rounded-lg font-bold text-white text-sm ml-3">Ajouter un avatar</a>
+						<a href="{{ path('app_post_new') }}" class="btn btn-sm bg-blue-500 hover:bg-blue-200 hover:text-blue-900 p-2 rounded-lg font-bold text-white text-sm ml-3">Ajouter un avatar</a>
 					</h1>
 					<label for="table-search" class="sr-only">Search</label>
 					<div class="relative mt-1">
@@ -53,8 +53,8 @@
 								</th>
 								<td>
 									<div class="flex justify-center h-full">
-										<a href="{{ path('app_avatar_edit', {'id': avatar.id}) }}" class="btn btn-sm bg-blue-500 hover:bg-blue-200 hover:text-blue-950 p-2 rounded-lg font-bold text-white text-sm mr-2">Modifier</a>
-										<a href="{{ path('app_avatar_delete', {'id': avatar.id}) }}" class="btn btn-sm bg-red-500 hover:bg-red-200 hover:text-red-950 p-2 rounded-lg font-bold text-white text-sm mr-3">
+										<a href="{{ path('app_avatar_edit', {'id': avatar.id}) }}" class="btn btn-sm bg-blue-500 hover:bg-blue-200 hover:text-blue-900 p-2 rounded-lg font-bold text-white text-sm mr-2">Modifier</a>
+										<a href="{{ path('app_avatar_delete', {'id': avatar.id}) }}" class="btn btn-sm bg-red-500 hover:bg-red-200 hover:text-red-900 p-2 rounded-lg font-bold text-white text-sm mr-3">
 											Supprimer
 										</a>
 									</div>

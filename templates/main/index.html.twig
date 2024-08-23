@@ -3,12 +3,12 @@
 {% endblock %}
 {% block
 body %}
-	<div class="flex justify-center items-center h-screen">
+	<div class="flex justify-center items-center h-full">
 		<div class="p-6 border border-gray-200 rounded-lg sm:p-6 dark:border-gray-700">
 			<div class="bg-gray-50 p-3 rounded-lg">
-				<h5 class="m-4 text-base text-center uppercase font-semibold text-gray-900  md:text-xl dark:text-white">
-					Panneau 
-					
+				<h5 class="m-4 text-base text-center uppercase font-semibold text-blue-900 md:text-xl dark:text-white">
+					Panneau
+
 					{% if 'ROLE_ADMIN' in app.user.roles %}
 						<span class="text-md p-2 rounded-lg text-white bg-green-400">Administrateur</span>
 					{% else %}
@@ -24,14 +24,14 @@ body %}
 				<div class="w-full">
 					<ul class="my-4 space-y-3">
 						<li>
-							<a href="{{ path('app_post_index') }}" class="flex items-center p-3 text-base font-bold text-gray-900 rounded-lg bg-gray-50 hover:bg-gray-100 group hover:shadow dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-white">
+							<a href="{{ path('app_post_index') }}" class="flex items-center p-3 text-base font-bold text-blue-900 rounded-lg bg-gray-50 hover:bg-gray-100 group hover:shadow dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-white">
 								<img class="h-12" src="{{ asset('img/legislation.png') }}" alt="Image de publication">
 								<span class="flex-1 ms-3 whitespace-nowrap">Publications</span>
 								<span class="inline-flex items-center justify-center px-2 py-0.5 ms-3 text-lg font-medium text-gray-500 bg-gray-200 rounded dark:bg-gray-700 dark:text-gray-400">{{ numberPost }}</span>
 							</a>
 						</li>
 						<li>
-							<a href="{{ path('app_user_index') }}" class="flex items-center p-3 text-base font-bold text-gray-900 rounded-lg bg-gray-50 hover:bg-gray-100 group hover:shadow dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-white">
+							<a href="{{ path('app_user_index') }}" class="flex items-center p-3 text-base font-bold text-blue-900 rounded-lg bg-gray-50 hover:bg-gray-100 group hover:shadow dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-white">
 								<img class="h-12" src="{{ asset('img/user-interface.png') }}" alt="Image de utilisateurs">
 								<span class="flex-1 ms-3 whitespace-nowrap">Utilisateurs</span>
 								<span class="inline-flex items-center justify-center px-2 py-0.5 ms-3 text-lg font-medium text-gray-500 bg-gray-200 rounded dark:bg-gray-700 dark:text-gray-400">{{ numberUser }}</span>
@@ -40,32 +40,32 @@ body %}
 
 						{% if is_granted('ROLE_ADMIN') %}
 							<li>
-								<a href="{{ path('app_category_index') }}" class="flex items-center p-3 text-base font-bold text-gray-900 rounded-lg bg-gray-50 hover:bg-gray-100 group hover:shadow dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-white">
+								<a href="{{ path('app_category_index') }}" class="flex items-center p-3 text-base font-bold text-blue-900 rounded-lg bg-gray-50 hover:bg-gray-100 group hover:shadow dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-white">
 									<img class="h-12" src="{{ asset('img/categories.png') }}" alt="Image de catégories">
 									<span class="flex-1 ms-3 whitespace-nowrap">Catégories</span>
 									<span class="inline-flex items-center justify-center px-2 py-0.5 ms-3 text-lg font-medium text-gray-500 bg-gray-200 rounded dark:bg-gray-700 dark:text-gray-400">{{ numberCategory }}</span>
 								</a>
 							</li>
 							<li>
-								<a href="{{ path('app_city_index') }}" class="flex items-center p-3 text-base font-bold text-gray-900 rounded-lg bg-gray-50 hover:bg-gray-100 group hover:shadow dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-white">
+								<a href="{{ path('app_city_index') }}" class="flex items-center p-3 text-base font-bold text-blue-900 rounded-lg bg-gray-50 hover:bg-gray-100 group hover:shadow dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-white">
 									<img class="h-12" src="{{ asset('img/gratte-ciel.png') }}" alt="Image de ville">
 									<span class="flex-1 ms-3 whitespace-nowrap">Villes</span>
 									<span class="inline-flex items-center justify-center px-2 py-0.5 ms-3 text-lg font-medium text-gray-500 bg-gray-200 rounded dark:bg-gray-700 dark:text-gray-400">{{ numberCity }}</span>
 								</a>
 							</li>
 							<li>
-								<a href="{{ path('app_avatar_index') }}" class="flex items-center p-3 text-base font-bold text-gray-900 rounded-lg bg-gray-50 hover:bg-gray-100 group hover:shadow dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-white">
+								<a href="{{ path('app_avatar_index') }}" class="flex items-center p-3 text-base font-bold text-blue-900 rounded-lg bg-gray-50 hover:bg-gray-100 group hover:shadow dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-white">
 									<img class="h-12" src="{{ asset('img/homme.png') }}" alt="Image d'avatar">
 									<span class="flex-1 ms-3 whitespace-nowrap">Avatars</span>
 									<span class="inline-flex items-center justify-center px-2 py-0.5 ms-3 text-lg font-medium text-gray-500 bg-gray-200 rounded dark:bg-gray-700 dark:text-gray-400">{{ numberAvatar }}</span>
 								</a>
 							</li>
 							{# <li>
-																						<a href="{{ path('app_comment_index') }}" class="flex items-center p-3 text-base font-bold text-gray-900 rounded-lg bg-gray-50 hover:bg-gray-100 group hover:shadow dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-white">
-																							<svg aria-hidden="true" class="h-4" viewbox="0 0 96 96" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M72.0998 0.600098H48.3998H24.5998H0.799805V24.4001V48.2001V49.7001V71.8001V71.9001V95.5001H24.5998V72.0001V71.9001V49.8001V48.3001V24.5001H48.3998H72.1998H95.9998V0.700104H72.0998V0.600098Z" fill="#617BFF"/><path d="M48.5 71.8002H72.1V95.6002H73C79.1 95.6002 84.9 93.2002 89.2 88.9002C93.5 84.6002 95.9 78.8002 95.9 72.7002V48.2002H48.5V71.8002Z" fill="#617BFF"/></svg>
-																							<span class="flex-1 ms-3 whitespace-nowrap">Commentaires</span>
-																						</a>
-																					</li> #}
+																																																																<a href="{{ path('app_comment_index') }}" class="flex items-center p-3 text-base font-bold text-gray-900 rounded-lg bg-gray-50 hover:bg-gray-100 group hover:shadow dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-white">
+																																																																	<svg aria-hidden="true" class="h-4" viewbox="0 0 96 96" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M72.0998 0.600098H48.3998H24.5998H0.799805V24.4001V48.2001V49.7001V71.8001V71.9001V95.5001H24.5998V72.0001V71.9001V49.8001V48.3001V24.5001H48.3998H72.1998H95.9998V0.700104H72.0998V0.600098Z" fill="#617BFF"/><path d="M48.5 71.8002H72.1V95.6002H73C79.1 95.6002 84.9 93.2002 89.2 88.9002C93.5 84.6002 95.9 78.8002 95.9 72.7002V48.2002H48.5V71.8002Z" fill="#617BFF"/></svg>
+																																																																	<span class="flex-1 ms-3 whitespace-nowrap">Commentaires</span>
+																																																																</a>
+																																																															</li> #}
 						{% endif %}
 					</ul>
 				</div>
