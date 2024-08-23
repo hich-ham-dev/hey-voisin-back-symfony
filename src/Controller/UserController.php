@@ -25,7 +25,7 @@ class UserController extends AbstractController
         $pagination = $paginator->paginate(
             $userRepository->paginationQuery(),
             $request->query->getInt('page', 1),
-            5
+            10
         );
 
         // Render view
