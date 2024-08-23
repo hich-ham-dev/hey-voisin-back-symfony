@@ -27,28 +27,28 @@
 			<table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
 				<thead class="text-xs text-gray-700 uppercase bg-blue-100 dark:bg-gray-700 dark:text-gray-400">
 					<tr>
-						<th scope="col" class="p-4">
+						<th scope="col" class="p-4 text-blue-900">
 							<span>#</span>
 						</th>
-						<th scope="col" class="px-6 py-3">
+						<th scope="col" class="px-6 py-3 text-blue-900">
 							Titre
 						</th>
-						<th scope="col" class="px-6 py-3">
+						<th scope="col" class="px-6 py-3 text-blue-900">
 							Auteur
 						</th>
-						<th scope="col" class="px-6 py-3">
+						<th scope="col" class="px-6 py-3 text-blue-900">
 							Ville
 						</th>
-						<th scope="col" class="px-6 py-3">
+						<th scope="col" class="px-6 py-3 text-blue-900">
 							Catégorie
 						</th>
-						<th scope="col" class="px-6 py-3">
+						<th scope="col" class="px-6 py-3 text-blue-900">
 							Active
 						</th>
-						<th scope="col" class="px-6 py-3">
+						<th scope="col" class="px-6 py-3 text-blue-900">
 							Offre
 						</th>
-						<th scope="col" class="px-6 py-3">
+						<th scope="col" class="px-6 py-3 text-blue-900">
 							Publié le
 						</th>
 					</tr>
@@ -72,7 +72,7 @@
 								{{ post.category.name }}
 							</td>
 							<td class="px-6 py-4">
-								{{ post.isActive ? 'Oui' : 'Non' }}
+								{{ post.isActive ? '<span class="bg-green-500 rounded-full h-4 w-4 flex content-center justify-center"><span>' : '<span class="bg-red-500 rounded-full h-4 w-4 flex items-center justify-center"><span>' }}
 							</td>
 							<td class="px-6 py-4">
 								{{ post.isOffer ? 'Oui' : 'Non' }}

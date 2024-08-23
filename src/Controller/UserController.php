@@ -29,7 +29,7 @@ class UserController extends AbstractController
         );
 
         // Render view
-        return $this->render('user/index2.html.twig', [
+        return $this->render('user/index.html.twig', [
             'pagination' => $pagination,
         ]);
     }
