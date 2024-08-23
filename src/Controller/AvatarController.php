@@ -28,7 +28,7 @@ class AvatarController extends AbstractController
         );
 
         // Render view
-        return $this->render('avatar/index2.html.twig', [
+        return $this->render('avatar/index.html.twig', [
             'pagination' => $pagination,
         ]);
     }

@@ -13,7 +13,7 @@
 
 			<div class="p-4 bg-white dark:bg-gray-900 flex space-x-8 justify-between">
 				<h1 class="badge bg-white m-3 font-bold text-xl text-blue-900 flex items-center">Liste des utilisateurs
-					<a href="{{ path('app_post_new') }}" class="btn btn-sm bg-blue-500 hover:bg-blue-200 hover:text-blue-950 p-2 rounded-lg font-bold text-white text-sm ml-3">Ajouter un utilisateur</a>
+					<a href="{{ path('app_post_new') }}" class="btn btn-sm bg-blue-500 hover:bg-blue-200 hover:text-blue-950 p-2 rounded-lg font-bold text-white text-sm ml-3">Ajouter une catégorie</a>
 				</h1>
 				<label for="table-search" class="sr-only">Search</label>
 				<div class="relative mt-1">
@@ -45,11 +45,13 @@
 							<th scope="row" class="px-6 py-4 font-medium text-blue-900 whitespace-nowrap dark:text-white">
 								{{ category.name }}
 							</th>
-							<td class="flex justify-center content-center">
-								<a href="{{ path('app_category_edit', {'id': category.id}) }}" class="btn btn-sm bg-blue-500 hover:bg-blue-200 hover:text-blue-950 p-2 rounded-lg font-bold text-white text-sm mr-2">Modifier</a>
-								<a href="{{ path('app_category_delete', {'id': category.id}) }}" class="btn btn-sm bg-red-500 hover:bg-red-200 hover:text-red-950 p-2 rounded-lg font-bold text-white text-sm ">
-									Supprimer
-								</a>
+							<td>
+								<div class="flex justify-center h-full">
+									<a href="{{ path('app_category_edit', {'id': category.id}) }}" class="btn btn-sm bg-blue-500 hover:bg-blue-200 hover:text-blue-950 p-2 rounded-lg font-bold text-white text-sm mr-2">Modifier</a>
+									<a href="{{ path('app_category_delete', {'id': category.id}) }}" class="btn btn-sm bg-red-500 hover:bg-red-200 hover:text-red-950 p-2 rounded-lg font-bold text-white text-sm ">
+										Supprimer
+									</a>
+								</div>
 							</td>
 						</tr>
 					{% else %}
