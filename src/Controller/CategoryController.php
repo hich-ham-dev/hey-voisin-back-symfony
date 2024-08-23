@@ -26,7 +26,7 @@ class CategoryController extends AbstractController
             $request->query->getInt('page', 1),
             10
         );
-        return $this->render('category/index2.html.twig', [
+        return $this->render('category/index.html.twig', [
             'pagination' => $pagination,
         ]);
     }

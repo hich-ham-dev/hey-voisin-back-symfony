@@ -4,50 +4,62 @@
 {% endblock %}
 
 {% block body %}
-	<div class="container col-6">
+
+	<div class="container col-9 flex flex-col items-center justify-items-center">
 
 		{% include "fragments/_flash_message.html.twig" %}
 
-		<h1 class="mt-5 bg-secondary bg-gradient rounded-top-5 p-3 text-light text-center mb-0">Liste des catégories
-			<a href="{{ path('app_category_new') }}" class="btn btn-success bg-gradient shadow btn-sm rounded-pill fw-bold">Ajouter une catégorie</a>
-		</h1>
-		<table class="table align-middle vertical-align-middle text-center table-borderless table-striped table-sm shadow">
-			<thead class="table-group-divider text-center text-nowrap table-warning">
-				<tr>
-					<th class="fw-bold"><span class="badge bg-secondary rounded-pill">#</span></th>
-					<th>Catégorie</th>
-					<th></th>
-				</tr>
-			</thead>
-			<tbody>
+		<div class="relative overflow-x-auto shadow-md sm:rounded-lg mt-6">
 
-				{% for category in pagination %}
-					<tr class="table-group-divider">
-						<td class="fw-bold"><span class="badge bg-secondary rounded-pill">{{ category.id }}</span></td>
-						<td>
-							<div class="dropdown">
-								<button class="btn btn-outline-dark m-1 rounded-pill dropdown-toggle fw-bold" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-									{{ category.name }}
-								</button>
-								<ul class="dropdown-menu rounded-4 p-1">
-									<li>
-										<a class="dropdown-item rounded-pill" href="{{ path('app_category_edit', {'id': category.id}) }}">Modifier</a>
-									</li>
-									<li>
-										<a class="dropdown-item bg-danger rounded-pill text-light" href="{{ path('app_category_delete', {'id': category.id}) }}">Supprimer</a>
-									</li>
-								</ul>
-							</div>
-						</td>
+			<div class="p-4 bg-white dark:bg-gray-900 flex space-x-8 justify-between">
+				<h1 class="badge bg-white m-3 font-bold text-xl text-blue-900 flex items-center">Liste des utilisateurs
+					<a href="{{ path('app_post_new') }}" class="btn btn-sm bg-blue-500 hover:bg-blue-200 hover:text-blue-950 p-2 rounded-lg font-bold text-white text-sm ml-3">Ajouter un utilisateur</a>
+				</h1>
+				<label for="table-search" class="sr-only">Search</label>
+				<div class="relative mt-1">
+					<div class="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none">
+						<svg class="w-4 h-4 text-blue-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 20 20">
+							<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+						</svg>
+					</div>
+					<input type="text" id="table-search" class="block pt-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search for items">
+				</div>
+			</div>
+			<table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+				<thead class="text-xs text-gray-700 uppercase bg-blue-100 dark:bg-gray-700 dark:text-gray-400">
+					<tr>
+						<th scope="col" class="p-4 text-blue-900">
+							<span>#</span>
+						</th>
+						<th scope="col" colspan="2" class="px-6 py-3 text-blue-900">
+							Nom
+						</th>
 					</tr>
-				{% else %}
-					{% include "fragments/_no_entry_message.html.twig" %}
-				{% endfor %}
-
-			</tbody>
-		</table>
+				</thead>
+				<tbody>
+					{% for category in pagination %}
+						<tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-blue-100 dark:hover:bg-blue-600">
+							<td class="w-4 p-4">
+								<span class="badge bg-blue-100 p-3 rounded-lg font-bold">{{ category.id }}</span>
+							</td>
+							<th scope="row" class="px-6 py-4 font-medium text-blue-900 whitespace-nowrap dark:text-white">
+								{{ category.name }}
+							</th>
+							<td class="flex justify-center content-center">
+								<a href="{{ path('app_category_edit', {'id': category.id}) }}" class="btn btn-sm bg-blue-500 hover:bg-blue-200 hover:text-blue-950 p-2 rounded-lg font-bold text-white text-sm mr-2">Modifier</a>
+								<a href="{{ path('app_category_delete', {'id': category.id}) }}" class="btn btn-sm bg-red-500 hover:bg-red-200 hover:text-red-950 p-2 rounded-lg font-bold text-white text-sm ">
+									Supprimer
+								</a>
+							</td>
+						</tr>
+					{% else %}
+						{% include " fragments/_no_entry_message.html.twig" %}
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
 
 		{% include "fragments/_pagination.html.twig" %}
-	
+
 	</div>
 {% endblock %}
