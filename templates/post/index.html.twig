@@ -48,7 +48,7 @@
 								Active
 							</th>
 							<th scope="col" class="px-6 py-3 text-blue-900">
-								Offre
+								Type
 							</th>
 							<th scope="col" class="px-6 py-3 text-blue-900">
 								Publié le
@@ -62,7 +62,9 @@
 									<span class="badge bg-blue-100 p-3 rounded-lg font-bold">{{ post.id }}</span>
 								</td>
 								<th scope="row" class="px-6 py-4 font-medium text-blue-900 whitespace-nowrap dark:text-white">
-									{{ post.title }}
+									<a href="{{ path('app_post_show', {id : post.id}) }}">
+										{{ post.title }}
+									</a>
 								</th>
 								<td class="px-6 py-4">
 									{{ post.user.alias }}
@@ -73,11 +75,11 @@
 								<td class="px-6 py-4">
 									{{ post.category.name }}
 								</td>
-								<td class="px-6 py-4">
+								<td class="px-6 py-4 flex justify-center">
 									{{ post.isActive ? '<span class="bg-green-500 rounded-full h-4 w-4 flex content-center justify-center"><span>' : '<span class="bg-red-500 rounded-full h-4 w-4 flex items-center justify-center"><span>' }}
 								</td>
 								<td class="px-6 py-4">
-									{{ post.isOffer ? 'Oui' : 'Non' }}
+									{{ post.isOffer ? 'Offre' : 'Demande' }}
 								</td>
 								<td class="px-6 py-4">
 									{{ post.publishedAt ? post.publishedAt|date('d-m-Y H:i') : '' }}
