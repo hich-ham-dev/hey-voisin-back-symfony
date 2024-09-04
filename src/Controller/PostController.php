@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Entity\Post;
 use App\Form\PostType;
 use App\Repository\PostRepository;
-use App\Security\Voter\PostVoter;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -124,5 +123,18 @@ class PostController extends AbstractController
 
         // Redirect to post index
         return $this->redirectToRoute('app_post_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/search', name: 'app_post_search', methods: ['GET'])]
+    #[IsGranted('ROLE_MODERATOR')]
+    public function search(Request $request, PostRepository $postRepository): Response
+    {
+        $query = $request->query->get('q', '');
+
+        $posts = $postRepository->searchByQuery($query);
+
+        return $this->render('post/_post_list.html.twig', [
+            'posts' => $posts,
+        ]);
     }
 }

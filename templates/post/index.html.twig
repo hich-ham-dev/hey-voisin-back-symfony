@@ -11,7 +11,6 @@
 			{% include "fragments/_flash_message.html.twig" %}
 
 			<div class="relative overflow-x-auto shadow-md sm:rounded-lg mt-6">
-
 				<div class="p-4 bg-white dark:bg-gray-900 flex space-x-8 justify-between">
 					<h1 class="badge bg-white m-3 font-bold text-xl text-blue-900 flex items-center">Liste des publications
 						<a href="{{ path('app_post_new') }}" class="btn btn-sm bg-blue-500 hover:bg-blue-200 hover:text-blue-900 p-2 rounded-lg font-bold text-white text-sm ml-3">Ajouter une publication</a>
@@ -23,79 +22,31 @@
 								<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
 							</svg>
 						</div>
-						<input type="text" id="table-search" class="block pt-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search for items">
+						<input type="text" id="table-search" class="block pt-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search for items" data-action="keyup->turbo#submit">
 					</div>
 				</div>
-				<table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-					<thead class="text-xs text-gray-700 uppercase bg-blue-100 dark:bg-gray-700 dark:text-gray-400">
-						<tr>
-							<th scope="col" class="p-4 text-blue-900">
-								<span>#</span>
-							</th>
-							<th scope="col" class="px-6 py-3 text-blue-900">
-								Titre
-							</th>
-							<th scope="col" class="px-6 py-3 text-blue-900">
-								Auteur
-							</th>
-							<th scope="col" class="px-6 py-3 text-blue-900">
-								Ville
-							</th>
-							<th scope="col" class="px-6 py-3 text-blue-900">
-								Catégorie
-							</th>
-							<th scope="col" class="px-6 py-3 text-blue-900">
-								Active
-							</th>
-							<th scope="col" class="px-6 py-3 text-blue-900">
-								Type
-							</th>
-							<th scope="col" class="px-6 py-3 text-blue-900">
-								Publié le
-							</th>
-						</tr>
-					</thead>
-					<tbody>
-						{% for post in pagination %}
-							<tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-blue-100 dark:hover:bg-blue-600">
-								<td class="w-4 p-4">
-									<span class="badge bg-blue-100 p-3 rounded-lg font-bold">{{ post.id }}</span>
-								</td>
-								<th scope="row" class="px-6 py-4 font-medium text-blue-900 whitespace-nowrap dark:text-white">
-									<a href="{{ path('app_post_show', {id : post.id}) }}">
-										{{ post.title }}
-									</a>
-								</th>
-								<td class="px-6 py-4">
-									{{ post.user.alias }}
-								</td>
-								<td class="px-6 py-4">
-									{{ post.city.name }}
-								</td>
-								<td class="px-6 py-4">
-									{{ post.category.name }}
-								</td>
-								<td class="px-6 py-4 flex justify-center">
-									{{ post.isActive ? '<span class="bg-green-500 rounded-full h-4 w-4 flex content-center justify-center"><span>' : '<span class="bg-red-500 rounded-full h-4 w-4 flex items-center justify-center"><span>' }}
-								</td>
-								<td class="px-6 py-4">
-									{{ post.isOffer ? 'Offre' : 'Demande' }}
-								</td>
-								<td class="px-6 py-4">
-									{{ post.publishedAt ? post.publishedAt|date('d-m-Y H:i') : '' }}
-								</td>
+
+				<turbo-frame id="post-list" src="{{ path('app_post_search') }}">
+					<table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+						<thead class="bg-blue-50 dark:bg-gray-800">
+							<tr class="border-b dark:border-gray-700">
+								<th class="py-3 px-4 font-bold text-blue-900 dark:text-white">ID</th>
+								<th class="py-3 px-4 font-bold text-blue-900 dark:text-white">Titre</th>
+								<th class="py-3 px-4 font-bold text-blue-900 dark:text-white">Auteur</th>
+								<th class="py-3 px-4 font-bold text-blue-900 dark:text-white">Ville</th>
+								<th class="py-3 px-4 font-bold text-blue-900 dark:text-white">Catégorie</th>
+								<th class="py-3 px-4 font-bold text-blue-900 dark:text-white">Statut</th>
+								<th class="py-3 px-4 font-bold text-blue-900 dark:text-white">Type</th>
+								<th class="py-3 px-4 font-bold text-blue-900 dark:text-white">Publié le</th>
 							</tr>
-						{% else %}
-							{% include "fragments/_no_entry_message.html.twig" %}
-						{% endfor %}
-					</tbody>
+						</thead>
+						{% include 'post/_post_list.html.twig' with {posts: pagination} %}
+					</thead>
 				</table>
-			</div>
-
-
-			{% include "fragments/_pagination.html.twig" %}
-
+			</turbo-frame>
 		</div>
-	</div>
 
-{% endblock %}
+		{% include "fragments/_pagination.html.twig" %}
+
+	</div>
+</div>{% endblock %}

@@ -25,7 +25,7 @@
 						<ul class="py-2" aria-labelledby="user-menu-button">
 							<li class="flex justify-center">
 								<button href="{{ path('app_logout') }}" class="btn btn-sm bg-red-500 block m-2 py-2 px-4 text-sm text-center rounded-lg text-white font-bold hover:bg-red-200
-																																																																																																												hover:text-red-900 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
+																																																																																																																																																																																																																																																																																						hover:text-red-900 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
 									Déconnexion
 								</button>
 							</li>
@@ -41,23 +41,23 @@
 				<div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-user">
 					<ul class="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 bg-blue-100">
 						<li>
-							<a href="{{ path('app_main') }}" class="flex items-center flex-col justify-center py-2 px-3 text-blue-900 hover:text-blue-700 rounded md:hover:text-white md:bg-blue-300 md:text-blue-900 md:p-0 md:dark:text-blue-500" aria-current="page">
-								{{ ux_icon('bi:house-heart', {class: 'w-16 h-16'}) }}
+							<a href="{{ path('app_main') }}" class="flex items-center flex-col justify-center py-2 px-3 text-tangerine-500 hover:text-tangerine-700" aria-current="page">
+								{{ ux_icon('bi:house-heart', {class: 'w-8 h-8'}) }}
 								Accueil
 							</a>
 						</li>
 						<li>
 							<div class="flex items-center flex-col content-center">
-								<a href="{{ path('app_post_index') }}" class="flex items-center flex-col justify-center py-2 px-3 text-blue-900 rounded hover:bg-blue-700 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-blue-700 md:dark:hover:text-blue-500 dark:hover:bg-blue-700 dark:hover:text-blue-700 md:dark:hover:bg-transparent dark:border-blue-700">
-									{{ ux_icon('bi:megaphone', {class: 'w-16 h-16'}) }}
+								<a href="{{ path('app_post_index') }}" class="flex items-center flex-col justify-center py-2 px-3 text-mantis-200 rounded hover:bg-blue-700">
+									{{ ux_icon('bi:megaphone', {class: 'w-8 h-8'}) }}
 									Publications
 								</a>
 							</div>
 						</li>
 						<li>
 							<div class="flex items-center flex-col content-center">
-								<a href="{{ path('app_user_index') }}" class="flex items-center flex-col justify-center py-2 px-3 text-blue-900 rounded hover:bg-blue-700 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-blue-700 md:dark:hover:text-blue-500 dark:hover:bg-blue-700 dark:hover:text-blue-700 md:dark:hover:bg-transparent dark:border-blue-700">
-									{{ ux_icon('bi:people', {class: 'w-16 h-16'}) }}
+								<a href="{{ path('app_user_index') }}" class="flex items-center flex-col justify-center py-2 px-3 text-blue-900">
+									{{ ux_icon('bi:people', {class: 'w-8 h-8'}) }}
 									Utilisateurs
 								</a>
 							</div>
@@ -65,24 +65,24 @@
 						{% if is_granted('ROLE_ADMIN') %}
 							<li>
 								<div class="flex items-center flex-col">
-									<a href="{{ path('app_category_index') }}" class="flex items-center flex-col justify-center py-2 px-3 text-blue-900 rounded hover:bg-blue-700 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-blue-700 md:dark:hover:text-blue-500 dark:hover:bg-blue-700 dark:hover:text-blue-700 md:dark:hover:bg-transparent dark:border-blue-700">
-										{{ ux_icon('bi:list-ul', {class: 'w-16 h-16'}) }}
+									<a href="{{ path('app_category_index') }}" class="flex items-center flex-col justify-center py-2 px-3 text-blue-900">
+										{{ ux_icon('bi:list-ul', {class: 'w-8 h-8'}) }}
 										Catégories
 									</a>
 								</div>
 							</li>
 							<li>
 								<div class="flex items-center flex-col">
-									<a href="{{ path('app_city_index') }}" class="flex items-center flex-col justify-center py-2 px-3 text-blue-900 rounded hover:bg-blue-700 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-blue-700 md:dark:hover:text-blue-500 dark:hover:bg-blue-700 dark:hover:text-blue-700 md:dark:hover:bg-transparent dark:border-blue-700">
-										{{ ux_icon('bi:geo-alt', {class: 'w-16 h-16'}) }}
+									<a href="{{ path('app_city_index') }}" class="flex items-center flex-col justify-center py-2 px-3 text-blue-900">
+										{{ ux_icon('bi:geo-alt', {class: 'w-8 h-8'}) }}
 										Villes
 									</a>
 								</div>
 							</li>
 							<li>
 								<div class="flex flex-col content-center items-center">
-									<a href="{{ path('app_avatar_index') }}" class="flex items-center flex-col justify-center py-2 px-3 text-blue-900 rounded hover:bg-blue-700 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-blue-700 md:dark:hover:text-blue-500 dark:hover:bg-blue-700 dark:hover:text-blue-700 md:dark:hover:bg-transparent dark:border-blue-700">
-										{{ ux_icon('bi:person-square', {class: 'w-16 h-16'}) }}
+									<a href="{{ path('app_avatar_index') }}" class="flex items-center flex-col justify-center py-2 px-3 text-blue-900">
+										{{ ux_icon('bi:person-square', {class: 'w-8 h-8'}) }}
 										Avatars</a>
 								</div>
 							</li>
