@@ -22,7 +22,9 @@
 				{{ post.isActive ? '<span class="bg-green-500 rounded-full h-4 w-4 flex content-center justify-center"><span>' : '<span class="bg-red-500 rounded-full h-4 w-4 flex items-center justify-center"><span>' }}
 			</td>
 			<td class="px-6 py-4">
-				{{ post.isOffer ? '<span class="badge bg-blue-200 text-gray-light px-3 py-2 rounded-lg">Offre</span>  ' : '<span class="badge bg-blue-200 text-gray-light px-3 py-2 rounded-lg">Demande</span>' }}
+				<span class="badge bg-blue-200 text-blue-900 w-32 px-3 py-2 rounded-lg inline-block text-center font-medium">
+					{{ post.isOffer ? 'Offre' : 'Demande' }}
+				</span>
 			</td>
 			<td class="px-6 py-4">
 				{{ post.publishedAt ? post.publishedAt|date('d-m-Y H:i') : '' }}
