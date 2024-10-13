@@ -32,6 +32,18 @@ class PostRepository extends ServiceEntityRepository
         ;
     }
 
+    public function searchByQuery(?string $query): array
+    {
+        $qb = $this->createQueryBuilder('p');
+
+        if (!empty($query)) {
+            $qb ->where('p.title LIKE :query OR p.user.alias LIKE :query OR p.city.name LIKE :query')
+                ->setParameter('query', '%' . $query . '%');
+        }
+
+        return $posts = $qb->getQuery()->getResult();
+    }
+
 //    /**
 //     * @return Post[] Returns an array of Post objects
 //     */

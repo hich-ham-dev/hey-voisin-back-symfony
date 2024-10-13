@@ -1,0 +1,16 @@
+<div{{attributes}}>
+	<input type="search" data-model="searchInput" data-action="live#action" data-live-action-param="getPosts" placeholder="Results update as you type..." class="form-control">
+
+	ma recherche :
+	{{ searchInput }}
+
+	{# {% if posts|length > 0 %} #}
+	<ul>
+		{# {% for post in posts %}
+							<li>{{ post.title }}</li>
+						{% endfor %} #}
+	</ul>
+	{# {% else %} #}
+	<div class="pt-3">Ah! No posts found matching "{{ searchInput }}"</div>
+	{# {% endif %} #}
+</div>

@@ -10,14 +10,17 @@ class AuthenticationSuccessListener
 {
     public function onAuthenticationSuccessResponse(AuthenticationSuccessEvent $event)
     {
+        // Get data from event
         $data = $event->getData();
         /** @var User $user */
         $user = $event->getUser();
 
+        // Verify if user is instance of UserInterface
         if (!$user instanceof UserInterface) {
             return;
         }
 
+        // Add data to event
         $data['data'] = array(
             'username' => $user->getUserIdentifier(),
             'id' => $user->getId(),

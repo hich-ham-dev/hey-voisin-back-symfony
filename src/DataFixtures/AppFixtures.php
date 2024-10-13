@@ -34,7 +34,7 @@ class AppFixtures extends Fixture
     {
 
         // Instanciation de Faker avec localisation en français
-        $faker = \Faker\Factory::create('fr_FR');
+        $faker = Faker::create('fr_FR');
 
         // Instanciation de CategoriesProvider
         $categoriesProvider = new CategoriesProvider();

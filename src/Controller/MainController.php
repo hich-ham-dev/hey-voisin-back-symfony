@@ -15,15 +15,15 @@ use Symfony\Component\Routing\Annotation\Route;
 class MainController extends AbstractController
 {
     #[Route('/', name: 'app_main')]
-    public function index(PostRepository $post, UserRepository $user, CategoryRepository $category, CityRepository $city, AvatarRepository $avatar, CommentRepository $comment): Response
+    public function index(PostRepository $postRepository, UserRepository $userRepository, CategoryRepository $categoryRepository, CityRepository $cityRepository, AvatarRepository $avatarRepository, CommentRepository $commentRepository): Response
     {
         // Count all the posts, users, categories, cities, avatars and comments
-        $post = $post->count([]);
-        $user = $user->count([]);
-        $category = $category->count([]);
-        $city = $city->count([]); 
-        $avatar = $avatar->count([]);
-        $comment = $comment->count([]);
+        $post = $postRepository->count([]);
+        $user = $userRepository->count([]);
+        $category = $categoryRepository->count([]);
+        $city = $cityRepository->count([]); 
+        $avatar = $avatarRepository->count([]);
+        $comment = $commentRepository->count([]);
         
         // Display counters of posts, users, categories, cities, avatars and comments
         return $this->render('main/index.html.twig', [
