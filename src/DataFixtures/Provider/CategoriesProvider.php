@@ -5,7 +5,7 @@ namespace App\DataFixtures\Provider;
 class CategoriesProvider
 {
     // Predifined post categories
-    private $postCategories = [
+    private array $postCategories = [
         'Soutien scolaire',
         'Covoiturage',
         'Bricolage',
