@@ -21,11 +21,14 @@ class UserController extends AbstractController
     #[IsGranted('ROLE_MODERATOR')]
     public function index(UserRepository $userRepository, Request $request, PaginatorInterface $paginator): Response
     {
+        // Display all users with pagination
         $pagination = $paginator->paginate(
             $userRepository->paginationQuery(),
             $request->query->getInt('page', 1),
             10
         );
+
+        // Render view
         return $this->render('user/index.html.twig', [
             'pagination' => $pagination,
         ]);
@@ -35,10 +38,12 @@ class UserController extends AbstractController
     #[IsGranted('ROLE_ADMIN')]
     public function new(Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher): Response
     {
+        // Create a new user with form
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
+        // Verify if form is submitted and valid
         if ($form->isSubmitted() && $form->isValid()) {
             
             $plaintextPassword = $user->getPassword();
@@ -48,9 +53,11 @@ class UserController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
+            // Redirect to user index
             return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
         }
 
+        // Render view
         return $this->render('user/new.html.twig', [
             'user' => $user,
             'form' => $form,
@@ -61,6 +68,7 @@ class UserController extends AbstractController
     #[IsGranted('ROLE_MODERATOR')]
     public function show(User $user): Response
     {
+        // Display a user
         return $this->render('user/show.html.twig', [
             'user' => $user,
         ]);
@@ -70,9 +78,11 @@ class UserController extends AbstractController
     #[IsGranted('ROLE_ADMIN')]
     public function edit(Request $request, User $user, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher): Response
     {
+        // Edit a user with form
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
+        // Verify if form is submitted and valid
         if ($form->isSubmitted() && $form->isValid()) {
 
             $plaintextPassword = $user->getPassword();
@@ -81,9 +91,11 @@ class UserController extends AbstractController
 
             $entityManager->flush();
 
+            // Redirect to user index
             return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
         }
 
+        // Render view
         return $this->render('user/edit.html.twig', [
             'user' => $user,
             'form' => $form,
@@ -94,11 +106,13 @@ class UserController extends AbstractController
     #[IsGranted('ROLE_ADMIN')]
     public function delete(Request $request, User $user, EntityManagerInterface $entityManager): Response
     {
+        // Delete a user
         if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
             $entityManager->remove($user);
             $entityManager->flush();
         }
 
+        // Redirect to user index
         return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
     }
 }

@@ -4,7 +4,8 @@ namespace App\DataFixtures\Provider;
 
 class CategoriesProvider
 {
-    private $postCategories = [
+    // Predifined post categories
+    private array $postCategories = [
         'Soutien scolaire',
         'Covoiturage',
         'Bricolage',
@@ -14,7 +15,7 @@ class CategoriesProvider
     ];
 
     /**
-     * Retourne une catégorie au hasard
+     * Randomly return a post category
      * @return string
      */
     public function postCategories(): string

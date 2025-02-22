@@ -4,13 +4,18 @@
 {% endblock %}
 
 {% block body %}
-<div class="container">
-    <h1 class="mt-5 bg-secondary bg-gradient rounded-5 p-3 text-light text-center">Modifier la catégorie <span class="badge rounded-pill text-bg-success">{{ category.id }}</span></h1>
+	<div class="container">
+		<h1 class="mt-5 bg-secondary bg-gradient rounded-5 p-3 text-light text-center">Modifier la catégorie
+			<span class="badge rounded-pill text-bg-success">{{ category.id }}</span>
+		</h1>
+		<span>
+			<turbo-frame id="category_{{ category.id }}">
+				{{ include('category/_form.html.twig', {'button_label': 'Sauvegarder'}) }}
+			</turbo-frame>
+		</span>
 
-    {{ include('category/_form.html.twig', {'button_label': 'Sauvegarder'}) }}
+		<a href="{{ path('app_category_index') }}" class="btn btn-secondary m-1 btn-sm rounded-pill">Retour</a>
 
-    <a href="{{ path('app_category_index') }}" class="btn btn-secondary m-1 btn-sm rounded-pill">Retour</a>
-
-    {{ include('category/_delete_form.html.twig') }}
-</div>
+		{{ include('category/_delete_form.html.twig') }}
+	</div>
 {% endblock %}

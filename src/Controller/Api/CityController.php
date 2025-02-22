@@ -13,6 +13,7 @@ class CityController extends AbstractController
     #[Route('/api/city', name: 'app_api_city', methods:['GET'])]
     public function index(CityRepository $city): JsonResponse
     {
+        // Get all cities
         $cities = $city->findAll();
         
         return $this->json($cities, Response::HTTP_OK, [], ['groups' => 'cities']);
@@ -21,6 +22,7 @@ class CityController extends AbstractController
     #[Route('/api/city/{id}', name: 'app_api_city_show', methods:['GET'])]
     public function show(CityRepository $city, int $id): JsonResponse
     {
+        // Get one city by id
         $city = $city->find($id);
 
         return $this->json($city, Response::HTTP_OK, [], ['groups' => 'cities']);

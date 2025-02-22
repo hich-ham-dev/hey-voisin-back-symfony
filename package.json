@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "remove-node-modules": "^1.7.6"
+  }
+}
