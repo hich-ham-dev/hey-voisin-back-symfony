@@ -1,50 +1,43 @@
 name: Deploy Symfony Application
-
 on:
   push:
     branches:
       - main
-
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-
+      
       - name: Set up PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.4'
           extensions: mbstring,curl,zip,xml,pgsql,pdo_mysql
-
+      
       - name: Cache Composer dependencies
         uses: actions/cache@v3
         with:
           path: ~/.composer/cache
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-
+      
       - name: Install dependencies
         run: |
           composer install --prefer-dist --no-progress --no-interaction
-
+      
       - name: Run PHPUnit tests
         run: |
           vendor/bin/phpunit --configuration phpunit.xml.dist --coverage-text
         continue-on-error: true
-
-      # Ajoute l'hôte à known_hosts
-      - name: Add VPS to known hosts
-        run: |
-          ssh-keyscan -H ${{ secrets.HOST }} >> ~/.ssh/known_hosts
-
-      - name: Set up SSH key
+      
+      - name: Configure SSH
         run: |
           mkdir -p ~/.ssh
+          ssh-keyscan -H ${{ secrets.HOST }} >> ~/.ssh/known_hosts
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/github_actions
           chmod 600 ~/.ssh/github_actions
-
+      
       - name: Deploy to VPS
         run: |
           ssh -i ~/.ssh/github_actions ${{ secrets.USER }}@${{ secrets.HOST }} << 'EOF'
