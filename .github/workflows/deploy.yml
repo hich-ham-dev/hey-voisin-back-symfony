@@ -50,7 +50,7 @@ jobs:
           ssh -i ~/.ssh/github_actions ${{ secrets.USER }}@${{ secrets.HOST }} << 'EOF'
             cd ${{ secrets.APP_PATH }}
             git pull origin main
-            composer install --no-interaction --prefer-dist
+            composer install --no-interaction --prefer-dist --no-dev --optimize-autoloader
             php bin/console cache:clear --env=prod
             php bin/console doctrine:migrations:migrate --no-interaction
             php bin/console server:restart
