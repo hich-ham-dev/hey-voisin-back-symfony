@@ -30,13 +30,13 @@ class AvatarTest extends TestCase
     {
         $this->expectException(\TypeError::class);
         $avatar = new Avatar();
-        $avatar->setUrl(null);
+        $avatar->setUrl('');
     }
 
     public function testNameCannotBeNull()
     {
         $this->expectException(\TypeError::class);
         $avatar = new Avatar();
-        $avatar->setName(null);
+        $avatar->setName('');
     }
 }
