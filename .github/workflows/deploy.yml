@@ -43,8 +43,10 @@ jobs:
           ssh -i ~/.ssh/github_actions ${{ secrets.USER }}@${{ secrets.HOST }} << 'EOF'
             cd ${{ secrets.APP_PATH }}
             git pull origin main
+            # Installer DebugBundle en dépendance de dev
+            composer require symfony/debug-bundle --dev
+            # Puis installer sans les dépendances de dev pour la production
             composer install --no-interaction --prefer-dist --no-dev --optimize-autoloader
-            php bin/console cache:clear --env=prod
-            php bin/console doctrine:migrations:migrate --no-interaction
-            php bin/console server:restart
+            APP_ENV=prod APP_DEBUG=0 php bin/console cache:clear --env=prod --no-debug
+            php bin/console doctrine:migrations:migrate --no-interaction --env=prod
           EOF
