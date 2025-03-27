@@ -21,7 +21,8 @@ class AvatarType extends AbstractType
                         'message' => 'L\'URL ne peut pas être vide'
                     ]),
                     new Assert\Url([
-                        'message' => 'L\'URL n\'est pas valide'
+                        'message' => 'L\'URL n\'est pas valide',
+                        'requireTld' => true,
                     ]),
                     new Assert\Length([
                         'max' => 2100,

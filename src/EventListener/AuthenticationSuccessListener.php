@@ -21,7 +21,7 @@ class AuthenticationSuccessListener
         }
 
         // Add data to event
-        $data['data'] = array(
+        $data['user'] = array(
             'username' => $user->getUserIdentifier(),
             'id' => $user->getId(),
         );

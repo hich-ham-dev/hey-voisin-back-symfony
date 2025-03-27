@@ -7,6 +7,7 @@ use App\Form\CityType;
 use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
 use Symfony\Component\Form\Test\TypeTestCase;
 use Symfony\Component\Validator\Mapping\Loader\AttributeLoader;
+use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Validation;
 
 class CityTypeTest extends TypeTestCase
