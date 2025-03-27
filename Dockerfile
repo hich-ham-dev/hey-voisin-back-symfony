@@ -60,6 +60,9 @@ RUN if [ "$APP_ENV" = "prod" ]; then \
         && composer run-script post-install-cmd; \
     fi
 
+# Rendre les scripts exécutables
+RUN chmod +x bin/phpunit bin/console
+
 # Permissions des dossiers d'écriture
 RUN chown -R symfony:symfony var
 RUN chmod -R 777 var
