@@ -1,44 +1,68 @@
-FROM php:8.3-apache
+FROM php:8.4-fpm-alpine
 
-# Installer les dépendances
-RUN apt-get update && apt-get install -y \
-    libicu-dev \
+# Arguments définis dans docker-compose.yml
+ARG APP_ENV=prod
+ARG USER_ID=1000
+ARG GROUP_ID=1000
+
+# Installation des dépendances système
+RUN apk add --no-cache \
     git \
+    zip \
     unzip \
     libzip-dev \
-    && docker-php-ext-install \
+    icu-dev \
+    oniguruma-dev \
+    libxml2-dev \
+    linux-headers \
+    $PHPIZE_DEPS
+
+# Installation des extensions PHP
+RUN docker-php-ext-install \
     pdo_mysql \
     intl \
     opcache \
-    zip
+    zip \
+    bcmath \
+    sockets \
+    && docker-php-ext-enable opcache
 
-# Activer mod_rewrite
-RUN a2enmod rewrite headers
-
-# Installer Composer
+# Installation de Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Définir le répertoire de travail
-WORKDIR /var/www/html
+# Création d'un utilisateur non-root
+RUN addgroup -g ${GROUP_ID} symfony && \
+    adduser -u ${USER_ID} -G symfony -s /bin/sh -D symfony
 
-# Copier les fichiers de l'application
+# Configuration PHP pour la production
+RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
+COPY docker/php/conf.d/app.ini $PHP_INI_DIR/conf.d/
+COPY docker/php/conf.d/app.prod.ini $PHP_INI_DIR/conf.d/
+
+# Configuration du dossier de travail
+WORKDIR /var/www/symfony
+
+# Copie des fichiers de l'application
 COPY . .
+COPY --chown=symfony:symfony . .
 
-# Installer les dépendances PHP
-RUN composer install --optimize-autoloader --no-dev
+# Installation des dépendances
+RUN if [ "$APP_ENV" = "prod" ]; then \
+        composer install --prefer-dist --no-dev --no-scripts --no-progress --no-interaction; \
+    else \
+        composer install --prefer-dist --no-scripts --no-progress --no-interaction; \
+    fi \
+    && composer dump-autoload --optimize --no-dev --classmap-authoritative \
+    && composer run-script post-install-cmd
 
-# Modifier les permissions
-RUN chown -R www-data:www-data var
+# Permissions des dossiers d'écriture
+RUN chown -R symfony:symfony var
+RUN chmod -R 777 var
 
-# Configuration d'Apache
-COPY docker/apache.conf /etc/apache2/sites-available/000-default.conf
+# Utilisateur par défaut
+USER symfony
 
-# Installer et activer SSL
-RUN apt-get update && apt-get install -y ssl-cert && a2enmod ssl
-RUN a2ensite default-ssl
+# Exposition du port PHP-FPM
+EXPOSE 9000
 
-# Copier la configuration Apache SSL
-COPY docker/apache-ssl.conf /etc/apache2/sites-available/default-ssl.conf
-
-# Ajouter la configuration PHP optimisée pour production
-COPY docker/php.prod.ini $PHP_INI_DIR/conf.d/
+CMD ["php-fpm"]
