@@ -4,6 +4,7 @@ FROM php:8.4-fpm-alpine
 ARG APP_ENV=prod
 ARG USER_ID=1000
 ARG GROUP_ID=1000
+ENV COMPOSER_MEMORY_LIMIT=-1
 
 # Installation des dépendances système
 RUN apk add --no-cache \
