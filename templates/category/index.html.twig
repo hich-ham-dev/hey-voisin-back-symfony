@@ -12,7 +12,7 @@
 			<div class="relative overflow-x-auto shadow-md sm:rounded-lg mt-6">
 
 				<div class="p-4 bg-white dark:bg-gray-900 flex space-x-8 justify-between">
-					<h1 class="badge bg-white m-3 font-bold text-xl text-blue-900 flex items-center">Liste des utilisateurs
+					<h1 class="badge bg-white m-3 font-bold text-xl text-blue-900 flex items-center">Liste des catégories
 						<a href="{{ path('app_post_new') }}" class="btn btn-sm bg-blue-500 hover:bg-blue-200 hover:text-blue-900 p-2 rounded-lg font-bold text-white text-sm ml-3">Ajouter une catégorie</a>
 					</h1>
 					<label for="table-search" class="sr-only">Search</label>
@@ -42,27 +42,30 @@
 								<td class="w-4 p-4">
 									<span class="badge bg-blue-100 p-3 rounded-lg font-bold">{{ category.id }}</span>
 								</td>
-								<th scope="row" class="px-6 py-4 font-medium text-blue-900 whitespace-nowrap dark:text-white">
-									{{ category.name }}
-								</th>
-								<td>
-									<div class="flex justify-center h-full">
-										<a href="{{ path('app_category_edit', {'id': category.id}) }}" class="btn btn-sm bg-blue-500 hover:bg-blue-200 hover:text-blue-900 p-2 rounded-lg font-bold text-white text-sm mr-2">Modifier</a>
-										<a href="{{ path('app_category_delete', {'id': category.id}) }}" class="btn btn-sm bg-red-500 hover:bg-red-200 hover:text-red-900 p-2 rounded-lg font-bold text-white text-sm ">
-											Supprimer
+								<td scope="row" class="px-6 py-4 font-medium text-blue-900 whitespace-nowrap dark:text-white">
+									<turbo-frame id="category_{{ category.id }}">
+										<a href="{{ path('app_category_edit', {'id': category.id}) }}">
+											{{ category.name }}
 										</a>
-									</div>
+									</turbo-frame>
 								</td>
 							</tr>
-						{% else %}
-							{% include " fragments/_no_entry_message.html.twig" %}
-						{% endfor %}
+						</td>
+						<td>
+							<div class="flex justify-center h-full">
+								<a href="{{ path('app_category_edit', {'id': category.id}) }}" class="btn btn-sm bg-blue-500 hover:bg-blue-200 hover:text-blue-900 p-2 rounded-lg font-bold text-white text-sm mr-2">Modifier</a>
+								<a href="{{ path('app_category_delete', {'id': category.id}) }}" class="btn btn-sm bg-red-500 hover:bg-red-200 hover:text-red-900 p-2 rounded-lg font-bold text-white text-sm ">
+									Supprimer
+								</a>
+							</div>
+						</td>
 					</tbody>
-				</table>
-			</div>
+				</tr>
+			{% else %}
+				{% include " fragments/_no_entry_message.html.twig" %}
+			{% endfor %}
+		</tbody>
+	</table>
+</div>
 
-			{% include "fragments/_pagination.html.twig" %}
-
-		</div>
-	</div>
-{% endblock %}
+{% include "fragments/_pagination.html.twig" %}</div></div>{% endblock %}

@@ -1,21 +1,63 @@
-version: '3'
-
 services:
-###> doctrine/doctrine-bundle ###
-  database:
-    image: postgres:${POSTGRES_VERSION:-15}-alpine
-    environment:
-      POSTGRES_DB: ${POSTGRES_DB:-app}
-      # You should definitely change the password in production
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-!ChangeMe!}
-      POSTGRES_USER: ${POSTGRES_USER:-app}
+  # Service PHP-FPM pour Symfony
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - APP_ENV=${APP_ENV:-prod}
+        - USER_ID=${USER_ID:-1000}
+        - GROUP_ID=${GROUP_ID:-1000}
+    container_name: hey_voisin_app
+    restart: unless-stopped
     volumes:
-      - database_data:/var/lib/postgresql/data:rw
-      # You may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
-      # - ./docker/db/data:/var/lib/postgresql/data:rw
-###< doctrine/doctrine-bundle ###
+      - hey_voisin_app_data:/var/www/symfony/var
+    environment:
+      - APP_ENV=${APP_ENV:-prod}
+      - APP_SECRET=${APP_SECRET}
+      - DATABASE_URL=${DATABASE_URL}
+    networks:
+      - hey_voisin_network
+    depends_on:
+      - database
+
+  # Serveur web Nginx
+  web:
+    image: nginx:alpine
+    container_name: hey_voisin_nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./:/var/www/symfony
+      - ./docker/nginx/conf.d:/etc/nginx/conf.d
+      - ./docker/nginx/ssl:/etc/nginx/ssl
+      - hey_voisin_app_data:/var/www/symfony/var
+    depends_on:
+      - app
+    networks:
+      - hey_voisin_network
+
+  # Base de données MariaDB/MySQL
+  database:
+    image: mariadb:11.4
+    container_name: hey_voisin_db
+    restart: unless-stopped
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+    volumes:
+      - hey_voisin_db_data:/var/lib/mysql
+    networks:
+      - hey_voisin_network
 
 volumes:
-###> doctrine/doctrine-bundle ###
-  database_data:
-###< doctrine/doctrine-bundle ###
+  hey_voisin_app_data:
+  hey_voisin_db_data:
+
+networks:
+  hey_voisin_network:
+    driver: bridge

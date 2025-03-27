@@ -15,7 +15,7 @@
 					<h1 class="badge bg-white m-3 font-bold text-xl text-blue-900 flex items-center">Liste des publications
 						<a href="{{ path('app_post_new') }}" class="btn btn-sm bg-blue-500 hover:bg-blue-200 hover:text-blue-900 p-2 rounded-lg font-bold text-white text-sm ml-3">Ajouter une publication</a>
 					</h1>
-					<label for="table-search" class="sr-only">Search</label>
+					{# <label for="table-search" class="sr-only">Search</label> #}
 					<div class="relative mt-1">
 						<div class="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none">
 							<svg class="w-4 h-4 text-blue-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 20 20">
@@ -26,27 +26,27 @@
 					</div>
 				</div>
 
-				<turbo-frame id="post-list" src="{{ path('app_post_search') }}">
-					<table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-						<thead class="bg-blue-50 dark:bg-gray-800">
-							<tr class="border-b dark:border-gray-700">
-								<th class="py-3 px-4 font-bold text-blue-900 dark:text-white">ID</th>
-								<th class="py-3 px-4 font-bold text-blue-900 dark:text-white">Titre</th>
-								<th class="py-3 px-4 font-bold text-blue-900 dark:text-white">Auteur</th>
-								<th class="py-3 px-4 font-bold text-blue-900 dark:text-white">Ville</th>
-								<th class="py-3 px-4 font-bold text-blue-900 dark:text-white">Catégorie</th>
-								<th class="py-3 px-4 font-bold text-blue-900 dark:text-white">Statut</th>
-								<th class="py-3 px-4 font-bold text-blue-900 dark:text-white">Type</th>
-								<th class="py-3 px-4 font-bold text-blue-900 dark:text-white">Publié le</th>
-							</tr>
-						</thead>
-						{% include 'post/_post_list.html.twig' with {posts: pagination} %}
+				<table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+					<thead class="bg-blue-50 dark:bg-gray-800">
+						<tr class="border-b dark:border-gray-700">
+							<th class="py-3 px-4 font-bold text-blue-900 dark:text-white">ID</th>
+							<th class="py-3 px-4 font-bold text-blue-900 dark:text-white">Titre</th>
+							<th class="py-3 px-4 font-bold text-blue-900 dark:text-white">Auteur</th>
+							<th class="py-3 px-4 font-bold text-blue-900 dark:text-white">Ville</th>
+							<th class="py-3 px-4 font-bold text-blue-900 dark:text-white">Catégorie</th>
+							<th class="py-3 px-4 font-bold text-blue-900 dark:text-white">Statut</th>
+							<th class="py-3 px-4 font-bold text-blue-900 dark:text-white">Type</th>
+							<th class="py-3 px-4 font-bold text-blue-900 dark:text-white">Publié le</th>
+						</tr>
 					</thead>
+					<tbody>
+						<twig:SearchComponent/>
+					</tbody>
 				</table>
-			</turbo-frame>
+			</div>
+
+			{% include "fragments/_pagination.html.twig" %}
+
 		</div>
-
-		{% include "fragments/_pagination.html.twig" %}
-
 	</div>
-</div>{% endblock %}
+{% endblock %}

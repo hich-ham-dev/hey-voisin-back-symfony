@@ -1,4 +1,3 @@
-
 ###> symfony/framework-bundle ###
 /.env.local
 /.env.local.php
@@ -16,11 +15,6 @@
 .phpunit.result.cache
 ###< phpunit/phpunit ###
 
-###> symfony/phpunit-bridge ###
-.phpunit.result.cache
-/phpunit.xml
-###< symfony/phpunit-bridge ###
-
 ###> lexik/jwt-authentication-bundle ###
 /config/jwt/*.pem
 ###< lexik/jwt-authentication-bundle ###
@@ -29,3 +23,10 @@
 /public/assets/
 /assets/vendor/
 ###< symfony/asset-mapper ###
+###> docker/ssl-certificates ###
+/docker/nginx/ssl/*
+!docker/nginx/ssl/.gitkeep
+###< docker/ssl-certificates ###
+
+# Docker override for local development
+/docker-compose.override.yml

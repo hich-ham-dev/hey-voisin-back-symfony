@@ -12,22 +12,22 @@ class Avatar
     #[ORM\GeneratedValue]
     #[ORM\Column]
     #[Groups(['avatars'])]
-    private ?int $id = null;
+    private readonly int $id;
 
     #[ORM\Column(length: 2100)]
     #[Groups(['avatars', 'posts','categories', 'users'])]
-    private ?string $url = null;
+    private string $url;
 
     #[ORM\Column(length: 25)]
     #[Groups(['avatars'])]
-    private ?string $name = null;
+    private string $name;
 
-    public function getId(): ?int
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public function getUrl(): ?string
+    public function getUrl(): string
     {
         return $this->url;
     }
@@ -39,7 +39,7 @@ class Avatar
         return $this;
     }
 
-    public function getName(): ?string
+    public function getName(): string
     {
         return $this->name;
     }

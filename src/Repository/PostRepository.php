@@ -41,7 +41,7 @@ class PostRepository extends ServiceEntityRepository
                 ->setParameter('query', '%' . $query . '%');
         }
 
-        return $qb->getQuery()->getResult();
+        return $posts = $qb->getQuery()->getResult();
     }
 
 //    /**
