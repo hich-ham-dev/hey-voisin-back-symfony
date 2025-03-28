@@ -12,7 +12,7 @@ class Avatar
     #[ORM\GeneratedValue]
     #[ORM\Column]
     #[Groups(['avatars'])]
-    private readonly int $id;
+    private ?int $id = null;
 
     #[ORM\Column(length: 2100)]
     #[Groups(['avatars', 'posts','categories', 'users'])]
@@ -22,7 +22,7 @@ class Avatar
     #[Groups(['avatars'])]
     private string $name;
 
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -34,6 +34,9 @@ class Avatar
 
     public function setUrl(string $url): static
     {
+        if(empty($url)){
+            throw new \TypeError('Url cannot be empty');
+        }
         $this->url = $url;
 
         return $this;
@@ -46,6 +49,9 @@ class Avatar
 
     public function setName(string $name): static
     {
+        if(empty($name)){
+            throw new \TypeError('Name cannot be empty');
+        }
         $this->name = $name;
 
         return $this;
