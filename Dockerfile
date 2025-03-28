@@ -46,14 +46,22 @@ WORKDIR /var/www/symfony
 COPY . .
 COPY --chown=symfony:symfony . .
 
+# Résolution du problème Git
+RUN git config --global --add safe.directory /var/www/symfony
+
 # Installation des dépendances
 RUN if [ "$APP_ENV" = "prod" ]; then \
-        composer install --prefer-dist --no-dev --no-scripts --no-progress --no-interaction; \
+        composer install --prefer-dist --no-dev --no-scripts --no-progress --no-interaction \
+        && composer dump-autoload --optimize --classmap-authoritative \
+        && APP_ENV=prod composer run-script post-install-cmd; \
     else \
-        composer install --prefer-dist --no-scripts --no-progress --no-interaction; \
-    fi \
-    && composer dump-autoload --optimize --no-dev --classmap-authoritative \
-    && composer run-script post-install-cmd
+        composer install --prefer-dist --no-progress --no-interaction \
+        && composer dump-autoload --optimize \
+        && composer run-script post-install-cmd; \
+    fi
+
+# Rendre les scripts exécutables
+RUN chmod +x bin/phpunit bin/console
 
 # Permissions des dossiers d'écriture
 RUN chown -R symfony:symfony var
