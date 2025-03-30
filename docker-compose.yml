@@ -20,6 +20,12 @@ services:
       - hey_voisin_network
     depends_on:
       - database
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.heyvoisin-app.rule=Host(`${DOMAIN}`)"
+      - "traefik.http.routers.heyvoisin-app.entrypoints=websecure"
+      - "traefik.http.routers.heyvoisin-app.tls.certresolver=le"
+      - "traefik.http.services.heyvoisin-app.loadbalancer.server.port=80"
 
   # Serveur web Nginx
   web:
@@ -38,6 +44,12 @@ services:
       - app
     networks:
       - hey_voisin_network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.heyvoisin-app.rule=Host(`${DOMAIN:-localhost}`)"
+      - "traefik.http.routers.heyvoisin-app.entrypoints=websecure"
+      - "traefik.http.routers.heyvoisin-app.tls.certresolver=le"
+      - "traefik.http.services.heyvoisin-app.loadbalancer.server.port=80"
 
   # Base de données MariaDB/MySQL
   database:
