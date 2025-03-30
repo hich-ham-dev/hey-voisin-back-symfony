@@ -16,6 +16,7 @@ services:
       - APP_ENV=${APP_ENV:-prod}
       - APP_SECRET=${APP_SECRET}
       - DATABASE_URL=${DATABASE_URL}
+      - DOMAIN_NAME=${DOMAIN_NAME}
     networks:
       - hey_voisin_network
     depends_on:
@@ -40,6 +41,8 @@ services:
       - ./docker/nginx/conf.d:/etc/nginx/conf.d
       - ./docker/nginx/ssl:/etc/nginx/ssl
       - hey_voisin_app_data:/var/www/symfony/var
+    environment:
+      - DOMAIN_NAME=${DOMAIN_NAME}
     depends_on:
       - app
     networks:
