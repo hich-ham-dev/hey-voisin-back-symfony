@@ -51,6 +51,7 @@ jobs:
           MESSENGER_TRANSPORT_DSN=doctrine://default?auto_setup=0
           JWT_SECRET_KEY=%kernel.project_dir%/config/jwt/private.pem
           JWT_PUBLIC_KEY=%kernel.project_dir%/config/jwt/public.pem
+          DOMAIN_NAME=${{ secrets.DOMAIN_NAME }}
           EOL
           
           # Fichier avec les secrets
