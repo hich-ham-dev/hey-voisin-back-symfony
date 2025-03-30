@@ -19,7 +19,7 @@ services:
       - DOMAIN_NAME=${DOMAIN_NAME}
     networks:
       - hey_voisin_network
-      - proxy  # Ajout du réseau proxy
+      - proxy  
     depends_on:
       - database
 
@@ -28,7 +28,6 @@ services:
     image: nginx:alpine
     container_name: hey_voisin_nginx
     restart: unless-stopped
-    # Suppression des ports exposés, Traefik s'en charge
     volumes:
       - ./:/var/www/symfony
       - ./docker/nginx/conf.d:/etc/nginx/conf.d
@@ -43,7 +42,7 @@ services:
       - proxy  # Ajout du réseau proxy
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.heyvoisin.rule=Host(`${DOMAIN_NAME:-localhost}`)"
+      - "traefik.http.routers.heyvoisin.rule=Host(`${DOMAIN_NAME}`)"
       - "traefik.http.routers.heyvoisin.entrypoints=websecure"
       - "traefik.http.routers.heyvoisin.tls.certresolver=le"
       - "traefik.http.services.heyvoisin.loadbalancer.server.port=80"
@@ -71,4 +70,4 @@ networks:
   hey_voisin_network:
     driver: bridge
   proxy:
-    external: true  # Référence au réseau externe créé pour Traefik
+    external: true
