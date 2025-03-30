@@ -19,23 +19,16 @@ services:
       - DOMAIN_NAME=${DOMAIN_NAME}
     networks:
       - hey_voisin_network
+      - proxy  # Ajout du réseau proxy
     depends_on:
       - database
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.heyvoisin-app.rule=Host(`${DOMAIN}`)"
-      - "traefik.http.routers.heyvoisin-app.entrypoints=websecure"
-      - "traefik.http.routers.heyvoisin-app.tls.certresolver=le"
-      - "traefik.http.services.heyvoisin-app.loadbalancer.server.port=80"
 
   # Serveur web Nginx
   web:
     image: nginx:alpine
     container_name: hey_voisin_nginx
     restart: unless-stopped
-    ports:
-      - "80:80"
-      - "443:443"
+    # Suppression des ports exposés, Traefik s'en charge
     volumes:
       - ./:/var/www/symfony
       - ./docker/nginx/conf.d:/etc/nginx/conf.d
@@ -47,12 +40,13 @@ services:
       - app
     networks:
       - hey_voisin_network
+      - proxy  # Ajout du réseau proxy
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.heyvoisin-app.rule=Host(`${DOMAIN:-localhost}`)"
-      - "traefik.http.routers.heyvoisin-app.entrypoints=websecure"
-      - "traefik.http.routers.heyvoisin-app.tls.certresolver=le"
-      - "traefik.http.services.heyvoisin-app.loadbalancer.server.port=80"
+      - "traefik.http.routers.heyvoisin.rule=Host(`${DOMAIN_NAME:-localhost}`)"
+      - "traefik.http.routers.heyvoisin.entrypoints=websecure"
+      - "traefik.http.routers.heyvoisin.tls.certresolver=le"
+      - "traefik.http.services.heyvoisin.loadbalancer.server.port=80"
 
   # Base de données MariaDB/MySQL
   database:
@@ -76,3 +70,5 @@ volumes:
 networks:
   hey_voisin_network:
     driver: bridge
+  proxy:
+    external: true  # Référence au réseau externe créé pour Traefik
