@@ -1,10 +1,18 @@
-name: Deploy Symfony Docker
+name: Symfony API CI/CD
 on:
   push:
-    branches:
-      - main
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+
 jobs:
-  build-test-deploy:
+  test:
+    name: Build & Test
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -35,7 +43,31 @@ jobs:
       - name: Run PHPUnit tests
         run: |
           docker run --rm symfony-app:test bin/phpunit
-        continue-on-error: false
+      
+      # Corrige le cache de buildx
+      - name: Move cache
+        run: |
+          rm -rf /tmp/.buildx-cache
+          mv /tmp/.buildx-cache-new /tmp/.buildx-cache
+
+  build:
+    name: Build & Push Image
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+        
+      - name: Cache Docker layers
+        uses: actions/cache@v3
+        with:
+          path: /tmp/.buildx-cache
+          key: ${{ runner.os }}-buildx-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-buildx-
       
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v2
@@ -55,6 +87,20 @@ jobs:
           build-args: |
             APP_ENV=prod
       
+      # Corrige le cache de buildx
+      - name: Move cache
+        run: |
+          rm -rf /tmp/.buildx-cache
+          mv /tmp/.buildx-cache-new /tmp/.buildx-cache
+
+  prepare-deploy:
+    name: Prepare Deployment Files
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      
       - name: Create production environment files
         run: |
           # Fichier principal avec variables non-sensibles
@@ -67,6 +113,8 @@ jobs:
           JWT_SECRET_KEY=%kernel.project_dir%/config/jwt/private.pem
           JWT_PUBLIC_KEY=%kernel.project_dir%/config/jwt/public.pem
           DOMAIN_NAME=${{ secrets.DOMAIN_NAME }}
+          MYSQL_DATABASE=hey_voisin_prod_db
+          MYSQL_USER=hey_voisin_prod_user
           EOL
           
           # Fichier avec les secrets
@@ -78,8 +126,6 @@ jobs:
           MAILER_DSN=${{ secrets.MAILER_DSN }}
           CORS_ALLOW_ORIGIN=${{ secrets.CORS_ALLOW_ORIGIN }}
           JWT_PASSPHRASE=${{ secrets.JWT_PASSPHRASE }}
-          MYSQL_DATABASE=hey_voisin_prod_db
-          MYSQL_USER=hey_voisin_prod_user
           EOL
 
           # Créer docker-compose.prod.yml qui utilise l'image pré-construite
@@ -180,6 +226,27 @@ jobs:
           }
           EOL
       
+      - name: Upload deployment artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: deployment-files
+          path: |
+            docker-compose.prod.yml
+            .env.prod
+            .env.prod.local
+            nginx/
+
+  deploy:
+    name: Deploy to VPS
+    needs: prepare-deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download deployment artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: deployment-files
+          path: deployment
+      
       - name: Configure SSH
         run: |
           mkdir -p ~/.ssh
@@ -199,6 +266,7 @@ jobs:
       - name: Deploy to VPS
         run: |
           # Copier les fichiers vers le VPS
+          cd deployment
           scp -i ~/.ssh/github_actions docker-compose.prod.yml .env.prod .env.prod.local ${{ secrets.USER }}@${{ secrets.HOST }}:~/sites/hey-voisin/api/
           scp -i ~/.ssh/github_actions -r nginx ${{ secrets.USER }}@${{ secrets.HOST }}:~/sites/hey-voisin/api/
           
@@ -219,9 +287,3 @@ jobs:
             # Nettoyer les anciennes images
             docker image prune -af
           EOF
-      
-      # Workaround pour corriger le cache de buildx
-      - name: Move cache
-        run: |
-          rm -rf /tmp/.buildx-cache
-          mv /tmp/.buildx-cache-new /tmp/.buildx-cache
