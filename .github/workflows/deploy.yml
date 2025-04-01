@@ -30,7 +30,7 @@ jobs:
             ${{ runner.os }}-buildx-
       
       - name: Build image for testing
-        uses: docker/build-push-action@v4
+        uses: docker/build-push-action@v5
         with:
           context: .
           load: true
@@ -245,7 +245,11 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: deployment-files
-          path: .
+          path: |
+            docker-compose.prod.yml
+            .env.prod
+            .env.prod.local
+            nginx/
 
       - name: Configure SSH
         run: |
@@ -255,7 +259,7 @@ jobs:
           chmod 600 ~/.ssh/github_actions
 
       - name: Create directory structure on VPS
-        uses: appleboy/ssh-action@master
+        uses: appleboy/ssh-action@v1
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USER }}
