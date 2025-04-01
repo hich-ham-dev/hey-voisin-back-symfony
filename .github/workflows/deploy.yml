@@ -109,6 +109,143 @@ jobs:
             # S'arrêter à la première erreur
             set -e
             
+            # ===== SÉCURITÉ: INSTALLATION DES OUTILS DE BASE =====
+            # Installation et configuration de Fail2Ban et UFW si nécessaire
+            if ! command -v fail2ban-client &> /dev/null || ! command -v ufw &> /dev/null; then
+              echo "Installation des outils de sécurité..."
+              sudo apt-get update
+              sudo apt-get install -y fail2ban ufw
+            else
+              echo "Fail2Ban et UFW sont déjà installés."
+            fi
+            
+            # ===== SÉCURITÉ: CONFIGURATION DU PARE-FEU =====
+            # Configuration du pare-feu UFW
+            echo "Configuration du pare-feu UFW..."
+            sudo ufw default deny incoming
+            sudo ufw default allow outgoing
+            sudo ufw allow ssh
+            sudo ufw allow http
+            sudo ufw allow https
+            
+            # Activer UFW s'il n'est pas déjà actif
+            if sudo ufw status | grep -q "Status: inactive"; then
+              echo "Activation du pare-feu UFW..."
+              echo "y" | sudo ufw enable
+            fi
+            
+            echo "Statut du pare-feu UFW:"
+            sudo ufw status
+            
+            # ===== SÉCURITÉ: PROTECTION ANTI-DDOS =====
+            # Configuration anti-DDoS avec iptables (règles de base)
+            echo "Configuration de la protection anti-DDoS..."
+            
+            # Limiter le nombre de connexions simultanées par IP
+            sudo iptables -A INPUT -p tcp --syn --dport 80 -m connlimit --connlimit-above 20 --connlimit-mask 32 -j DROP
+            sudo iptables -A INPUT -p tcp --syn --dport 443 -m connlimit --connlimit-above 20 --connlimit-mask 32 -j DROP
+            
+            # Protéger contre les attaques SYN flood
+            sudo iptables -A INPUT -p tcp --tcp-flags ALL NONE -j DROP
+            sudo iptables -A INPUT -p tcp --tcp-flags SYN,FIN SYN,FIN -j DROP
+            sudo iptables -A INPUT -p tcp --tcp-flags SYN,RST SYN,RST -j DROP
+            sudo iptables -A INPUT -p tcp --tcp-flags FIN,RST FIN,RST -j DROP
+            sudo iptables -A INPUT -p tcp --tcp-flags ACK,FIN FIN -j DROP
+            sudo iptables -A INPUT -p tcp --tcp-flags ACK,URG URG -j DROP
+            
+            # Sauvegarder les règles iptables
+            if command -v iptables-save &> /dev/null; then
+              sudo iptables-save | sudo tee /etc/iptables/rules.v4 > /dev/null
+              echo "Règles iptables sauvegardées."
+            else
+              echo "Commande iptables-save non disponible, installation du paquet iptables-persistent..."
+              sudo apt-get install -y iptables-persistent
+              sudo iptables-save | sudo tee /etc/iptables/rules.v4 > /dev/null
+            fi
+            
+            # ===== SÉCURITÉ: CONFIGURATION FAIL2BAN =====
+            # Configuration de Fail2Ban pour protéger Nginx et SSH
+            echo "Configuration de Fail2Ban..."
+            
+            # Créer le fichier de configuration personnalisé
+            sudo tee /etc/fail2ban/jail.local > /dev/null << EOL
+[DEFAULT]
+bantime = 3600
+findtime = 600
+maxretry = 5
+banaction = iptables-multiport
+
+[sshd]
+enabled = true
+port = ssh
+filter = sshd
+logpath = /var/log/auth.log
+maxretry = 3
+
+[nginx-http-auth]
+enabled = true
+filter = nginx-http-auth
+logpath = /var/log/nginx/error.log
+maxretry = 5
+
+[nginx-botsearch]
+enabled = true
+filter = nginx-botsearch
+logpath = /var/log/nginx/access.log
+maxretry = 2
+
+[nginx-badbots]
+enabled = true
+filter = nginx-badbots
+logpath = /var/log/nginx/access.log
+maxretry = 2
+
+[nginx-limit-req]
+enabled = true
+filter = nginx-limit-req
+logpath = /var/log/nginx/error.log
+maxretry = 10
+EOL
+            
+            # Redémarrer Fail2Ban pour appliquer la configuration
+            sudo systemctl restart fail2ban
+            echo "Fail2Ban configuré et redémarré."
+            
+            # Vérifier le statut de Fail2Ban
+            echo "Statut des jails Fail2Ban:"
+            sudo fail2ban-client status
+            
+            # ===== SÉCURITÉ: GESTION DES LOGS =====
+            # Configuration de logrotate pour la rotation des logs
+            echo "Configuration de logrotate pour les logs Docker..."
+            sudo tee /etc/logrotate.d/docker-container-logs > /dev/null << EOL
+/var/lib/docker/containers/*/*.log {
+    rotate 7
+    daily
+    compress
+    delaycompress
+    missingok
+    copytruncate
+}
+EOL
+            
+            # Installation d'outils de surveillance des logs
+            if ! command -v logwatch &> /dev/null; then
+              echo "Installation de logwatch pour la surveillance des logs..."
+              sudo apt-get install -y logwatch
+              
+              # Configurer logwatch pour envoyer des rapports quotidiens
+              sudo mkdir -p /etc/logwatch/conf
+              sudo tee /etc/logwatch/conf/logwatch.conf > /dev/null << EOL
+LogDir = /var/log
+TmpDir = /var/cache/logwatch
+MailTo = root
+Range = yesterday
+Detail = Med
+Service = All
+EOL
+            fi
+            
             # Vérifier si le réseau proxy existe déjà
             if ! docker network ls | grep -q proxy; then
               echo "Création du réseau proxy..."
@@ -116,6 +253,42 @@ jobs:
             else
               echo "Le réseau proxy existe déjà."
             fi
+            
+            # ===== CRÉATION DES RÉPERTOIRES ET FICHIERS DE CONFIGURATION =====
+            # Créer les répertoires nécessaires
+            mkdir -p ~/sites/hey-voisin/api/nginx/conf.d
+            mkdir -p ~/sites/hey-voisin/api/mysql/conf.d
+            
+            # ===== SÉCURITÉ: CONFIGURATION MYSQL =====
+            # Configuration MySQL sécurisée
+            cat > ~/sites/hey-voisin/api/mysql/conf.d/security.cnf << EOL
+[mysqld]
+# Désactiver les fonctionnalités non sécurisées
+local-infile=0
+skip-symbolic-links=1
+
+# Limiter les connexions et les ressources
+max_connections=100
+max_allowed_packet=16M
+connect_timeout=10
+wait_timeout=600
+interactive_timeout=600
+
+# Bloquer l'accès aux fichiers du système
+secure-file-priv=/var/lib/mysql-files
+
+# Désactiver le chargement de plugin dynamique
+plugin-load-add=auth_socket.so
+
+# Journalisation sécurisée
+log_error=/var/log/mysql/error.log
+slow_query_log=1
+slow_query_log_file=/var/log/mysql/slow.log
+long_query_time=2
+
+# Sécurité des bases de données
+default-authentication-plugin=mysql_native_password
+EOL
             
             # Téléchargement direct de l'image Docker
             docker pull ghcr.io/${GITHUB_REPOSITORY}:latest
@@ -145,7 +318,8 @@ jobs:
             JWT_PASSPHRASE=${{ secrets.JWT_PASSPHRASE }}
             EOL
             
-            # Création de docker-compose.prod.yml
+            # ===== SÉCURITÉ: DOCKER-COMPOSE SÉCURISÉ =====
+            # Création du docker-compose.prod.yml avec sécurité renforcée
             cat > ~/sites/hey-voisin/api/docker-compose.prod.yml << EOL
             version: '3'
             
@@ -155,19 +329,34 @@ jobs:
                 image: ghcr.io/${GITHUB_REPOSITORY}:latest
                 container_name: hey_voisin_app
                 restart: unless-stopped
+                user: "1000:1000"  # Exécuter en tant qu'utilisateur non-root
+                read_only: true    # Système de fichiers en lecture seule
                 volumes:
                   - hey_voisin_app_data:/var/www/symfony/var
+                  - /tmp
                 environment:
                   - APP_ENV=${APP_ENV:-prod}
                   - APP_SECRET=${APP_SECRET}
                   - DATABASE_URL=${DATABASE_URL}
                   - DOMAIN_NAME=${DOMAIN_NAME}
+                security_opt:
+                  - no-new-privileges:true
+                cap_drop:
+                  - ALL
+                cap_add:
+                  - NET_BIND_SERVICE
                 networks:
                   - hey_voisin_network
                   - proxy
                 depends_on:
                   - database
+                healthcheck:
+                  test: ["CMD", "php", "-r", "if(!fsockopen('localhost', 9000, \$errno, \$errstr, 1)) { exit(1); }"]
+                  interval: 30s
+                  timeout: 5s
+                  retries: 3
             
+              # ===== SÉCURITÉ: NGINX SÉCURISÉ =====
               # Serveur web Nginx
               web:
                 image: nginx:1.25-alpine
@@ -177,7 +366,7 @@ jobs:
                   - ./nginx/conf.d:/etc/nginx/conf.d
                   - hey_voisin_app_data:/var/www/symfony/var
                 environment:
-                  - DOMAIN_NAME=\${DOMAIN_NAME}
+                  - DOMAIN_NAME=${DOMAIN_NAME}
                 depends_on:
                   - app
                 networks:
@@ -191,20 +380,36 @@ jobs:
                   - "traefik.http.routers.heyvoisin.tls.certresolver=le"
                   - "traefik.http.services.heyvoisin.loadbalancer.server.port=80"
             
-              # Base de données MariaDB/MySQL
+              # ===== SÉCURITÉ: BASE DE DONNÉES SÉCURISÉE =====
+              # Base de données MariaDB/MySQL avec sécurité renforcée
               database:
                 image: mariadb:11.4
                 container_name: hey_voisin_db
                 restart: unless-stopped
                 environment:
-                  - MYSQL_ROOT_PASSWORD=\${MYSQL_ROOT_PASSWORD}
-                  - MYSQL_DATABASE=\${MYSQL_DATABASE}
-                  - MYSQL_USER=\${MYSQL_USER}
-                  - MYSQL_PASSWORD=\${MYSQL_PASSWORD}
+                  - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+                  - MYSQL_DATABASE=${MYSQL_DATABASE}
+                  - MYSQL_USER=${MYSQL_USER}
+                  - MYSQL_PASSWORD=${MYSQL_PASSWORD}
                 volumes:
                   - hey_voisin_db_data:/var/lib/mysql
+                  - ./mysql/conf.d:/etc/mysql/conf.d
                 networks:
                   - hey_voisin_network
+                healthcheck:
+                  test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${MYSQL_ROOT_PASSWORD}"]
+                  interval: 10s
+                  timeout: 5s
+                  retries: 5
+                security_opt:
+                  - no-new-privileges:true
+                cap_drop:
+                  - ALL
+                cap_add:
+                  - CHOWN
+                  - DAC_OVERRIDE
+                  - SETGID
+                  - SETUID
             
             volumes:
               hey_voisin_app_data:
@@ -217,15 +422,45 @@ jobs:
                 external: true
             EOL
             
-            # Création de la configuration nginx
+            # ===== SÉCURITÉ: CONFIGURATION NGINX SÉCURISÉE =====
+            # Création de la configuration nginx avec en-têtes de sécurité
             cat > ~/sites/hey-voisin/api/nginx/conf.d/default.conf << EOL
             server {
                 listen 80;
                 server_name localhost;
                 root /var/www/symfony/public;
+                
+                # En-têtes de sécurité
+                add_header X-Frame-Options "SAMEORIGIN" always;
+                add_header X-XSS-Protection "1; mode=block" always;
+                add_header X-Content-Type-Options "nosniff" always;
+                add_header Referrer-Policy "no-referrer-when-downgrade" always;
+                add_header Content-Security-Policy "default-src 'self' https: data: 'unsafe-inline' 'unsafe-eval';" always;
+                add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
+                
+                # Désactiver l'affichage de la version de nginx
+                server_tokens off;
+                
+                # Limiter la taille des requêtes pour prévenir les attaques DoS
+                client_max_body_size 10M;
+                
+                # Limiter le nombre de connexions par IP
+                limit_conn_zone \$binary_remote_addr zone=conn_limit_per_ip:10m;
+                limit_conn conn_limit_per_ip 10;
+                
+                # Limiter le taux de requêtes par IP
+                limit_req_zone \$binary_remote_addr zone=req_limit_per_ip:10m rate=5r/s;
+                limit_req zone=req_limit_per_ip burst=10 nodelay;
             
                 location / {
                     try_files \$uri /index.php\$is_args\$args;
+                }
+                
+                # Bloquer l'accès aux fichiers cachés
+                location ~ /\\. {
+                    deny all;
+                    access_log off;
+                    log_not_found off;
                 }
             
                 location ~ ^/index\.php(/|$) {
@@ -234,6 +469,10 @@ jobs:
                     include fastcgi_params;
                     fastcgi_param SCRIPT_FILENAME \$document_root\$fastcgi_script_name;
                     fastcgi_param DOCUMENT_ROOT \$document_root;
+                    
+                    # Paramètres de sécurité pour PHP
+                    fastcgi_param PHP_VALUE "upload_max_filesize=8M \n post_max_size=8M";
+                    
                     internal;
                 }
             
@@ -255,6 +494,7 @@ jobs:
             export $(grep -v '^#' .env | xargs)
             echo "Valeur de DOMAIN_NAME = ${DOMAIN_NAME}"
             
+            # ===== SÉCURITÉ: GESTION SÉCURISÉE DES CONTENEURS =====
             # Arrêter les conteneurs existants sans supprimer les volumes
             echo "Arrêt des conteneurs existants..."
             docker-compose -f docker-compose.prod.yml down || true
@@ -290,6 +530,7 @@ jobs:
             echo "Attente du démarrage de la base de données..."
             sleep 20
             
+            # ===== DÉPLOIEMENT: MIGRATIONS ET NETTOYAGE =====
             # Exécuter les migrations (avec gestion des erreurs)
             docker-compose -f docker-compose.prod.yml exec -T app php bin/console doctrine:migrations:migrate --no-interaction --env=prod --allow-no-migration || {
               echo "Erreur lors des migrations. Vérification du statut des conteneurs:"
