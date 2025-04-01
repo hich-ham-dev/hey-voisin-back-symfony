@@ -245,7 +245,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: deployment-files
-          path: deployment
+          path: .
 
       - name: Configure SSH
         run: |
