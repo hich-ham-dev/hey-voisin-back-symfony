@@ -266,8 +266,8 @@ jobs:
       - name: Deploy to VPS
         run: |
           # Copier les fichiers vers le VPS
-          scp -i ~/.ssh/github_actions deployment/docker-compose.prod.yml deployment/.env.prod deployment/.env.prod.local ${{ secrets.USER }}@${{ secrets.HOST }}:~/sites/hey-voisin/api/
-          scp -i ~/.ssh/github_actions -r deployment/nginx ${{ secrets.USER }}@${{ secrets.HOST }}:~/sites/hey-voisin/api/
+          scp -i ~/.ssh/github_actions docker-compose.prod.yml .env.prod .env.prod.local ${{ secrets.USER }}@${{ secrets.HOST }}:~/sites/hey-voisin/api/
+          scp -i ~/.ssh/github_actions -r nginx ${{ secrets.USER }}@${{ secrets.HOST }}:~/sites/hey-voisin/api/
 
           # Exécuter les commandes de déploiement sur le VPS
           ssh -i ~/.ssh/github_actions ${{ secrets.USER }}@${{ secrets.HOST }} << 'EOF'
