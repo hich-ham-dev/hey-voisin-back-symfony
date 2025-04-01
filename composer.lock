@@ -46,17 +46,17 @@
                 {
                     "name": "Nils Adermann",
                     "email": "naderman@naderman.de",
-                    "homepage": "http://www.naderman.de"
+                    "homepage": "https://www.naderman.de"
                 },
                 {
                     "name": "Jordi Boggiano",
                     "email": "j.boggiano@seld.be",
-                    "homepage": "http://seld.be"
+                    "homepage": "https://seld.be"
                 },
                 {
                     "name": "Rob Bast",
                     "email": "rob.bast@gmail.com",
-                    "homepage": "http://robbast.nl"
+                    "homepage": "https://robbast.nl"
                 }
             ],
             "description": "Semver library that offers utilities, version constraint parsing and validation.",
@@ -1678,7 +1678,7 @@
                 }
             ],
             "description": "Library for (de-)serializing data of any complexity; supports XML, and JSON.",
-            "homepage": "http://jmsyst.com/libs/serializer",
+            "homepage": "https://jmsyst.com/libs/serializer",
             "keywords": [
                 "deserialization",
                 "jaxb",
@@ -1768,7 +1768,7 @@
                 }
             ],
             "description": "Allows you to easily serialize, and deserialize data of any complexity",
-            "homepage": "http://jmsyst.com/bundles/JMSSerializerBundle",
+            "homepage": "https://jmsyst.com/bundles/JMSSerializerBundle",
             "keywords": [
                 "deserialization",
                 "json",
@@ -2539,7 +2539,7 @@
             "authors": [
                 {
                     "name": "Nelmio",
-                    "homepage": "http://nelm.io"
+                    "homepage": "https://nelm.io"
                 },
                 {
                     "name": "Symfony Community",
@@ -2655,7 +2655,7 @@
                 }
             ],
             "description": "Common reflection classes used by phpdocumentor to reflect the code structure",
-            "homepage": "http://www.phpdoc.org",
+            "homepage": "https://www.phpdoc.org",
             "keywords": [
                 "FQSEN",
                 "phpDocumentor",
@@ -3023,7 +3023,7 @@
             "authors": [
                 {
                     "name": "PHP-FIG",
-                    "homepage": "http://www.php-fig.org/"
+                    "homepage": "https://www.php-fig.org/"
                 }
             ],
             "description": "Standard interfaces for event handling.",
@@ -3076,7 +3076,7 @@
             "authors": [
                 {
                     "name": "PHP-FIG",
-                    "homepage": "http://www.php-fig.org/"
+                    "homepage": "https://www.php-fig.org/"
                 }
             ],
             "description": "Common interfaces for HTTP links",
@@ -9093,7 +9093,7 @@
                 {
                     "name": "Fabien Potencier",
                     "email": "fabien@symfony.com",
-                    "homepage": "http://fabien.potencier.org",
+                    "homepage": "https://fabien.potencier.org",
                     "role": "Lead Developer"
                 }
             ],
@@ -9164,7 +9164,7 @@
                 {
                     "name": "Fabien Potencier",
                     "email": "fabien@symfony.com",
-                    "homepage": "http://fabien.potencier.org",
+                    "homepage": "https://fabien.potencier.org",
                     "role": "Lead Developer"
                 },
                 {
@@ -9565,7 +9565,7 @@
                 }
             ],
             "description": "An HTML5 parser and serializer.",
-            "homepage": "http://masterminds.github.io/html5-php",
+            "homepage": "https://masterminds.github.io/html5-php",
             "keywords": [
                 "HTML5",
                 "dom",
@@ -10656,7 +10656,7 @@
                 }
             ],
             "description": "Provides functionality to handle HHVM/PHP environments",
-            "homepage": "http://www.github.com/sebastianbergmann/environment",
+            "homepage": "https://www.github.com/sebastianbergmann/environment",
             "keywords": [
                 "Xdebug",
                 "environment",
@@ -10799,7 +10799,7 @@
                 }
             ],
             "description": "Snapshotting of global state",
-            "homepage": "http://www.github.com/sebastianbergmann/global-state",
+            "homepage": "https://www.github.com/sebastianbergmann/global-state",
             "keywords": [
                 "global state"
             ],
