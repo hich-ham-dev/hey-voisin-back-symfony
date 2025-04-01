@@ -158,10 +158,10 @@ jobs:
                 volumes:
                   - hey_voisin_app_data:/var/www/symfony/var
                 environment:
-                  - APP_ENV=\${APP_ENV:-prod}
-                  - APP_SECRET=\${APP_SECRET}
-                  - DATABASE_URL=\${DATABASE_URL}
-                  - DOMAIN_NAME=\${DOMAIN_NAME}
+                  - APP_ENV=${APP_ENV:-prod}
+                  - APP_SECRET=${APP_SECRET}
+                  - DATABASE_URL=${DATABASE_URL}
+                  - DOMAIN_NAME=${DOMAIN_NAME}
                 networks:
                   - hey_voisin_network
                   - proxy
@@ -185,7 +185,7 @@ jobs:
                   - proxy
                 labels:
                   - "traefik.enable=true"
-                  - "traefik.http.routers.heyvoisin.rule=Host(`\${DOMAIN_NAME}`)"
+                  - "traefik.http.routers.heyvoisin.rule=Host(`${DOMAIN_NAME}`)"
                   - "traefik.http.routers.heyvoisin.entrypoints=websecure"
                   - "traefik.http.routers.heyvoisin.tls=true"
                   - "traefik.http.routers.heyvoisin.tls.certresolver=le"
@@ -248,6 +248,12 @@ jobs:
             
             # Fusionner les fichiers d'environnement
             cat .env.prod .env.prod.local > .env
+            
+            # Afficher le contenu de DOMAIN_NAME pour vérification
+            echo "Vérification de la variable DOMAIN_NAME:"
+            grep "DOMAIN_NAME" .env
+            export $(grep -v '^#' .env | xargs)
+            echo "Valeur de DOMAIN_NAME = ${DOMAIN_NAME}"
             
             # Arrêter les conteneurs existants sans supprimer les volumes
             echo "Arrêt des conteneurs existants..."
