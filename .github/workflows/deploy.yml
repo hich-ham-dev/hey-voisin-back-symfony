@@ -17,10 +17,10 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-      
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
-      
+
       - name: Cache Docker layers
         uses: actions/cache@v4
         with:
@@ -28,7 +28,7 @@ jobs:
           key: ${{ runner.os }}-buildx-${{ github.sha }}
           restore-keys: |
             ${{ runner.os }}-buildx-
-      
+
       - name: Build image for testing
         uses: docker/build-push-action@v5
         with:
@@ -39,7 +39,7 @@ jobs:
           cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
           build-args: |
             APP_ENV=test
-      
+
       - name: Run PHPUnit tests
         run: |
           docker run --rm symfony-app:test bin/phpunit
@@ -57,10 +57,10 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-      
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
-        
+
       - name: Cache Docker layers
         uses: actions/cache@v4
         with:
@@ -68,14 +68,14 @@ jobs:
           key: ${{ runner.os }}-buildx-${{ github.sha }}
           restore-keys: |
             ${{ runner.os }}-buildx-
-      
+
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v3
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      
+
       - name: Build and push Docker image
         uses: docker/build-push-action@v6
         with:
@@ -93,195 +93,171 @@ jobs:
           rm -rf /tmp/.buildx-cache
           mv /tmp/.buildx-cache-new /tmp/.buildx-cache
 
-  prepare-deploy:
-    name: Prepare Deployment Files
+  deploy:
+    name: Deploy to VPS
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-      
-      - name: Create production environment files
-        run: |
-          # Fichier principal avec variables non-sensibles
-          cat > .env.prod << EOL
-          APP_ENV=prod
-          APP_DEBUG=0
-          USER_ID=1000
-          GROUP_ID=1000
-          MESSENGER_TRANSPORT_DSN=doctrine://default?auto_setup=0
-          JWT_SECRET_KEY=%kernel.project_dir%/config/jwt/private.pem
-          JWT_PUBLIC_KEY=%kernel.project_dir%/config/jwt/public.pem
-          DOMAIN_NAME=${{ secrets.DOMAIN_NAME }}
-          MYSQL_DATABASE=hey_voisin_prod_db
-          MYSQL_USER=hey_voisin_prod_user
-          EOL
-          
-          # Fichier avec les secrets
-          cat > .env.prod.local << EOL
-          APP_SECRET=${{ secrets.APP_SECRET }}
-          DATABASE_URL=${{ secrets.DATABASE_URL }}
-          MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }}
-          MYSQL_ROOT_PASSWORD=${{ secrets.MYSQL_ROOT_PASSWORD }}
-          MAILER_DSN=${{ secrets.MAILER_DSN }}
-          CORS_ALLOW_ORIGIN=${{ secrets.CORS_ALLOW_ORIGIN }}
-          JWT_PASSPHRASE=${{ secrets.JWT_PASSPHRASE }}
-          EOL
-
-          # Créer docker-compose.prod.yml qui utilise l'image pré-construite
-          cat > docker-compose.prod.yml << EOL
-          version: '3'
-          
-          services:
-            # Service PHP-FPM pour Symfony
-            app:
-              image: ghcr.io/${{ github.repository }}:latest
-              container_name: hey_voisin_app
-              restart: unless-stopped
-              volumes:
-                - hey_voisin_app_data:/var/www/symfony/var
-              environment:
-                - APP_ENV=\${APP_ENV:-prod}
-                - APP_SECRET=\${APP_SECRET}
-                - DATABASE_URL=\${DATABASE_URL}
-                - DOMAIN_NAME=\${DOMAIN_NAME}
-              networks:
-                - hey_voisin_network
-                - proxy
-              depends_on:
-                - database
-          
-            # Serveur web Nginx
-            web:
-              image: nginx:alpine
-              container_name: hey_voisin_nginx
-              restart: unless-stopped
-              volumes:
-                - ./nginx/conf.d:/etc/nginx/conf.d
-                - hey_voisin_app_data:/var/www/symfony/var
-              environment:
-                - DOMAIN_NAME=\${DOMAIN_NAME}
-              depends_on:
-                - app
-              networks:
-                - hey_voisin_network
-                - proxy
-              labels:
-                - "traefik.enable=true"
-                - "traefik.http.routers.heyvoisin.rule=Host(`\${DOMAIN_NAME}`)"
-                - "traefik.http.routers.heyvoisin.entrypoints=websecure"
-                - "traefik.http.routers.heyvoisin.tls.certresolver=le"
-                - "traefik.http.services.heyvoisin.loadbalancer.server.port=80"
-          
-            # Base de données MariaDB/MySQL
-            database:
-              image: mariadb:11.4
-              container_name: hey_voisin_db
-              restart: unless-stopped
-              environment:
-                - MYSQL_ROOT_PASSWORD=\${MYSQL_ROOT_PASSWORD}
-                - MYSQL_DATABASE=\${MYSQL_DATABASE}
-                - MYSQL_USER=\${MYSQL_USER}
-                - MYSQL_PASSWORD=\${MYSQL_PASSWORD}
-              volumes:
-                - hey_voisin_db_data:/var/lib/mysql
-              networks:
-                - hey_voisin_network
-          
-          volumes:
-            hey_voisin_app_data:
-            hey_voisin_db_data:
-          
-          networks:
-            hey_voisin_network:
-              driver: bridge
-            proxy:
-              external: true
-          EOL
-
-          # Créer le dossier nginx/conf.d et le fichier de configuration
-          mkdir -p nginx/conf.d
-          cat > nginx/conf.d/default.conf << EOL
-          server {
-              listen 80;
-              server_name localhost;
-              root /var/www/symfony/public;
-          
-              location / {
-                  try_files \$uri /index.php\$is_args\$args;
-              }
-          
-              location ~ ^/index\.php(/|$) {
-                  fastcgi_pass app:9000;
-                  fastcgi_split_path_info ^(.+\.php)(/.*)$;
-                  include fastcgi_params;
-                  fastcgi_param SCRIPT_FILENAME \$document_root\$fastcgi_script_name;
-                  fastcgi_param DOCUMENT_ROOT \$document_root;
-                  internal;
-              }
-          
-              location ~ \.php$ {
-                  return 404;
-              }
-          }
-          EOL
-      
-      - name: Upload deployment artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: deployment-files
-          path: |
-            docker-compose.prod.yml
-            .env.prod
-            .env.prod.local
-            nginx/
-
-  deploy:
-    name: Deploy to VPS
-    needs: prepare-deploy
-    runs-on: ubuntu-latest
-    steps:
-      - name: Download deployment artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: deployment-files
-
-      - name: Configure SSH
-        run: |
-          mkdir -p ~/.ssh
-          ssh-keyscan -H ${{ secrets.HOST }} >> ~/.ssh/known_hosts
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/github_actions
-          chmod 600 ~/.ssh/github_actions
-
-      - name: Create directory structure on VPS
+      - name: Deploy to VPS
         uses: appleboy/ssh-action@v1
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
+          envs: GITHUB_REPOSITORY
           script: |
+            # S'arrêter à la première erreur
+            set -e
+            
+            # Créer les répertoires nécessaires
             mkdir -p ~/sites/hey-voisin/api/nginx/conf.d
-
-      - name: Deploy to VPS
-        run: |
-          # Copier les fichiers vers le VPS
-          scp -i ~/.ssh/github_actions docker-compose.prod.yml .env.prod .env.prod.local ${{ secrets.USER }}@${{ secrets.HOST }}:~/sites/hey-voisin/api/
-          scp -i ~/.ssh/github_actions -r nginx ${{ secrets.USER }}@${{ secrets.HOST }}:~/sites/hey-voisin/api/
-
-          # Exécuter les commandes de déploiement sur le VPS
-          ssh -i ~/.ssh/github_actions ${{ secrets.USER }}@${{ secrets.HOST }} << 'EOF'
+            
+            # Téléchargement direct de l'image Docker
+            docker pull ghcr.io/${GITHUB_REPOSITORY}:latest
+            
+            # Création du fichier .env.prod avec variables non-sensibles
+            cat > ~/sites/hey-voisin/api/.env.prod << EOL
+            APP_ENV=prod
+            APP_DEBUG=0
+            USER_ID=1000
+            GROUP_ID=1000
+            MESSENGER_TRANSPORT_DSN=doctrine://default?auto_setup=0
+            JWT_SECRET_KEY=%kernel.project_dir%/config/jwt/private.pem
+            JWT_PUBLIC_KEY=%kernel.project_dir%/config/jwt/public.pem
+            DOMAIN_NAME=${{ secrets.DOMAIN_NAME }}
+            MYSQL_DATABASE=hey_voisin_prod_db
+            MYSQL_USER=hey_voisin_prod_user
+            EOL
+            
+            # Création du fichier .env.prod.local avec les secrets
+            cat > ~/sites/hey-voisin/api/.env.prod.local << EOL
+            APP_SECRET=${{ secrets.APP_SECRET }}
+            DATABASE_URL=${{ secrets.DATABASE_URL }}
+            MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }}
+            MYSQL_ROOT_PASSWORD=${{ secrets.MYSQL_ROOT_PASSWORD }}
+            MAILER_DSN=${{ secrets.MAILER_DSN }}
+            CORS_ALLOW_ORIGIN=${{ secrets.CORS_ALLOW_ORIGIN }}
+            JWT_PASSPHRASE=${{ secrets.JWT_PASSPHRASE }}
+            EOL
+            
+            # Création de docker-compose.prod.yml
+            cat > ~/sites/hey-voisin/api/docker-compose.prod.yml << EOL
+            version: '3'
+            
+            services:
+              # Service PHP-FPM pour Symfony
+              app:
+                image: ghcr.io/${GITHUB_REPOSITORY}:latest
+                container_name: hey_voisin_app
+                restart: unless-stopped
+                volumes:
+                  - hey_voisin_app_data:/var/www/symfony/var
+                environment:
+                  - APP_ENV=\${APP_ENV:-prod}
+                  - APP_SECRET=\${APP_SECRET}
+                  - DATABASE_URL=\${DATABASE_URL}
+                  - DOMAIN_NAME=\${DOMAIN_NAME}
+                networks:
+                  - hey_voisin_network
+                  - proxy
+                depends_on:
+                  - database
+            
+              # Serveur web Nginx
+              web:
+                image: nginx:alpine
+                container_name: hey_voisin_nginx
+                restart: unless-stopped
+                volumes:
+                  - ./nginx/conf.d:/etc/nginx/conf.d
+                  - hey_voisin_app_data:/var/www/symfony/var
+                environment:
+                  - DOMAIN_NAME=\${DOMAIN_NAME}
+                depends_on:
+                  - app
+                networks:
+                  - hey_voisin_network
+                  - proxy
+                labels:
+                  - "traefik.enable=true"
+                  - "traefik.http.routers.heyvoisin.rule=Host(`\${DOMAIN_NAME}`)"
+                  - "traefik.http.routers.heyvoisin.entrypoints=websecure"
+                  - "traefik.http.routers.heyvoisin.tls.certresolver=le"
+                  - "traefik.http.services.heyvoisin.loadbalancer.server.port=80"
+            
+              # Base de données MariaDB/MySQL
+              database:
+                image: mariadb:11.4
+                container_name: hey_voisin_db
+                restart: unless-stopped
+                environment:
+                  - MYSQL_ROOT_PASSWORD=\${MYSQL_ROOT_PASSWORD}
+                  - MYSQL_DATABASE=\${MYSQL_DATABASE}
+                  - MYSQL_USER=\${MYSQL_USER}
+                  - MYSQL_PASSWORD=\${MYSQL_PASSWORD}
+                volumes:
+                  - hey_voisin_db_data:/var/lib/mysql
+                networks:
+                  - hey_voisin_network
+            
+            volumes:
+              hey_voisin_app_data:
+              hey_voisin_db_data:
+            
+            networks:
+              hey_voisin_network:
+                driver: bridge
+              proxy:
+                external: true
+            EOL
+            
+            # Création de la configuration nginx
+            cat > ~/sites/hey-voisin/api/nginx/conf.d/default.conf << EOL
+            server {
+                listen 80;
+                server_name localhost;
+                root /var/www/symfony/public;
+            
+                location / {
+                    try_files \$uri /index.php\$is_args\$args;
+                }
+            
+                location ~ ^/index\.php(/|$) {
+                    fastcgi_pass app:9000;
+                    fastcgi_split_path_info ^(.+\.php)(/.*)$;
+                    include fastcgi_params;
+                    fastcgi_param SCRIPT_FILENAME \$document_root\$fastcgi_script_name;
+                    fastcgi_param DOCUMENT_ROOT \$document_root;
+                    internal;
+                }
+            
+                location ~ \.php$ {
+                    return 404;
+                }
+            }
+            EOL
+            
+            # Se déplacer dans le répertoire du projet
             cd ~/sites/hey-voisin/api
-
+            
             # Fusionner les fichiers d'environnement
             cat .env.prod .env.prod.local > .env
-
+            
             # Arrêter et démarrer les conteneurs
             docker-compose -f docker-compose.prod.yml down
             docker-compose -f docker-compose.prod.yml up -d
-
-            # Exécuter les migrations
-            docker-compose -f docker-compose.prod.yml exec -T app php bin/console doctrine:migrations:migrate --no-interaction --env=prod --allow-no-migration
-
+            
+            # Attendre que la base de données soit prête
+            echo "Attente du démarrage de la base de données..."
+            sleep 20
+            
+            # Exécuter les migrations (avec gestion des erreurs)
+            docker-compose -f docker-compose.prod.yml exec -T app php bin/console doctrine:migrations:migrate --no-interaction --env=prod --allow-no-migration || {
+              echo "Erreur lors des migrations. Vérification du statut des conteneurs:"
+              docker-compose -f docker-compose.prod.yml ps
+              echo "Logs du conteneur app:"
+              docker-compose -f docker-compose.prod.yml logs app
+            }
+            
             # Nettoyer les anciennes images
             docker image prune -af
-          EOF
