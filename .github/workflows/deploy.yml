@@ -17,10 +17,10 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-
+      
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
-
+      
       - name: Cache Docker layers
         uses: actions/cache@v4
         with:
@@ -28,7 +28,7 @@ jobs:
           key: ${{ runner.os }}-buildx-${{ github.sha }}
           restore-keys: |
             ${{ runner.os }}-buildx-
-
+      
       - name: Build image for testing
         uses: docker/build-push-action@v5
         with:
@@ -39,11 +39,11 @@ jobs:
           cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
           build-args: |
             APP_ENV=test
-
+      
       - name: Run PHPUnit tests
         run: |
           docker run --rm symfony-app:test bin/phpunit
-
+      
       # Corrige le cache de buildx
       - name: Move cache
         run: |
@@ -57,10 +57,10 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-
+      
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
-
+        
       - name: Cache Docker layers
         uses: actions/cache@v4
         with:
@@ -68,14 +68,14 @@ jobs:
           key: ${{ runner.os }}-buildx-${{ github.sha }}
           restore-keys: |
             ${{ runner.os }}-buildx-
-
+      
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v3
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-
+      
       - name: Build and push Docker image
         uses: docker/build-push-action@v6
         with:
@@ -86,7 +86,7 @@ jobs:
           cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
           build-args: |
             APP_ENV=prod
-
+      
       # Corrige le cache de buildx
       - name: Move cache
         run: |
@@ -109,8 +109,13 @@ jobs:
             # S'arrêter à la première erreur
             set -e
             
-            # Créer les répertoires nécessaires
-            mkdir -p ~/sites/hey-voisin/api/nginx/conf.d
+            # Vérifier si le réseau proxy existe déjà
+            if ! docker network ls | grep -q proxy; then
+              echo "Création du réseau proxy..."
+              docker network create proxy
+            else
+              echo "Le réseau proxy existe déjà."
+            fi
             
             # Téléchargement direct de l'image Docker
             docker pull ghcr.io/${GITHUB_REPOSITORY}:latest
@@ -182,6 +187,7 @@ jobs:
                   - "traefik.enable=true"
                   - "traefik.http.routers.heyvoisin.rule=Host(`\${DOMAIN_NAME}`)"
                   - "traefik.http.routers.heyvoisin.entrypoints=websecure"
+                  - "traefik.http.routers.heyvoisin.tls=true"
                   - "traefik.http.routers.heyvoisin.tls.certresolver=le"
                   - "traefik.http.services.heyvoisin.loadbalancer.server.port=80"
             
@@ -259,6 +265,20 @@ jobs:
             # Démarrer les conteneurs
             echo "Démarrage des conteneurs..."
             docker-compose -f docker-compose.prod.yml up -d
+            
+            # Attendre que Traefik obtienne le certificat SSL
+            echo "Attente de l'obtention du certificat SSL..."
+            sleep 30  # Attendre 30 secondes pour que Traefik ait le temps d'obtenir le certificat
+            
+            # Vérifier si Traefik est bien configuré
+            echo "Vérification de la configuration Traefik..."
+            if docker ps | grep -q traefik; then
+              echo "Traefik est en cours d'exécution."
+              # Vérifier les logs de Traefik pour les problèmes de certificats
+              docker logs $(docker ps -q -f name=traefik) 2>&1 | grep -i "certif" | tail -20
+            else
+              echo "ATTENTION: Traefik ne semble pas être en cours d'exécution. Vérifiez votre installation Traefik."
+            fi
             
             # Attendre que la base de données soit prête
             echo "Attente du démarrage de la base de données..."
