@@ -43,7 +43,7 @@ jobs:
       - name: Run PHPUnit tests
         run: |
           docker run --rm symfony-app:test bin/phpunit
-      
+
       # Corrige le cache de buildx
       - name: Move cache
         run: |
@@ -86,7 +86,7 @@ jobs:
           cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
           build-args: |
             APP_ENV=prod
-      
+
       # Corrige le cache de buildx
       - name: Move cache
         run: |
@@ -243,8 +243,21 @@ jobs:
             # Fusionner les fichiers d'environnement
             cat .env.prod .env.prod.local > .env
             
-            # Arrêter et démarrer les conteneurs
-            docker-compose -f docker-compose.prod.yml down
+            # Arrêter les conteneurs existants sans supprimer les volumes
+            echo "Arrêt des conteneurs existants..."
+            docker-compose -f docker-compose.prod.yml down || true
+            
+            # En cas de problème persistant, nettoyage forcé mais SANS toucher aux volumes
+            if [ "$(docker ps -q -f name=hey_voisin_app)" ] || [ "$(docker ps -a -q -f name=hey_voisin_app)" ] || \
+               [ "$(docker ps -q -f name=hey_voisin_nginx)" ] || [ "$(docker ps -a -q -f name=hey_voisin_nginx)" ] || \
+               [ "$(docker ps -q -f name=hey_voisin_db)" ] || [ "$(docker ps -a -q -f name=hey_voisin_db)" ]; then
+              echo "Certains conteneurs existent encore, nettoyage forcé..."
+              docker stop hey_voisin_app hey_voisin_nginx hey_voisin_db 2>/dev/null || true
+              docker rm hey_voisin_app hey_voisin_nginx hey_voisin_db 2>/dev/null || true
+            fi
+            
+            # Démarrer les conteneurs
+            echo "Démarrage des conteneurs..."
             docker-compose -f docker-compose.prod.yml up -d
             
             # Attendre que la base de données soit prête
