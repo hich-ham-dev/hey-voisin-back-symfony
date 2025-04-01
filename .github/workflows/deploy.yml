@@ -245,11 +245,6 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: deployment-files
-          path: |
-            docker-compose.prod.yml
-            .env.prod
-            .env.prod.local
-            nginx/
 
       - name: Configure SSH
         run: |
