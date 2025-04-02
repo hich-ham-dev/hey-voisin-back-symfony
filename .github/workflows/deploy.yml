@@ -98,7 +98,7 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     env: 
-      DOMAIN_NAME=${{ secrets.DOMAIN_NAME }}
+      DOMAIN_NAME: ${{ secrets.DOMAIN_NAME }}
     steps:
       - name: Deploy to VPS
         uses: appleboy/ssh-action@v1
