@@ -97,6 +97,8 @@ jobs:
     name: Deploy to VPS
     needs: build
     runs-on: ubuntu-latest
+    env: 
+      DOMAIN_NAME=${{ secrets.DOMAIN_NAME }}
     steps:
       - name: Deploy to VPS
         uses: appleboy/ssh-action@v1
@@ -104,7 +106,7 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          envs: GITHUB_REPOSITORY
+          envs: GITHUB_REPOSITORY,DOMAIN_NAME
           script: |
             # S'arrêter à la première erreur
             set -e
@@ -185,7 +187,7 @@ jobs:
                   - proxy
                 labels:
                   - "traefik.enable=true"
-                  - "traefik.http.routers.heyvoisin.rule=Host(`${{DOMAIN_NAME}}`)"
+                  - "traefik.http.routers.heyvoisin.rule=Host(`${DOMAIN_NAME}`)"
                   - "traefik.http.routers.heyvoisin.entrypoints=websecure"
                   - "traefik.http.routers.heyvoisin.tls=true"
                   - "traefik.http.routers.heyvoisin.tls.certresolver=le"
