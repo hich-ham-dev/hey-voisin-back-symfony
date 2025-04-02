@@ -1,99 +1,4 @@
-name: Symfony API CI/CD
-on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
-  workflow_dispatch:
-
-permissions:
-  contents: read
-  packages: write
-
-jobs:
-  test:
-    name: Build & Test
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-      
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-      
-      - name: Cache Docker layers
-        uses: actions/cache@v4
-        with:
-          path: /tmp/.buildx-cache
-          key: ${{ runner.os }}-buildx-${{ github.sha }}
-          restore-keys: |
-            ${{ runner.os }}-buildx-
-      
-      - name: Build image for testing
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          load: true
-          tags: symfony-app:test
-          cache-from: type=local,src=/tmp/.buildx-cache
-          cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
-          build-args: |
-            APP_ENV=test
-      
-      - name: Run PHPUnit tests
-        run: |
-          docker run --rm symfony-app:test bin/phpunit
-      
-      # Corrige le cache de buildx
-      - name: Move cache
-        run: |
-          rm -rf /tmp/.buildx-cache
-          mv /tmp/.buildx-cache-new /tmp/.buildx-cache
-
-  build:
-    name: Build & Push Image
-    needs: test
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-      
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-        
-      - name: Cache Docker layers
-        uses: actions/cache@v4
-        with:
-          path: /tmp/.buildx-cache
-          key: ${{ runner.os }}-buildx-${{ github.sha }}
-          restore-keys: |
-            ${{ runner.os }}-buildx-
-      
-      - name: Login to GitHub Container Registry
-        uses: docker/login-action@v3
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-      
-      - name: Build and push Docker image
-        uses: docker/build-push-action@v6
-        with:
-          context: .
-          push: true
-          tags: ghcr.io/${{ github.repository }}:latest
-          cache-from: type=local,src=/tmp/.buildx-cache
-          cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
-          build-args: |
-            APP_ENV=prod
-      
-      # Corrige le cache de buildx
-      - name: Move cache
-        run: |
-          rm -rf /tmp/.buildx-cache
-          mv /tmp/.buildx-cache-new /tmp/.buildx-cache
-
-  deploy:
+deploy:
     name: Deploy to VPS
     needs: build
     runs-on: ubuntu-latest
@@ -164,7 +69,7 @@ jobs:
             echo "Configuration de Fail2Ban..."
             
             # Créer le fichier de configuration personnalisé
-            sudo tee /etc/fail2ban/jail.local > /dev/null << EOL
+            sudo tee /etc/fail2ban/jail.local > /dev/null << 'EOL'
 [DEFAULT]
 bantime = 3600
 findtime = 600
@@ -213,7 +118,7 @@ EOL
             
             # Configuration de logrotate pour la rotation des logs
             echo "Configuration de logrotate pour les logs Docker..."
-            sudo tee /etc/logrotate.d/docker-container-logs > /dev/null << EOL
+            sudo tee /etc/logrotate.d/docker-container-logs > /dev/null << 'EOL'
 /var/lib/docker/containers/*/*.log {
     rotate 7
     daily
@@ -231,7 +136,7 @@ EOL
               
               # Configurer logwatch pour envoyer des rapports quotidiens
               sudo mkdir -p /etc/logwatch/conf
-              sudo tee /etc/logwatch/conf/logwatch.conf > /dev/null << EOL
+              sudo tee /etc/logwatch/conf/logwatch.conf > /dev/null << 'EOL'
 LogDir = /var/log
 TmpDir = /var/cache/logwatch
 MailTo = root
@@ -254,7 +159,7 @@ EOL
             mkdir -p ~/sites/hey-voisin/api/mysql/conf.d
             
             # Configuration MySQL sécurisée
-            cat > ~/sites/hey-voisin/api/mysql/conf.d/security.cnf << EOL
+            cat > ~/sites/hey-voisin/api/mysql/conf.d/security.cnf << 'EOL'
 [mysqld]
 # Désactiver les fonctionnalités non sécurisées
 local-infile=0
@@ -312,7 +217,7 @@ JWT_PASSPHRASE=${{ secrets.JWT_PASSPHRASE }}
 EOL
             
             # Création du docker-compose.prod.yml avec sécurité renforcée
-            cat > ~/sites/hey-voisin/api/docker-compose.prod.yml << EOL
+            cat > ~/sites/hey-voisin/api/docker-compose.prod.yml << 'EOL'
 version: '3'
 
 services:
@@ -343,7 +248,7 @@ services:
     depends_on:
       - database
     healthcheck:
-      test: ["CMD", "php", "-r", "if(!fsockopen('localhost', 9000, \$errno, \$errstr, 1)) { exit(1); }"]
+      test: ["CMD", "php", "-r", "if(!fsockopen('localhost', 9000, \\$errno, \\$errstr, 1)) { exit(1); }"]
       interval: 30s
       timeout: 5s
       retries: 3
@@ -365,7 +270,7 @@ services:
       - proxy
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.heyvoisin.rule=Host(\`${DOMAIN_NAME}\`)"
+      - "traefik.http.routers.heyvoisin.rule=Host(`${DOMAIN_NAME}`)"
       - "traefik.http.routers.heyvoisin.entrypoints=websecure"
       - "traefik.http.routers.heyvoisin.tls=true"
       - "traefik.http.routers.heyvoisin.tls.certresolver=le"
@@ -411,9 +316,9 @@ networks:
   proxy:
     external: true
 EOL
-            
+
             # Création de la configuration nginx avec en-têtes de sécurité
-            cat > ~/sites/hey-voisin/api/nginx/conf.d/default.conf << EOL
+            cat > ~/sites/hey-voisin/api/nginx/conf.d/default.conf << 'EOL'
 server {
     listen 80;
     server_name localhost;
@@ -434,19 +339,19 @@ server {
     client_max_body_size 10M;
     
     # Limiter le nombre de connexions par IP
-    limit_conn_zone \$binary_remote_addr zone=conn_limit_per_ip:10m;
+    limit_conn_zone $binary_remote_addr zone=conn_limit_per_ip:10m;
     limit_conn conn_limit_per_ip 10;
     
     # Limiter le taux de requêtes par IP
-    limit_req_zone \$binary_remote_addr zone=req_limit_per_ip:10m rate=5r/s;
+    limit_req_zone $binary_remote_addr zone=req_limit_per_ip:10m rate=5r/s;
     limit_req zone=req_limit_per_ip burst=10 nodelay;
 
     location / {
-        try_files \$uri /index.php\$is_args\$args;
+        try_files $uri /index.php$is_args$args;
     }
     
     # Bloquer l'accès aux fichiers cachés
-    location ~ /\\. {
+    location ~ /\. {
         deny all;
         access_log off;
         log_not_found off;
@@ -456,8 +361,8 @@ server {
         fastcgi_pass app:9000;
         fastcgi_split_path_info ^(.+\.php)(/.*)$;
         include fastcgi_params;
-        fastcgi_param SCRIPT_FILENAME \$document_root\$fastcgi_script_name;
-        fastcgi_param DOCUMENT_ROOT \$document_root;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        fastcgi_param DOCUMENT_ROOT $document_root;
         
         # Paramètres de sécurité pour PHP
         fastcgi_param PHP_VALUE "upload_max_filesize=8M \n post_max_size=8M";
@@ -470,6 +375,9 @@ server {
     }
 }
 EOL
+            
+            # Corriger le remplacement de la variable GITHUB_REPOSITORY dans docker-compose.prod.yml
+            sed -i "s|\${GITHUB_REPOSITORY}|${GITHUB_REPOSITORY}|g" ~/sites/hey-voisin/api/docker-compose.prod.yml
             
             # Se déplacer dans le répertoire du projet
             cd ~/sites/hey-voisin/api
