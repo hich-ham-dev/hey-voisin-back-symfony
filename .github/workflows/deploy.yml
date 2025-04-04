@@ -185,7 +185,7 @@ jobs:
                   - proxy
                 labels:
                   - "traefik.enable=true"
-                  - "traefik.http.routers.heyvoisin.rule=Host(`${{DOMAIN_NAME}}`)"
+                  - "traefik.http.routers.heyvoisin.rule=Host(`${DOMAIN_NAME}`)"
                   - "traefik.http.routers.heyvoisin.entrypoints=websecure"
                   - "traefik.http.routers.heyvoisin.tls=true"
                   - "traefik.http.routers.heyvoisin.tls.certresolver=le"
