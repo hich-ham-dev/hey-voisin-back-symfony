@@ -98,6 +98,10 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
+      - name: Prepare docker-compose
+        run: |
+          sed -i 's/Host()/Host(`'"${{ secrets.SUBDOMAIN }}"'.'"${{ secrets.DOMAIN }}"'`)/' docker-compose.prod.yml
+
       - name: Deploy to VPS
         uses: appleboy/ssh-action@v1
         with:
@@ -142,7 +146,7 @@ jobs:
             MAILER_DSN=${{ secrets.MAILER_DSN }}
             CORS_ALLOW_ORIGIN=${{ secrets.CORS_ALLOW_ORIGIN }}
             JWT_PASSPHRASE=${{ secrets.JWT_PASSPHRASE }}
-            DOMAIN_NAME=hey-voisin-api.hicham-hamza.dev
+            DOMAIN_NAME=${{ secrets.SUBDOMAIN }}.${{ secrets.DOMAIN }}
             EOL
             
             # Création de docker-compose.prod.yml
