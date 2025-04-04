@@ -253,22 +253,21 @@ jobs:
             export $(grep -v '^#' .env | xargs)
             echo "Valeur de DOMAIN_NAME = ${DOMAIN_NAME}"
             
-            # Arrêter les conteneurs existants sans supprimer les volumes
+            # Arrêter les conteneurs via docker-compose
             echo "Arrêt des conteneurs existants..."
             docker-compose -f docker-compose.prod.yml down || true
             
-            # En cas de problème persistant, nettoyage forcé mais SANS toucher aux volumes
-            if [ "$(docker ps -q -f name=hey_voisin_app)" ] || [ "$(docker ps -a -q -f name=hey_voisin_app)" ] || \
-               [ "$(docker ps -q -f name=hey_voisin_nginx)" ] || [ "$(docker ps -a -q -f name=hey_voisin_nginx)" ] || \
-               [ "$(docker ps -q -f name=hey_voisin_db)" ] || [ "$(docker ps -a -q -f name=hey_voisin_db)" ]; then
-              echo "Certains conteneurs existent encore, nettoyage forcé..."
-              docker stop hey_voisin_app hey_voisin_nginx hey_voisin_db 2>/dev/null || true
-              docker rm hey_voisin_app hey_voisin_nginx hey_voisin_db 2>/dev/null || true
-            fi
+            # Nettoyage forcé pour tous les conteneurs du projet
+            echo "Nettoyage forcé des conteneurs restants..."
+            for container in $(docker ps -a --filter name=hey_voisin_ --format "{{.Names}}"); do
+              echo "Suppression forcée de $container..."
+              docker stop $container 2>/dev/null || true
+              docker rm $container 2>/dev/null || true
+            done
             
-            # Démarrer les conteneurs
+            # Démarrer les conteneurs avec recréation forcée
             echo "Démarrage des conteneurs..."
-            docker-compose -f docker-compose.prod.yml up -d
+            docker-compose -f docker-compose.prod.yml up -d --force-recreate
             
             # Attendre que Traefik obtienne le certificat SSL
             echo "Attente de l'obtention du certificat SSL..."
