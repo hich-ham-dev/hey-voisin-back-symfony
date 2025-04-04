@@ -129,7 +129,6 @@ jobs:
             MESSENGER_TRANSPORT_DSN=doctrine://default?auto_setup=0
             JWT_SECRET_KEY=%kernel.project_dir%/config/jwt/private.pem
             JWT_PUBLIC_KEY=%kernel.project_dir%/config/jwt/public.pem
-            DOMAIN_NAME=${{ secrets.DOMAIN_NAME }}
             MYSQL_DATABASE=hey_voisin_prod_db
             MYSQL_USER=hey_voisin_prod_user
             EOL
@@ -143,6 +142,7 @@ jobs:
             MAILER_DSN=${{ secrets.MAILER_DSN }}
             CORS_ALLOW_ORIGIN=${{ secrets.CORS_ALLOW_ORIGIN }}
             JWT_PASSPHRASE=${{ secrets.JWT_PASSPHRASE }}
+            DOMAIN_NAME=${{ secrets.DOMAIN_NAME }}
             EOL
             
             # Création de docker-compose.prod.yml
@@ -176,8 +176,6 @@ jobs:
                 volumes:
                   - ./nginx/conf.d:/etc/nginx/conf.d
                   - hey_voisin_app_data:/var/www/symfony/var
-                environment:
-                  - DOMAIN_NAME=\${DOMAIN_NAME}
                 depends_on:
                   - app
                 networks:
