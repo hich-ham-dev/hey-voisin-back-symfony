@@ -142,7 +142,7 @@ jobs:
             MAILER_DSN=${{ secrets.MAILER_DSN }}
             CORS_ALLOW_ORIGIN=${{ secrets.CORS_ALLOW_ORIGIN }}
             JWT_PASSPHRASE=${{ secrets.JWT_PASSPHRASE }}
-            DOMAIN_NAME=${{ secrets.SUBDOMAIN }}.${{ secrets.DOMAIN }}
+            DOMAIN_NAME=hey-voisin-api.hicham-hamza.dev
             EOL
             
             # Création de docker-compose.prod.yml
@@ -183,7 +183,7 @@ jobs:
                   - proxy
                 labels:
                   - "traefik.enable=true"
-                  - "traefik.http.routers.heyvoisin.rule=Host(${DOMAIN_NAME})"
+                  - "traefik.http.routers.heyvoisin.rule=Host(`${DOMAIN_NAME}`)"
                   - "traefik.http.routers.heyvoisin.entrypoints=websecure"
                   - "traefik.http.routers.heyvoisin.tls=true"
                   - "traefik.http.routers.heyvoisin.tls.certresolver=le"
