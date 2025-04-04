@@ -100,6 +100,9 @@ jobs:
     steps:
       - name: Prepare docker-compose
         run: |
+          cat > docker-compose.prod.yml << EOL
+          # Contenu de votre docker-compose
+          EOL
           sed -i 's/Host()/Host(`'"${{ secrets.SUBDOMAIN }}"'.'"${{ secrets.DOMAIN }}"'`)/' docker-compose.prod.yml
 
       - name: Deploy to VPS
