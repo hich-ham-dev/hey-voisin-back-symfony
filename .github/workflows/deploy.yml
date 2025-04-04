@@ -106,6 +106,10 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           envs: GITHUB_REPOSITORY
           script: |
+            # Debug
+            echo "Secret DOMAIN_NAME transmis : ${{ secrets.DOMAIN_NAME }}"
+            echo "GITHUB_REPOSITORY : $GITHUB_REPOSITORY"
+
             # S'arrêter à la première erreur
             set -e
             
