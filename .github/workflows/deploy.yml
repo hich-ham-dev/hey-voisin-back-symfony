@@ -106,10 +106,6 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           envs: GITHUB_REPOSITORY
           script: |
-            # Debug
-            echo "Secret DOMAIN_NAME transmis : ${{ secrets.DOMAIN_NAME }}"
-            echo "GITHUB_REPOSITORY : $GITHUB_REPOSITORY"
-
             # S'arrêter à la première erreur
             set -e
             
@@ -146,7 +142,7 @@ jobs:
             MAILER_DSN=${{ secrets.MAILER_DSN }}
             CORS_ALLOW_ORIGIN=${{ secrets.CORS_ALLOW_ORIGIN }}
             JWT_PASSPHRASE=${{ secrets.JWT_PASSPHRASE }}
-            DOMAIN_NAME=${{ secrets.DOMAIN_NAME }}
+            DOMAIN_NAME="${{ secrets.SUBDOMAIN }}.${{ secrets.DOMAIN }}"
             EOL
             
             # Création de docker-compose.prod.yml
