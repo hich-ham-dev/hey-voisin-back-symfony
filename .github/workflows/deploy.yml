@@ -103,7 +103,7 @@ jobs:
           cat > docker-compose.prod.yml << EOL
           # Contenu de votre docker-compose
           EOL
-          sed -i 's/Host()/Host(`'"${{ secrets.SUBDOMAIN }}"'.'"${{ secrets.DOMAIN }}"'`)/' docker-compose.prod.yml
+          sed -i 's/Host()/Host(`'"${{ secrets.DOMAIN }}"'`)/' docker-compose.prod.yml
 
       - name: Deploy to VPS
         uses: appleboy/ssh-action@v1
@@ -149,7 +149,7 @@ jobs:
             MAILER_DSN=${{ secrets.MAILER_DSN }}
             CORS_ALLOW_ORIGIN=${{ secrets.CORS_ALLOW_ORIGIN }}
             JWT_PASSPHRASE=${{ secrets.JWT_PASSPHRASE }}
-            DOMAIN_NAME=${{ secrets.SUBDOMAIN }}.${{ secrets.DOMAIN }}
+            DOMAIN_NAME=${{ secrets.DOMAIN }}
             EOL
             
             # Création de docker-compose.prod.yml
@@ -168,7 +168,7 @@ jobs:
                   - APP_ENV=${APP_ENV:-prod}
                   - APP_SECRET=${APP_SECRET}
                   - DATABASE_URL=${DATABASE_URL}
-                  - DOMAIN_NAME=${DOMAIN_NAME}
+                  - DOMAIN_NAME=${DOMAIN}
                 networks:
                   - hey_voisin_network
                   - proxy
@@ -190,7 +190,7 @@ jobs:
                   - proxy
                 labels:
                   - "traefik.enable=true"
-                  - "traefik.http.routers.heyvoisin.rule=Host(`${DOMAIN_NAME}`)"
+                  - "traefik.http.routers.heyvoisin.rule=Host(`${DOMAIN}`)"
                   - "traefik.http.routers.heyvoisin.entrypoints=websecure"
                   - "traefik.http.routers.heyvoisin.tls=true"
                   - "traefik.http.routers.heyvoisin.tls.certresolver=le"
