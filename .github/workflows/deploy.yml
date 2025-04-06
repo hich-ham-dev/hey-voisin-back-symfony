@@ -150,10 +150,6 @@ jobs:
             DOMAIN_NAME=${{ secrets.DOMAIN }}
             EOL
             
-            # Création de docker-compose.prod.yml
-            cat > ~/sites/hey-voisin/api/docker-compose.prod.yml << EOL
-            version: '3'
-            
             services:
               # Service PHP-FPM pour Symfony
               app:
