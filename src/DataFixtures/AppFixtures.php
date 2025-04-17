@@ -17,7 +17,7 @@ use DateTimeImmutable;
 
 class AppFixtures extends Fixture
 {
-    private $passwordHasher;
+    private UserPasswordHasherInterface $passwordHasher;
 
     public function __construct(UserPasswordHasherInterface $passwordHasher)
     {
@@ -29,6 +29,7 @@ class AppFixtures extends Fixture
      *
      * @param ObjectManager $manager
      * @return void
+     * @throws \Exception
      */
     public function load(ObjectManager $manager): void
     {

@@ -15,7 +15,8 @@ RUN apk add --no-cache \
     oniguruma-dev \
     libxml2-dev \
     linux-headers \
-    $PHPIZE_DEPS
+    $PHPIZE_DEPS && \
+    rm -rf /var/cache/apk/*
 
 # Installation des extensions PHP
 RUN docker-php-ext-install \
@@ -65,7 +66,7 @@ RUN chmod +x bin/phpunit bin/console
 
 # Permissions des dossiers d'écriture
 RUN chown -R symfony:symfony var
-RUN chmod -R 777 var
+RUN chmod -R 755 var
 
 # Utilisateur par défaut
 USER symfony

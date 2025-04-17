@@ -11,6 +11,7 @@ services:
     container_name: hey_voisin_app
     restart: unless-stopped
     volumes:
+      - .:/var/www/symfony
       - hey_voisin_app_data:/var/www/symfony/var
     environment:
       - APP_ENV=${APP_ENV:-prod}
@@ -39,13 +40,15 @@ services:
       - app
     networks:
       - hey_voisin_network
-      - proxy  # Ajout du réseau proxy
+      - proxy
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.heyvoisin.rule=Host(`${DOMAIN_NAME}`)"
       - "traefik.http.routers.heyvoisin.entrypoints=websecure"
       - "traefik.http.routers.heyvoisin.tls.certresolver=le"
       - "traefik.http.services.heyvoisin.loadbalancer.server.port=80"
+    ports:
+      - "${HTTPS_PORT:-443}:443"
 
   # Base de données MariaDB/MySQL
   database:
