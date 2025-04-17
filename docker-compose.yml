@@ -16,8 +16,10 @@ services:
       - APP_ENV=${APP_ENV:-prod}
       - APP_SECRET=${APP_SECRET}
       - DATABASE_URL=${DATABASE_URL}
+      - DOMAIN_NAME=${DOMAIN_NAME}
     networks:
       - hey_voisin_network
+      - proxy  
     depends_on:
       - database
 
@@ -26,18 +28,24 @@ services:
     image: nginx:alpine
     container_name: hey_voisin_nginx
     restart: unless-stopped
-    ports:
-      - "80:80"
-      - "443:443"
     volumes:
       - ./:/var/www/symfony
       - ./docker/nginx/conf.d:/etc/nginx/conf.d
       - ./docker/nginx/ssl:/etc/nginx/ssl
       - hey_voisin_app_data:/var/www/symfony/var
+    environment:
+      - DOMAIN_NAME=${DOMAIN_NAME}
     depends_on:
       - app
     networks:
       - hey_voisin_network
+      - proxy  # Ajout du réseau proxy
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.heyvoisin.rule=Host(`${DOMAIN_NAME}`)"
+      - "traefik.http.routers.heyvoisin.entrypoints=websecure"
+      - "traefik.http.routers.heyvoisin.tls.certresolver=le"
+      - "traefik.http.services.heyvoisin.loadbalancer.server.port=80"
 
   # Base de données MariaDB/MySQL
   database:
@@ -61,3 +69,5 @@ volumes:
 networks:
   hey_voisin_network:
     driver: bridge
+  proxy:
+    external: true

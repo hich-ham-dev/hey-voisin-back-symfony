@@ -73,4 +73,8 @@ USER symfony
 # Exposition du port PHP-FPM
 EXPOSE 9000
 
+# Ajout du healthcheck
+HEALTHCHECK --interval=30s --timeout=3s --start-period=30s --retries=3 \
+  CMD php-fpm -t || exit 1
+
 CMD ["php-fpm"]
